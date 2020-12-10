@@ -6,7 +6,7 @@ import { OwnerDeleteDialog } from "./OwnerDeleteDialog";
 import Alerts from "./Alerts";
 
 export default class Owners extends ListOfItems {
-  url = "/testforjob/api/owners/";
+  url = "/api/owners/";
   tooltipPlace = "bottom";
   nameOfItem = "Автовладелец";
 

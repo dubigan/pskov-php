@@ -19,11 +19,11 @@ export default class App extends Component {
               <Header />
               <div className="container-fluid">
                 <Switch>
-                  <Route path="/testforjob/owners" component={Owners} />
-                  <Route path="/testforjob/owner" component={OwnerDetail} />
-                  <Route path="/testforjob/cars" component={Cars} />
-                  <Route path="/testforjob/car" component={CarDetail} />
-                  <Route path="/testforjob/dashboard" component={Dashboard} />
+                  <Route path="/owners" component={Owners} />
+                  <Route path="/owner" component={OwnerDetail} />
+                  <Route path="/cars" component={Cars} />
+                  <Route path="/car" component={CarDetail} />
+                  <Route path="/dashboard" component={Dashboard} />
                 </Switch>
               </div>
             </Fragment>

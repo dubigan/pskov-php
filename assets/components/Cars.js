@@ -6,7 +6,7 @@ import { CarDeleteDialog } from "./CarDeleteDialog";
 import Alerts from "./Alerts";
 
 export default class Cars extends ListOfItems {
-  url = "/testforjob/api/cars/";
+  url = "/api/cars/";
   tooltipPlace = "bottom";
   nameOfItem = "Автомобиль";
 
