@@ -16,13 +16,13 @@ export class Header extends Component {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a className="navbar-brand" href="/owners/">
+          <a className="navbar-brand" href="/owners">
             Автовладельцы
           </a>
-          <a className="navbar-brand col-md-4" href="/cars/">
+          <a className="navbar-brand col-md-4" href="/cars">
             Автомобили
           </a>
-          <a className="navbar-brand col-md-4 offset-md-4" href="/dashboard/">
+          <a className="navbar-brand col-md-4 offset-md-4" href="/dashboard">
             Админ
           </a>
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
