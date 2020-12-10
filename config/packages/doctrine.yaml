@@ -1,10 +1,10 @@
 doctrine:
   dbal:
     #url: '%env(resolve:DATABASE_URL)%'
-    host: ec2-52-31-233-101.eu-west-1.compute.amazonaws.com
-    dbname: d4k293dv5ufomj
-    user: ebdnwolckjpnqu
-    password: 7dc6fc0635323d2ae7ca523c3b13c0e14b28e0953ea11be2e2b0691390759568
+    host: ec2-54-247-89-181.eu-west-1.compute.amazonaws.com
+    dbname: d88ac494ucfnca
+    user: vansafepzuawhk
+    password: 2742b6728b7aba6e3515a2c3d6092e20648312b39cc61406b1282dcb939bd370
     port: 5432
     driver: pdo_pgsql
     # IMPORTANT: You MUST configure your server version,
