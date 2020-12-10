@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
@@ -11,25 +12,14 @@ use Psr\Log\LoggerInterface;
 class OwnersController extends AbstractController
 {
     /**
-     * @Route("/api/owners/", name="owners")
+     * @Route("/api/owners/", name="owners", methods={"POST"})
      */
-    public function index(LoggerInterface $logger): Response
+    public function index(Request $request, LoggerInterface $logger): Response
     {
-        if ($_SERVER["CONTENT_TYPE"] ==  'application/json') {
-            try {
-                $postData = file_get_contents('php://input');
-                $data = json_decode($postData, true);
-                $name = $data["sorted_by"]["name"];
-                $direction = $data["sorted_by"]["direction"];
-                $logger->debug($data["owner"]);
-            }
-            catch (Exception $e) {
-                $logger->debug($e->getMessage());
-            }
-            catch (Error $e) {
-                $logger->debug($e->getMessage());
-            }
-        }
+        //$request = Request::createFromGlobals();
+        $data = json_decode($request->getContent(), true);
+        $logger->debug($data["owner"]);
+
         $output = 
         [
             [
@@ -42,15 +32,10 @@ class OwnersController extends AbstractController
                 "comment" => ""
             ]
         ];
-        $output_json = json_encode($output);
-        //$logger->debug($output_json);
-        $response = new Response(
-            $output_json,
+        $response = new JsonResponse(
+            $output,
             Response::HTTP_OK,
-            ['content-type' => 'application/json']
         );
-        //$request = Request::createFromGlobals();
-        //$response->prepare($request);
         return $response;
     }
 }
