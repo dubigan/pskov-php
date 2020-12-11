@@ -54,7 +54,7 @@ export default class ListOfItems extends Component {
         owner: this.props.owner ? this.props.owner : -1,
       })
       .then((res) => {
-        //console.log("getItems", res.data);
+        console.log("getItems", res.data);
         const state = { items: res.data };
         //console.log("getItems state", state);
 

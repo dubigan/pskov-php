@@ -21,17 +21,25 @@ class OwnersController extends AbstractController
         LoggerInterface $logger): Response
     {
         $data = json_decode($request->getContent(), true);
+        //$o = $request->request->get('owner', -10);
+        //$logger->debug("request->get $o");
         if (array_key_exists('btn_del', $data)) {
             // delete owner
             $logger->debug('Delete owner');
         }
         if (array_key_exists('btn_edit', $data)) {
             // edit owner
-            $logger->debug('Edit owner');
-            return $this->response(['redirect' => '/owner']);
+            if (array_key_exists('item_pk', $data)) 
+            {
+                $owner_id = $data['item_pk'];
+                $logger->debug("Edit owner $owner_id");
+                $request->getSession()->set('owner_id', $owner_id);
+                return $this->response(['redirect' => '/owner']);
+            }
         }
         if (array_key_exists('btn_add', $data)) {
             // add owner
+            $request->getSession()->set('owner_id', -1);
             $logger->debug('Add owner');
             return $this->response(['redirect' => '/owner']);
         }

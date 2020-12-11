@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=OwnerRepository::class)
  */
-class Owner
+class Owner implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -134,6 +134,18 @@ class Owner
         $this->comment = $comment;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "name" => $this->getName(),
+            "patronymic" => $this->getPatronymic(),
+            "last_name" => $this->getLastName(),
+            "age" => $this->getAge(),
+            "gender" => $this->getGender(),
+            "comment" => $this->getComment()
+        ];
     }
 
     /**

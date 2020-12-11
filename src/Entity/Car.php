@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
  */
-class Car
+class Car implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -156,5 +156,18 @@ class Car
         $this->comment = $comment;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'model' => $this->getModel(),
+            'color' => $this->getColor(),
+            'production' => $this->getProduction(),
+            'power' => $this->getPower(),
+            'meleage' => $this.getMileage(),
+            'manufacturer' => $this->getManufacturer(),
+            'comment' => $this->getComment()
+        ];
     }
 }
