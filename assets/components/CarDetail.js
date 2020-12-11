@@ -28,7 +28,7 @@ export default class CarDetail extends Component {
     },
   };
 
-  url = "/testforjob/api/car/";
+  url = "/api/car/";
   tooltipPlace = "bottom";
 
   componentDidMount() {

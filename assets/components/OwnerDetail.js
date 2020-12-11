@@ -12,22 +12,27 @@ import {
 import Cars from "./Cars";
 import Alerts from "./Alerts";
 
+const NEW_OWNER_ID = -10;
+const UNDEFINED_OWNER = -1;
+
+const NEW_OWNER = {
+  id: NEW_OWNER_ID, // indicate new owner, -1 is not acceptable
+  cars: [],
+  name: "",
+  patronymic: "",
+  last_name: "",
+  gender: "",
+  age: "",
+  comment: "",
+};
+
 export default class OwnerDetail extends Component {
   state = {
     messages: [],
-    owner: {
-      id: -10, // indicate new owner, -1 is not acceptable
-      cars: [],
-      name: "",
-      patronymic: "",
-      last_name: "",
-      gender: "",
-      age: "",
-      comment: "",
-    },
+    owner: NEW_OWNER,
   };
 
-  url = "/testforjob/api/owner/";
+  url = "/api/owner/";
   tooltipPlace = "bottom";
 
   componentDidMount() {
@@ -54,9 +59,11 @@ export default class OwnerDetail extends Component {
       .post(this.url, {})
       .then((res) => {
         const owner = {
-          ...res.data,
-          id: res.data["id"] ? res.data["id"] : -10,
+          ...(res.data ? res.data : NEW_OWNER),
+          id: res.data["id"] ? res.data["id"] : NEW_OWNER_ID,
         };
+        console.log("getOwner", owner);
+
         this.setState({ owner: owner });
       })
       .catch((err) => {
