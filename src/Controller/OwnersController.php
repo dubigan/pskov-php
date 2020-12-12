@@ -17,15 +17,22 @@ class OwnersController extends AbstractController
     /**
      * @Route("/api/owners/", name="owners", methods={"POST"})
      */
-    public function owners(Request $request, OwnerRepository $ownerRepository, 
+    public function owners(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        OwnerRepository $repository, 
         LoggerInterface $logger): Response
     {
         $data = json_decode($request->getContent(), true);
-        //$o = $request->request->get('owner', -10);
-        //$logger->debug("request->get $o");
         if (array_key_exists('btn_del', $data)) {
             // delete owner
-            $logger->debug('Delete owner');
+            $item_pk = $data['item_pk'];
+            $logger->debug('Delete owner: '.$item_pk);
+            if (isset($item_pk) && !empty($item_pk)) {
+                $owner = $repository->find($item_pk);
+                $entityManager->remove($owner);
+                $entityManager->flush();
+            }
         }
         if (array_key_exists('btn_edit', $data)) {
             // edit owner
@@ -45,13 +52,16 @@ class OwnersController extends AbstractController
         }
         
         if (array_key_exists('sorted_by', $data)) {
-            $owner_id = $data["owner"];
+            //$owner_id = $data["owner"];
             $sorted_name = $data["sorted_by"]["name"];
             $direction = $data["sorted_by"]["direction"];
+            if (isset($sorted_name) && !empty($sorted_name))
+                $querySet = $repository->findBy(array(), array("$sorted_name" => "$direction"));
         }
 
-        $data = $ownerRepository->findAll();
-        return $this->response($data);
+        if (!isset($querySet)) $querySet = $repository->findAll();
+        
+        return $this->response($querySet);
 
     }
 

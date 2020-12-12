@@ -49,6 +49,8 @@ export default class OwnerDetail extends Component {
   };
 
   getErrors = (data) => {
+    console.log("getErrors", data);
+
     return Object.keys(data).map((key) => {
       return { type: "error", message: data[key] };
     });

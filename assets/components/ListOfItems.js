@@ -120,10 +120,13 @@ export default class ListOfItems extends Component {
   };
 
   btnEditClick = (e) => {
+    const item_pk = e.target.value;
+    //console.log("btnEditClick", item_pk);
+
     axios
       .post(this.url, {
         btn_edit: "",
-        item_pk: e.target.value,
+        item_pk: item_pk,
         url: window.location.pathname,
       })
       .then((res) => {

@@ -19,7 +19,7 @@ class CarsController extends AbstractController
     /**
      * @Route("/api/cars/", name="cars", methods={"POST"})
      */
-    public function cars(Request $request, CarRepository $carRepository, 
+    public function cars(Request $request, CarRepository $repository, 
         LoggerInterface $logger): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -33,7 +33,16 @@ class CarsController extends AbstractController
             return $this->response(['redirect' => '/car']);
         }
 
-        $data = $carRepository->findAll();
+        if (array_key_exists('sorted_by', $data)) {
+            //$owner_id = $data["owner"];
+            $sorted_name = $data["sorted_by"]["name"];
+            $direction = $data["sorted_by"]["direction"];
+            if (isset($sorted_name) && !empty($sorted_name))
+                $querySet = $repository->findBy(array(), array("$sorted_name" => "$direction"));
+        }
+
+        if (!isset($querySet)) $querySet = $repository->findAll();
+
         return $this->response($data);
     }
 

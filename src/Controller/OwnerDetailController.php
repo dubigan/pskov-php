@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Owner;
 use App\Repository\OwnerRepository;
 
@@ -18,9 +19,13 @@ class OwnerDetailController extends AbstractController
     /**
      * @Route("/api/owner/", name="owner_detail")
      */
-    public function owner(Request $request, EntityManagerInterface $entityManager,
-        OwnerRepository $ownerRepository, 
-        LoggerInterface $logger): Response
+    public function owner(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        OwnerRepository $repository,
+        ValidatorInterface $validator,
+        LoggerInterface $logger
+        ): Response
     {
         $data = json_decode($request->getContent(), true);
         if (array_key_exists('btn_add', $data)) {
@@ -32,40 +37,44 @@ class OwnerDetailController extends AbstractController
         $owner_id = $request->getSession()->get('owner_id', -1);
         $logger->debug("owner_id: ".$owner_id);
         $owner = new Owner();
-        if ($owner_id > 0)
-        {  
+        if ($owner_id > 0) {  
             // get owner
-            $owner = $ownerRepository->find($owner_pk);
+            $owner = $repository->find($owner_id);
         }
         
-        if (array_key_exists('owner', $data))
-        {
+        if (array_key_exists('owner', $data)) {
             // add new or update owner
             $owner_json = $data['owner'];
-            //$logger->debug("name: ".$owner_json['name']);
-            $owner->setName($owner_json['name']);
-            //$logger->debug("patronymic: ".$owner_json['patronymic']);
-            $owner->setPatronymic($owner_json['patronymic']);
-            //$logger->debug("last_name: ".$owner_json['last_name']);
-            $owner->setLastName($owner_json['last_name']);
-            //$logger->debug("age: ".$owner_json['age']);
-            $owner->setAge($owner_json['age']);
-            //$logger->debug("gender: ".$owner_json['gender']);
-            $owner->setGender($owner_json['gender']);
-            //$logger->debug("comment: ".$owner_json['comment']);
-            $owner->setComment($owner_json['comment']);
+            $name = $owner_json['name'];
+            $owner->setName($name ? $name : "");
+            $patronymic = $owner_json['patronymic'];
+            $owner->setPatronymic($patronymic ? $patronymic : "");
+            $lastName = $owner_json['last_name'];
+            $owner->setLastName($lastName ? $last_name : "");
+            $age = $owner_json['age'];
+            $owner->setAge($age ? $age : 0);
+            $gender = $owner_json['gender'];
+            $owner->setGender($gender ? $gender : 'm');
+            $comment = $owner_json['comment'];
+            $owner->setComment($comment ? $comment : "");
+
+            $errors = $validator->validate($owner);
+            if (count($errors) > 0) {
+                $logger->debug('validation errors: '.$errors);
+                return $this->response((string)$errors, 400);
+            }
+
             $entityManager->persist($owner);
             $entityManager->flush();
             //$logger->debug("id: ".$owner->getId());
             return $this->response($owner);
         }
 
-        $logger->debug("id: ".$owner->getId());
+        //$logger->debug("id: ".$owner->getId());
         return $this->response($owner);
     }
 
-    public function response($data, $status = 200, $headers = [])
-    {
+    public function response($data, $status = 200, $headers = []) {
         return new JsonResponse($data, $status, $headers);
     }
 }

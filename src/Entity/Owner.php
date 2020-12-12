@@ -6,6 +6,7 @@ use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OwnerRepository::class)
@@ -100,6 +101,13 @@ class Owner implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @Assert\Range(
+     *      min = 18,
+     *      max = 120,
+     *      notInRangeMessage = "Ваш возраст должен быть между {{ min }} и {{ max }} лет",
+     * )
+     */
     public function getAge(): ?int
     {
         return $this->age;
@@ -139,6 +147,7 @@ class Owner implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
+            "id" => $this->getId(),
             "name" => $this->getName(),
             "patronymic" => $this->getPatronymic(),
             "last_name" => $this->getLastName(),
