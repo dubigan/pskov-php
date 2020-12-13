@@ -13,17 +13,17 @@ import { DetailOfItem } from "./DetailOfItem";
 import Cars from "./Cars";
 import Alerts from "./Alerts";
 
-const NEW_ITEM_ID = -10;
-const UNDEFINED_OWNER = -1;
+const EMPTY_ITEM_ID = -10;
+//const UNDEFINED_OWNER = -1;
 
-const NEW_ITEM = {
-  id: NEW_ITEM_ID, // indicate new owner, -1 is not acceptable
+const EMPTY_ITEM = {
+  id: EMPTY_ITEM_ID, // indicate new owner, -1 is not acceptable
   cars: [],
   name: "",
   patronymic: "",
   last_name: "",
-  gender: "",
-  age: "",
+  gender: "f",
+  age: 0,
   comment: "",
 };
 
@@ -31,10 +31,10 @@ export default class OwnerDetail extends DetailOfItem {
   url = "/api/owner/";
 
   getNewItem() {
-    return NEW_ITEM;
+    return EMPTY_ITEM;
   }
   getNewItemId() {
-    return NEW_ITEM_ID;
+    return EMPTY_ITEM_ID;
   }
 
   getChangedItem = (e) => {
@@ -54,22 +54,18 @@ export default class OwnerDetail extends DetailOfItem {
         break;
       default:
         item = super.getChangedItem(e);
-      // item = {
-      //   ...this.state.item,
-      //   [e.target.name]: e.target.value,
-      // };
     }
     return item;
   };
 
-  getItemFromData(data) {
-    const item = {
-      ...(data ? data : this.getNewItem()),
-      id: data["id"] ? data["id"] : this.getNewItemId(),
-    };
-    //console.log("getItem", item);
-    return item;
-  }
+  // getItemFromData(data) {
+  //   const item = {
+  //     ...(data.id ? data : this.getNewItem()),
+  //     //id: data["id"] ? data["id"] : this.getNewItemId(),
+  //   };
+  //   //console.log("getItem", item);
+  //   return item;
+  // }
 
   btnNewCarClick = () => {
     axios
@@ -87,25 +83,6 @@ export default class OwnerDetail extends DetailOfItem {
         });
       });
   };
-
-  // getItem = () => {
-  //   axios
-  //     .post(this.url, {})
-  //     .then((res) => {
-  //       const item = {
-  //         ...(res.data ? res.data : this.getNewItem()),
-  //         id: res.data["id"] ? res.data["id"] : this.getNewItemId(),
-  //       };
-  //       console.log("getItem", item);
-
-  //       this.setState({ item });
-  //     })
-  //     .catch((err) => {
-  //       this.setState({
-  //         messages: this.getErrors(err.response.data),
-  //       });
-  //     });
-  // };
 
   render() {
     return (

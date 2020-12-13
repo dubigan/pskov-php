@@ -73,17 +73,28 @@ class CommonController extends AbstractController {
             // add new or update owner
             $item->fillFromJson($data['item']);
 
-            $errors = $validator->validate($item);
-            if (count($errors) > 0) {
-                if (isset($logger)) $logger->debug('validation errors: '.$errors);
-                return $this->response((string)$errors, 400);
-            }
+            $response = $this->validateErrors($validator, $item, $logger);
+            if (isset($response)) return $response;
 
             $entityManager->persist($item);
             $entityManager->flush();
             //$logger->debug("id: ".$owner->getId());
             return $this->response($item);
         }       
+        return null;
+    }
+
+    public function validateErrors($validator, $item, $logger = null) {
+        $errors = $validator->validate($item);
+        if (count($errors) > 0) {
+            $messages = [];
+            $i = 0;
+            foreach($errors as $error) {
+                if (isset($logger)) $logger->debug('validation errors: '.$error->getMessage());
+                $messages[$i++] = $error->getMessage();
+            }
+            return $this->response($messages, 400);
+        }
         return null;
     }
 

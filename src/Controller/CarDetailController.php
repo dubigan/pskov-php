@@ -32,9 +32,9 @@ class CarDetailController extends CommonController
         $car_id = $request->getSession()->get('car_id', -1);
         $logger->debug('car_id: '.$car_id);
         $car = new Car();
-        if ($car_id < 0) {
-            if ($owner_id > 1) $car->setOwner($owner_id);
-        }
+        //if ($car_id < 0) {
+        //    if ($owner_id > 1) $car->setOwner($owner_id);
+        //}
         if ($car_id > 0) $car = $repository->find($car_id);
 
         $response = $this->saveItem($request, $data, $car, $entityManager, $validator, $logger);
@@ -46,10 +46,15 @@ class CarDetailController extends CommonController
     public function saveItem(Request $request, Array $data, $item, $entityManager, $validator, $logger = null) {
         $response = parent::saveItem($request, $data, $item, $entityManager, $validator, $logger);
         if (isset($response)) {
-            $redirect_url = $request->getSession()->get('back_from_car', null);
-            $logger->debug('saveItem redirect url: '.$redirect_url);
-            if (isset($redirect_url)) {
-                return $this->response(['redirect' => $redirect_url]);
+            if ($response->getStatusCode() == 200) {
+                $redirect_url = $request->getSession()->get('back_from_car', null);
+                $logger->debug('saveItem redirect url: '.$redirect_url);
+                if (isset($redirect_url)) {
+                    return $this->response(['redirect' => $redirect_url]);
+                }
+            }
+            else {
+                return $response;
             }
         }
         return null;

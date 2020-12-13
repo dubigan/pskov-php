@@ -38,7 +38,7 @@ export class DetailOfItem extends Component {
 
   getItemFromData(data) {
     console.log("getItemFromData", data);
-    return data;
+    return data.id ? data : this.getNewItem();
   }
 
   getItem = () => {
@@ -64,12 +64,12 @@ export class DetailOfItem extends Component {
   };
 
   saveItem = () => {
-    //console.log("saveItem", this.state.item);
+    console.log("saveItem", this.state.item);
 
     axios
       .post(this.url, { item: this.state.item })
       .then((res) => {
-        console.log("saveItem", res.data);
+        //console.log("saveItem", res.data);
 
         this.redirect(res.data.redirect);
 

@@ -65,6 +65,11 @@ class Owner implements \JsonSerializable
         return $this->id;
     }
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Имя не может быть пустым",
+     * )
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -88,7 +93,12 @@ class Owner implements \JsonSerializable
 
         return $this;
     }
-
+    
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Фамилия не может быть пустым",
+     * )
+     */
     public function getLastName(): ?string
     {
         return $this->last_name;

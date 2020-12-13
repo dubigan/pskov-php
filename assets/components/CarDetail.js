@@ -12,21 +12,24 @@ import DatePicker from "react-date-picker";
 import { DetailOfItem } from "./DetailOfItem";
 import Alerts from "./Alerts";
 
-const NEW_CAR = {
+const EMPTY_CAR = {
   id: -1,
   manufacturer: "",
   model: "",
-  production: "",
+  production: new Date().toLocaleDateString("ru"),
   color: "",
-  power: "",
-  mileage: "",
+  power: 0,
+  mileage: 0,
   comment: "",
 };
 export default class CarDetail extends DetailOfItem {
   url = "/api/car/";
 
   getNewItem() {
-    return NEW_CAR;
+    const item = EMPTY_CAR;
+    console.log("getNewItem", item);
+
+    return item;
   }
 
   changeDate = (date) => {

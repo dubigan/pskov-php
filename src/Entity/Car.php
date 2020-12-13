@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
@@ -62,6 +63,11 @@ class Car implements \JsonSerializable
         return $this->id;
     }
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Модель не может быть пустым",
+     * )
+     */
     public function getModel(): ?string
     {
         return $this->model;
@@ -74,6 +80,11 @@ class Car implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Цвет не может быть пустым",
+     * )
+     */
     public function getColor(): ?string
     {
         return $this->color;
@@ -86,6 +97,11 @@ class Car implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Дата не может быть пустым",
+     * )
+     */
     public function getProduction(): ?string
     {
         return $this->production;
@@ -98,18 +114,28 @@ class Car implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @Assert\Positive(
+     *      message = "Поле Мощность должно быть больше 0",
+     * )
+    */
     public function getPower(): ?int
     {
         return $this->power;
     }
 
-    public function setPower(?int $power): self
+     public function setPower(?int $power): self
     {
         $this->power = $power ? $power : 0;
 
         return $this;
     }
 
+    /**
+     * @Assert\PositiveOrZero(
+     *      message = "Поле Пробег должно быть больше или равно 0",
+     * )
+    */
     public function getMileage(): ?int
     {
         return $this->mileage;
@@ -122,6 +148,11 @@ class Car implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Производитель не может быть пустым",
+     * )
+     */
     public function getManufacturer(): ?string
     {
         return $this->manufacturer;
@@ -173,6 +204,7 @@ class Car implements \JsonSerializable
     }
 
     public function fillFromJson($json) {
+        if (!isset($json)) return;
         $this->setModel($json['model']);
         $this->setColor($json['color']);
         $this->setProduction($json['production']);

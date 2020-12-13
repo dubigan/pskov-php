@@ -50,6 +50,9 @@ class OwnerDetailController extends CommonController
         return $this->response($owner);
     }
 
+    protected function setSessionParamsForItemAdd(Request $request, Array $data) {
+        $request->getSession()->set('car_id', -1);
+    }
     protected function setSessionParamsForItemEdit(Request $request, Array $data, $item_id) {
         $session = $request->getSession();
         $session->set('car_id', $item_id);

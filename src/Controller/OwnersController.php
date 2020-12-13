@@ -23,8 +23,6 @@ class OwnersController extends CommonController
         OwnerRepository $repository, 
         LoggerInterface $logger): Response
     {
-        //$method = $request->server->get('REQUEST_METHOD', "not found");
-        //$logger->debug('/owners: '.$method);
         $url_edit = $url_add = '/owner';
         $data = $this->getJsonData($request);
 
