@@ -24,7 +24,7 @@ class OwnersController extends CommonController
         LoggerInterface $logger): Response
     {
         //$method = $request->server->get('REQUEST_METHOD', "not found");
-        $logger->debug('/owners: '.$method);
+        //$logger->debug('/owners: '.$method);
         $url_edit = $url_add = '/owner';
         $data = $this->getJsonData($request);
 
@@ -36,8 +36,8 @@ class OwnersController extends CommonController
         $response = $this->addItem($request, $data, $url_add);
         if (isset($response)) return $response;
         
-        //return $this->response($this->getSortedQuerySet($data, $repository));
-        return $this->testResponse();
+        return $this->response($this->getSortedQuerySet($data, $repository));
+        //return $this->testResponse();
 
     }
 
