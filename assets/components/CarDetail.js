@@ -36,12 +36,21 @@ export default class CarDetail extends DetailOfItem {
   getNewItem = () => NEW_CAR;
 
   changeDate = (date) => {
-    //const dt = new Date(date).toLocaleDateString("ru");
+    //console.log("changeDate", date.toLocaleDateString("ru"));
     const item = {
       ...this.state.item,
-      production: new Date(date).toLocaleDateString("ru"),
+      production: date.toLocaleDateString("ru"),
     };
     this.setState({ item });
+  };
+
+  getDate = () => {
+    if (this.state.item.production) {
+      const [day, month, year] = this.state.item.production.split(".");
+      //console.log("getDate", [day, month, year]);
+      return new Date(year, (+month - 1).toString(), day);
+    }
+    return new Date();
   };
 
   render() {
@@ -78,13 +87,13 @@ export default class CarDetail extends DetailOfItem {
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
                   <DatePicker
-                    className="col-11"
-                    //format="dd.MM.yyyy"
+                    className="col-6"
+                    format="dd.MM.y"
                     locale="ru"
                     name="production"
-                    showYearDropdown={true}
+                    // showYearDropdown={true}
                     onChange={this.changeDate}
-                    value={this.state.item.production}
+                    value={this.getDate()}
                   />
                   {/* </OverlayTrigger> */}
                   <Form.Label className="col-5" name="color">

@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export class DetailOfItem extends Component {
+  getNewItem = () => {};
+  getNewItemId = () => -1;
+
   state = {
     messages: [],
-    item: this.getNewItem(),
+    item: {},
   };
 
   url = "/api/owner/";
@@ -13,9 +16,6 @@ export class DetailOfItem extends Component {
   componentDidMount() {
     this.getItem();
   }
-
-  getNewItem = () => undefined;
-  getNewItemId = () => -1;
 
   digitsOnly = (e) => {
     let charCode = e.charCode;
