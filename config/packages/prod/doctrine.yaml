@@ -1,20 +1,35 @@
 doctrine:
-    orm:
-        auto_generate_proxy_classes: false
-        metadata_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        query_cache_driver:
-            type: pool
-            pool: doctrine.system_cache_pool
-        result_cache_driver:
-            type: pool
-            pool: doctrine.result_cache_pool
+  dbal:
+    default_connection: default
+    #url: '%env(resolve:DATABASE_URL)%'
+    connections:
+    default:
+      host: ec2-54-247-89-181.eu-west-1.compute.amazonaws.com
+      dbname: d88ac494ucfnca
+      user: vansafepzuawhk
+      password: 2742b6728b7aba6e3515a2c3d6092e20648312b39cc61406b1282dcb939bd370
+      port: 5432
+      driver: pdo_pgsql
+      # IMPORTANT: You MUST configure your server version,
+      # either here or in the DATABASE_URL env var (see .env file)
+      server_version: "13"
+
+  orm:
+    auto_generate_proxy_classes: false
+    metadata_cache_driver:
+      type: pool
+      pool: doctrine.system_cache_pool
+    query_cache_driver:
+      type: pool
+      pool: doctrine.system_cache_pool
+    result_cache_driver:
+      type: pool
+      pool: doctrine.result_cache_pool
 
 framework:
-    cache:
-        pools:
-            doctrine.result_cache_pool:
-                adapter: cache.app
-            doctrine.system_cache_pool:
-                adapter: cache.system
+  cache:
+    pools:
+      doctrine.result_cache_pool:
+        adapter: cache.app
+      doctrine.system_cache_pool:
+        adapter: cache.system
