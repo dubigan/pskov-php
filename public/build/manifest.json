@@ -4,12 +4,13 @@
   "build/2.css": "/build/2.css",
   "build/2.js": "/build/2.js",
   "build/3.js": "/build/3.js",
+  "build/4.css": "/build/4.css",
   "build/4.js": "/build/4.js",
   "build/5.js": "/build/5.js",
   "build/6.js": "/build/6.js",
   "build/7.js": "/build/7.js",
+  "build/8.js": "/build/8.js",
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors~app.js": "/build/vendors~app.js",
-  "build/8.js": "/build/8.js"
+  "build/vendors~app.js": "/build/vendors~app.js"
 }

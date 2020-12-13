@@ -14,41 +14,31 @@ use App\Repository\CarRepository;
 
 
 
-class CarsController extends AbstractController
+class CarsController extends CommonController
 {
     /**
      * @Route("/api/cars/", name="cars", methods={"POST"})
      */
-    public function cars(Request $request, CarRepository $repository, 
+    public function cars(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        CarRepository $repository, 
         LoggerInterface $logger): Response
     {
-        $data = json_decode($request->getContent(), true);
-        if (array_key_exists('btn_del', $data)) {
-            // delete car
-            $logger->debug('Delete car');
-        }
-        if (array_key_exists('btn_edit', $data)) {
-            // edit car
-            $logger->debug('Edit car');
-            return $this->response(['redirect' => '/car']);
-        }
+        $data = $this->getJsonData($request);
+        
+        $this->deleteItem($data, $entityManager, $repository);
 
-        if (array_key_exists('sorted_by', $data)) {
-            //$owner_id = $data["owner"];
-            $sorted_name = $data["sorted_by"]["name"];
-            $direction = $data["sorted_by"]["direction"];
-            if (isset($sorted_name) && !empty($sorted_name))
-                $querySet = $repository->findBy(array(), array("$sorted_name" => "$direction"));
-        }
+        $response = $this->editItem($request, $data, '/car');
+        if (isset($response)) return $response;
 
-        if (!isset($querySet)) $querySet = $repository->findAll();
-
-        return $this->response($data);
+        return $this->response($this->getSortedQuerySet($data, $repository));
     }
 
-    public function response($data, $status = 200, $headers = [])
-    {
-        return new JsonResponse($data, $status, $headers);
+    protected function setSessionParamsForItemEdit(Request $request, Array $data, $item_id) {
+        $session = $request->getSession();
+        $session->set('car_id', $item_id);
+        $session->set('back_from_car', $data['url']);
     }
 
 }

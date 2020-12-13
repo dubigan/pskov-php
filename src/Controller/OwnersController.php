@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 
-class OwnersController extends AbstractController
+class OwnersController extends CommonController
 {
     /**
      * @Route("/api/owners/", name="owners", methods={"POST"})
@@ -23,55 +23,30 @@ class OwnersController extends AbstractController
         OwnerRepository $repository, 
         LoggerInterface $logger): Response
     {
-        $data = json_decode($request->getContent(), true);
-        if (array_key_exists('btn_del', $data)) {
-            // delete owner
-            $item_pk = $data['item_pk'];
-            $logger->debug('Delete owner: '.$item_pk);
-            if (isset($item_pk) && !empty($item_pk)) {
-                $owner = $repository->find($item_pk);
-                $entityManager->remove($owner);
-                $entityManager->flush();
-            }
-        }
-        if (array_key_exists('btn_edit', $data)) {
-            // edit owner
-            if (array_key_exists('item_pk', $data)) 
-            {
-                $owner_id = $data['item_pk'];
-                $logger->debug("Edit owner $owner_id");
-                $request->getSession()->set('owner_id', $owner_id);
-                return $this->response(['redirect' => '/owner']);
-            }
-        }
-        if (array_key_exists('btn_add', $data)) {
-            // add owner
-            $request->getSession()->set('owner_id', -1);
-            $logger->debug('Add owner');
-            return $this->response(['redirect' => '/owner']);
-        }
-        
-        if (array_key_exists('sorted_by', $data)) {
-            //$owner_id = $data["owner"];
-            $sorted_name = $data["sorted_by"]["name"];
-            $direction = $data["sorted_by"]["direction"];
-            if (isset($sorted_name) && !empty($sorted_name))
-                $querySet = $repository->findBy(array(), array("$sorted_name" => "$direction"));
-        }
+        $url_edit = $url_add = '/owner';
+        $data = $this->getJsonData($request);
 
-        if (!isset($querySet)) $querySet = $repository->findAll();
+        $this->deleteItem($data, $entityManager, $repository);
+
+        $response = $this->editItem($request, $data, $url_edit);
+        if (isset($response)) return $response;
+       
+        $response = $this->addItem($request, $data, $url_add);
+        if (isset($response)) return $response;
         
-        return $this->response($querySet);
+        return $this->response($this->getSortedQuerySet($data, $repository));
 
     }
 
-    public function response($data, $status = 200, $headers = [])
-    {
-        return new JsonResponse($data, $status, $headers);
+    protected function setSessionParamsForItemAdd(Request $request, Array $data) {
+        $request->getSession()->set('owner_id', -1);
     }
 
-    protected function testResponse() 
-    {
+    protected function setSessionParamsForItemEdit(Request $request, Array $data, $item_id) {
+        $request->getSession()->set('owner_id', $item_id);
+    }
+
+    protected function testResponse() {
         $output = 
         [
             [

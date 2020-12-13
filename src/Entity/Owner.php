@@ -72,7 +72,7 @@ class Owner implements \JsonSerializable
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->name = $name ? $name : '';
 
         return $this;
     }
@@ -84,7 +84,7 @@ class Owner implements \JsonSerializable
 
     public function setPatronymic(string $patronymic): self
     {
-        $this->patronymic = $patronymic;
+        $this->patronymic = $patronymic ? $patronymic : '';
 
         return $this;
     }
@@ -96,7 +96,7 @@ class Owner implements \JsonSerializable
 
     public function setLastName(string $last_name): self
     {
-        $this->last_name = $last_name;
+        $this->last_name = $last_name ? $last_name : '';
 
         return $this;
     }
@@ -115,7 +115,7 @@ class Owner implements \JsonSerializable
 
     public function setAge(int $age): self
     {
-        $this->age = $age;
+        $this->age = $age ? $age : 0;
 
         return $this;
     }
@@ -127,7 +127,7 @@ class Owner implements \JsonSerializable
 
     public function setGender(string $gender): self
     {
-        $this->gender = $gender;
+        $this->gender = $gender ? $gender : 'm';
 
         return $this;
     }
@@ -139,7 +139,7 @@ class Owner implements \JsonSerializable
 
     public function setComment(?string $comment): self
     {
-        $this->comment = $comment;
+        $this->comment = $comment ? $comment : "";
 
         return $this;
     }
@@ -155,6 +155,15 @@ class Owner implements \JsonSerializable
             "gender" => $this->getGender(),
             "comment" => $this->getComment()
         ];
+    }
+
+    public function fillFromJson($json) {
+        $this->setName($json['name']);
+        $this->setPatronymic($json['patronymic']);
+        $this->setLastName($json['last_name']);
+        $this->setAge($json['age']);
+        $this->setGender($json['gender']);
+        $this->setComment($json['comment']);
     }
 
     /**

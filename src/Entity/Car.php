@@ -69,7 +69,7 @@ class Car implements \JsonSerializable
 
     public function setModel(?string $model): self
     {
-        $this->model = $model;
+        $this->model = $model ? $model : '';
 
         return $this;
     }
@@ -81,7 +81,7 @@ class Car implements \JsonSerializable
 
     public function setColor(?string $color): self
     {
-        $this->color = $color;
+        $this->color = $color ? $color : '';
 
         return $this;
     }
@@ -93,7 +93,7 @@ class Car implements \JsonSerializable
 
     public function setProduction(?string $production): self
     {
-        $this->production = $production;
+        $this->production = $production ? $production : '';
 
         return $this;
     }
@@ -105,7 +105,7 @@ class Car implements \JsonSerializable
 
     public function setPower(?int $power): self
     {
-        $this->power = $power;
+        $this->power = $power ? $power : 0;
 
         return $this;
     }
@@ -117,7 +117,7 @@ class Car implements \JsonSerializable
 
     public function setMileage(?int $mileage): self
     {
-        $this->mileage = $mileage;
+        $this->mileage = $mileage ? $mileage : 0;
 
         return $this;
     }
@@ -129,7 +129,7 @@ class Car implements \JsonSerializable
 
     public function setManufacturer(?string $manufacturer): self
     {
-        $this->manufacturer = $manufacturer;
+        $this->manufacturer = $manufacturer ? $manufacturer : '';
 
         return $this;
     }
@@ -153,7 +153,7 @@ class Car implements \JsonSerializable
 
     public function setComment(?string $comment): self
     {
-        $this->comment = $comment;
+        $this->comment = $comment ? $comment : '';
 
         return $this;
     }
@@ -165,9 +165,19 @@ class Car implements \JsonSerializable
             'color' => $this->getColor(),
             'production' => $this->getProduction(),
             'power' => $this->getPower(),
-            'meleage' => $this.getMileage(),
+            'mileage' => $this->getMileage(),
             'manufacturer' => $this->getManufacturer(),
             'comment' => $this->getComment()
         ];
+    }
+
+    public function fillFromJson($json) {
+        $this->setModel($json['model']);
+        $this->setColor($json['color']);
+        $this->setProduction($json['production']);
+        $this->setPower($json['power']);
+        $this->setMileage($json['mileage']);
+        $this->setManufacturer($json['manufacturer']);
+        $this->setComment($json['comment']);
     }
 }

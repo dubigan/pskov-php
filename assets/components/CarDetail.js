@@ -8,102 +8,40 @@ import {
   Tooltip,
   OverlayTrigger,
 } from "react-bootstrap";
-//import DatePicker from "react-datepicker";
+import DatePicker from "react-date-picker";
 //import { registerLocale } from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 //import ru from "date-fns/locale/ru";
+import { DetailOfItem } from "./DetailOfItem";
 import Alerts from "./Alerts";
 
-export default class CarDetail extends Component {
-  state = {
-    messages: [],
-    car: {
-      manufacturer: "",
-      model: "",
-      production: "",
-      color: "",
-      power: "",
-      mileage: "",
-      comment: "",
-    },
-  };
-
+const NEW_CAR = {
+  manufacturer: "",
+  model: "",
+  production: "",
+  color: "",
+  power: "",
+  mileage: "",
+  comment: "",
+};
+export default class CarDetail extends DetailOfItem {
   url = "/api/car/";
-  tooltipPlace = "bottom";
+  //registerLocale("ru", ru);
 
   componentDidMount() {
     //registerLocale("ru", ru);
-    this.getCar();
+    super.componentDidMount();
   }
 
-  digitsOnly = (e) => {
-    let charCode = e.charCode;
-    if (charCode < 48 || charCode > 57) {
-      // digits only
-      e.preventDefault();
-    }
-  };
-
-  getErrors = (data) => {
-    return Object.keys(data).map((key) => {
-      return { type: "error", message: data[key] };
-    });
-  };
-
-  changeCar = (e) => {
-    const car = {
-      ...this.state.car,
-      [e.target.name]: e.target.value,
-    };
-
-    this.setState({ car });
-  };
+  getNewItem = () => NEW_CAR;
 
   changeDate = (date) => {
     //const dt = new Date(date).toLocaleDateString("ru");
-    const car = {
-      ...this.state.car,
+    const item = {
+      ...this.state.item,
       production: new Date(date).toLocaleDateString("ru"),
     };
-    this.setState({ car });
-  };
-
-  saveCar = (e) => {
-    axios
-      .post(this.url, { car: this.state.car })
-      .then((res) => {
-        if (res.data.redirect) {
-          window.location.href = res.data["redirect"];
-        }
-
-        this.setState({
-          car: res.data,
-          messages: [
-            {
-              type: "success",
-              message: "Информация об автомобиле сохранена",
-            },
-          ],
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
-      });
-  };
-
-  getCar = () => {
-    axios
-      .post(this.url, {})
-      .then((res) => {
-        this.setState({ car: res.data });
-      })
-      .catch((err) => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
-      });
+    this.setState({ item });
   };
 
   render() {
@@ -121,16 +59,16 @@ export default class CarDetail extends Component {
                     className="form-control col-6"
                     name="manufacturer"
                     type="text"
-                    value={this.state.car.manufacturer}
-                    onChange={this.changeCar}
+                    value={this.state.item.manufacturer}
+                    onChange={this.changeItem}
                   />
                   <Form.Label className="col-5">Модель</Form.Label>
                   <input
                     className="form-control col-6"
                     name="model"
                     type="text"
-                    value={this.state.car.model}
-                    onChange={this.changeCar}
+                    value={this.state.item.model}
+                    onChange={this.changeItem}
                   />
 
                   <Form.Label className="col-5">Дата выпуска</Form.Label>
@@ -139,15 +77,15 @@ export default class CarDetail extends Component {
                     placement={this.tooltipPlace}
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
-                  {/* <DatePicker
+                  <DatePicker
                     className="col-11"
                     //format="dd.MM.yyyy"
                     locale="ru"
                     name="production"
                     showYearDropdown={true}
                     onChange={this.changeDate}
-                    value={this.state.car.production}
-                  /> */}
+                    value={this.state.item.production}
+                  />
                   {/* </OverlayTrigger> */}
                   <Form.Label className="col-5" name="color">
                     Цвет
@@ -156,8 +94,8 @@ export default class CarDetail extends Component {
                     className="form-control col-6"
                     name="color"
                     type="text"
-                    value={this.state.car.color}
-                    onChange={this.changeCar}
+                    value={this.state.item.color}
+                    onChange={this.changeItem}
                   />
                   <Form.Label className="col-5" name="age">
                     Мощность (л.с.)
@@ -167,8 +105,8 @@ export default class CarDetail extends Component {
                     name="power"
                     type="text"
                     maxLength="3"
-                    value={this.state.car.power ? this.state.car.power : ""}
-                    onChange={this.changeCar}
+                    value={this.state.item.power ? this.state.item.power : ""}
+                    onChange={this.changeItem}
                     onKeyPress={this.digitsOnly}
                   />
                   <Form.Label className="col-5" name="age">
@@ -179,8 +117,10 @@ export default class CarDetail extends Component {
                     name="mileage"
                     type="text"
                     maxLength="10"
-                    value={this.state.car.mileage ? this.state.car.mileage : ""}
-                    onChange={this.changeCar}
+                    value={
+                      this.state.item.mileage ? this.state.item.mileage : ""
+                    }
+                    onChange={this.changeItem}
                     onKeyPress={this.digitsOnly}
                   />
                 </Row>
@@ -190,9 +130,9 @@ export default class CarDetail extends Component {
                 <Form.Control
                   as="textarea"
                   rows="7"
-                  value={this.state.car.comment}
+                  value={this.state.item.comment}
                   name="comment"
-                  onChange={this.changeCar}
+                  onChange={this.changeItem}
                 />
               </div>
             </Row>
@@ -211,7 +151,7 @@ export default class CarDetail extends Component {
                   <Button
                     variant="primary"
                     className="col"
-                    onClick={this.saveCar}
+                    onClick={this.saveItem}
                   >
                     Сохранить
                   </Button>
