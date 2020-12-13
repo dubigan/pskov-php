@@ -9,13 +9,11 @@ import {
   OverlayTrigger,
 } from "react-bootstrap";
 import DatePicker from "react-date-picker";
-//import { registerLocale } from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
-//import ru from "date-fns/locale/ru";
 import { DetailOfItem } from "./DetailOfItem";
 import Alerts from "./Alerts";
 
 const NEW_CAR = {
+  id: -1,
   manufacturer: "",
   model: "",
   production: "",
@@ -26,14 +24,10 @@ const NEW_CAR = {
 };
 export default class CarDetail extends DetailOfItem {
   url = "/api/car/";
-  //registerLocale("ru", ru);
 
-  componentDidMount() {
-    //registerLocale("ru", ru);
-    super.componentDidMount();
+  getNewItem() {
+    return NEW_CAR;
   }
-
-  getNewItem = () => NEW_CAR;
 
   changeDate = (date) => {
     //console.log("changeDate", date.toLocaleDateString("ru"));

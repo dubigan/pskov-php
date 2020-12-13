@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export class DetailOfItem extends Component {
-  getNewItem = () => {};
-  getNewItemId = () => -1;
+  getNewItem() {}
+  getNewItemId() {
+    return -1;
+  }
 
   state = {
     messages: [],
-    item: {},
+    item: this.getNewItem(),
   };
 
   url = "/api/owner/";
@@ -34,12 +36,18 @@ export class DetailOfItem extends Component {
     });
   };
 
-  getItemFromData = (data) => data;
+  getItemFromData(data) {
+    console.log("getItemFromData", data);
+    return data;
+  }
 
   getItem = () => {
     axios
       .post(this.url, {})
       .then((res) => {
+        //console.log("getItem", res.data);
+        this.redirect(res.data.redirect);
+
         this.setState({ item: this.getItemFromData(res.data) });
       })
       .catch((err) => {
@@ -56,15 +64,17 @@ export class DetailOfItem extends Component {
   };
 
   saveItem = () => {
-    console.log("saveItem", this.state.item);
+    //console.log("saveItem", this.state.item);
 
     axios
       .post(this.url, { item: this.state.item })
       .then((res) => {
+        console.log("saveItem", res.data);
+
         this.redirect(res.data.redirect);
 
         this.setState({
-          item: res.data,
+          item: this.getItemFromData(res.data),
           messages: [{ type: "success", message: "Информация сохранена" }],
         });
       })
@@ -75,13 +85,13 @@ export class DetailOfItem extends Component {
       });
   };
 
-  getChangedItem = (e) => {
+  getChangedItem(e) {
     const item = {
       ...this.state.item,
       [e.target.name]: e.target.value,
     };
     return item;
-  };
+  }
 
   changeItem = (e) => {
     this.setState({ item: this.getChangedItem(e) });

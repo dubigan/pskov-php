@@ -68,7 +68,7 @@ class CommonController extends AbstractController {
         return null;
     }
 
-    public function saveItem(Array $data, $item, $entityManager, $validator, $logger = null) {
+    public function saveItem(Request $request, Array $data, $item, $entityManager, $validator, $logger = null) {
         if (array_key_exists('item', $data)) {
             // add new or update owner
             $item->fillFromJson($data['item']);

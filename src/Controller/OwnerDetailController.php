@@ -27,9 +27,13 @@ class OwnerDetailController extends CommonController
         LoggerInterface $logger
         ): Response
     {
+        $url_add = $url_edit = '/car';
         $data = $this->getJsonData($request);
         
-        $response = $this->addItem($request, $data, '/car');
+        $response = $this->addItem($request, $data, $url_add);
+        if (isset($response)) return $response;
+
+        $response = $this->editItem($request, $data, $url_edit);
         if (isset($response)) return $response;
 
         $owner_id = $request->getSession()->get('owner_id', -1);
@@ -40,10 +44,15 @@ class OwnerDetailController extends CommonController
             $owner = $repository->find($owner_id);
         }
         
-        $response = $this->saveItem($data, $owner, $entityManager, $validator, $logger);
+        $response = $this->saveItem($request, $data, $owner, $entityManager, $validator, $logger);
         if (isset($response)) return $response;
 
         return $this->response($owner);
     }
 
+    protected function setSessionParamsForItemEdit(Request $request, Array $data, $item_id) {
+        $session = $request->getSession();
+        $session->set('car_id', $item_id);
+        $session->set('back_from_car', $data['url']);
+    }
 }

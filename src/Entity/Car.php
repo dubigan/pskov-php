@@ -161,6 +161,7 @@ class Car implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
+            'id' => $this->getId(),
             'model' => $this->getModel(),
             'color' => $this->getColor(),
             'production' => $this->getProduction(),

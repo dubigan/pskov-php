@@ -30,19 +30,24 @@ const NEW_ITEM = {
 export default class OwnerDetail extends DetailOfItem {
   url = "/api/owner/";
 
-  getNewItem = () => NEW_ITEM;
-  getNewItemId = () => NEW_ITEM_ID;
+  getNewItem() {
+    return NEW_ITEM;
+  }
+  getNewItemId() {
+    return NEW_ITEM_ID;
+  }
+
   getChangedItem = (e) => {
     let item;
     switch (e.target.name) {
       case "gender-f":
-        owner = {
+        item = {
           ...this.state.item,
           gender: "f",
         };
         break;
       case "gender-m":
-        owner = {
+        item = {
           ...this.state.item,
           gender: "m",
         };
@@ -57,14 +62,14 @@ export default class OwnerDetail extends DetailOfItem {
     return item;
   };
 
-  getItemFromData = (data) => {
+  getItemFromData(data) {
     const item = {
       ...(data ? data : this.getNewItem()),
       id: data["id"] ? data["id"] : this.getNewItemId(),
     };
     //console.log("getItem", item);
     return item;
-  };
+  }
 
   btnNewCarClick = () => {
     axios
