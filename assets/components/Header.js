@@ -22,9 +22,9 @@ export class Header extends Component {
           <a className="navbar-brand col-md-4" href="/cars">
             Автомобили
           </a>
-          <a className="navbar-brand col-md-4 offset-md-4" href="/dashboard">
+          {/* <a className="navbar-brand col-md-4 offset-md-4" href="/dashboard">
             Админ
-          </a>
+          </a> */}
           <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
         </div>
       </nav>
