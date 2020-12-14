@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\DateMax;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
@@ -101,6 +102,21 @@ class Car implements \JsonSerializable
      * @Assert\NotBlank(
      *      message = "Поле Дата не может быть пустым",
      * )
+     */
+    /**
+     * @Assert\DateTime(
+     *      format = "d.m.Y",
+     *      message = "Поле Дата должно быть в формате dd.mm.yyyy"
+     * )
+     * @var string A "Y-m-d H:i:s" formatted value
+     */
+    /**
+     * @DateMax(
+     *      format = "d.m.Y",
+     *      maxDate = "now",
+     *      message = "Поле Дата не должно превышать {{maxDate}}"
+     * )
+     * @var string A "Y-m-d H:i:s" formatted value
      */
     public function getProduction(): ?string
     {
