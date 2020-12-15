@@ -12,18 +12,22 @@
     "axios": "^0.21.0",
     "date-fns": "^2.16.1",
     "datepicker": "^0.0.0",
+    "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-date-picker": "^8.0.5",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0"
+    "react-scripts": "4.0.0",
+    "websocket": "^1.0.33",
+    "ws": "^6.2.1"
   },
   "scripts": {
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production --progress"
+    "build": "encore production --progress",
+    "nodemon": "nodemon websocket/server"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -34,6 +38,7 @@
     "@symfony/webpack-encore": "^0.33.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "nodemon": "^2.0.6",
     "sass": "^1.30.0",
     "stimulus": "^2.0.0",
     "webpack-notifier": "^1.12.0"

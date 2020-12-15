@@ -14,8 +14,8 @@ export default class Dashboard extends Component {
     downloadFormat: "json",
   };
 
-  downloadUrl = "/testforjob/api/download/";
-  uploadUrl = "/testforjob/ws/upload/";
+  downloadUrl = "/";
+  uploadUrl = "/";
 
   getDownloadUrl = () => {
     return `/testforjob/api/download_${this.state.downloadFormat}/`;
@@ -35,7 +35,7 @@ export default class Dashboard extends Component {
     const self = this; // cache the this
     let connectInterval;
     const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    const url = `${ws_scheme}://${window.location.host}${this.uploadUrl}`;
+    const url = `ws://localhost:8080/`;
     const ws = new WebSocket(url);
     ws.onopen = () => {
       self.timeout = 250; // reset timer to 250 on open of websocket connection
@@ -99,7 +99,11 @@ export default class Dashboard extends Component {
     reader.onload = (readerEvent) => {
       const content = readerEvent.target.result; // this is the content!
       this.state.websocket.ws.send(
-        JSON.stringify({ cleardb: this.state.clearDB, content: content })
+        JSON.stringify({
+          type: "utf8",
+          cleardb: this.state.clearDB,
+          content: content,
+        })
       );
     };
   };
