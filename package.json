@@ -28,7 +28,7 @@
     "watch": "encore dev --watch",
     "build": "encore production --progress",
     "nodemon": "nodemon websocket/server",
-    "websocket-server": "node websocket/server"
+    "start": "node websocket/server"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
