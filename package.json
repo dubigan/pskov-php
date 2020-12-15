@@ -1,4 +1,13 @@
 {
+  "name": "pskov-php",
+  "description": "",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": "14.7.0",
+    "npm": "^7.0.11"
+  },
   "dependencies": {
     "axios": "^0.21.0",
     "date-fns": "^2.16.1",
@@ -10,8 +19,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0"
   },
-  "license": "UNLICENSED",
-  "private": true,
   "scripts": {
     "dev-server": "encore dev-server",
     "dev": "encore dev",
