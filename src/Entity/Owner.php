@@ -163,7 +163,8 @@ class Owner implements \JsonSerializable
             "last_name" => $this->getLastName(),
             "age" => $this->getAge(),
             "gender" => $this->getGender(),
-            "comment" => $this->getComment()
+            "comment" => $this->getComment(),
+            "cars" => $this->getCars()
         ];
     }
 

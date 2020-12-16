@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
   uploadUrl = "/";
 
   getDownloadUrl = () => {
-    return `/testforjob/api/download_${this.state.downloadFormat}/`;
+    return `/api/download/`;
   };
 
   setWebsocketStatus = (status) => {
@@ -183,6 +183,11 @@ export default class Dashboard extends Component {
                 {/* <option value="text">text/plain</option> */}
               </Form.Control>
               <form action={this.getDownloadUrl()} method="post">
+                <input
+                  type="hidden"
+                  name="format"
+                  value={this.state.downloadFormat}
+                />
                 <Button variant="primary" type="submit" className="col ml-4">
                   Старт
                 </Button>
