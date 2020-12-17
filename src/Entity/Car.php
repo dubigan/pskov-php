@@ -40,11 +40,6 @@ class Car implements \JsonSerializable
     private $power;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $mileage;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $manufacturer;
@@ -58,6 +53,11 @@ class Car implements \JsonSerializable
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $comment;
+
+    /**
+     * @ORM\Column(type="bigint", nullable=true)
+     */
+    private $mileage;
 
     public function getId(): ?int
     {
@@ -142,24 +142,7 @@ class Car implements \JsonSerializable
 
      public function setPower(?int $power): self
     {
-        $this->power = $power ? $power : 0;
-
-        return $this;
-    }
-
-    /**
-     * @Assert\PositiveOrZero(
-     *      message = "Поле Пробег должно быть больше или равно 0",
-     * )
-    */
-    public function getMileage(): ?int
-    {
-        return $this->mileage;
-    }
-
-    public function setMileage(?int $mileage): self
-    {
-        $this->mileage = $mileage ? $mileage : 0;
+        $this->power = $power ? $power : 1;
 
         return $this;
     }
@@ -229,5 +212,22 @@ class Car implements \JsonSerializable
         $this->setMileage($json['mileage']);
         $this->setManufacturer($json['manufacturer']);
         $this->setComment($json['comment']);
+    }
+
+    /**
+     * @Assert\Positive(
+     *      message = "Поле Пробег должно быть больше 0",
+     * )
+    */
+    public function getMileage(): ?int
+    {
+        return $this->mileage;
+    }
+
+    public function setMileage(?int $mileage): self
+    {
+        $this->mileage = $mileage ? $mileage : 1;
+
+        return $this;
     }
 }
