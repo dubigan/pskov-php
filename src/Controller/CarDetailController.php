@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Car;
+use App\Entity\Owner;
 use App\Repository\CarRepository;
+use App\Repository\OwnerRepository;
 
 class CarDetailController extends CommonController
 {
@@ -21,7 +23,8 @@ class CarDetailController extends CommonController
     public function car(
         Request $request, 
         EntityManagerInterface $entityManager,
-        CarRepository $repository,
+        CarRepository $carRepo,
+        OwnerRepository $ownerRepo,
         ValidatorInterface $validator,
         LoggerInterface $logger
         ): Response
@@ -31,11 +34,12 @@ class CarDetailController extends CommonController
         $owner_id = $request->getSession()->get('owner_id', -1);
         $car_id = $request->getSession()->get('car_id', -1);
         $logger->debug('car_id: '.$car_id);
+        $logger->debug('owner_id: '.$owner_id);
         $car = new Car();
-        //if ($car_id < 0) {
-        //    if ($owner_id > 1) $car->setOwner($owner_id);
-        //}
-        if ($car_id > 0) $car = $repository->find($car_id);
+        if ($car_id < 0) {
+           if ($owner_id > 1) $car->setOwner($ownerRepo->find($owner_id));
+        }
+        if ($car_id > 0) $car = $carRepo->find($car_id);
 
         $response = $this->saveItem($request, $data, $car, $entityManager, $validator, $logger);
         if (isset($response)) return $response;

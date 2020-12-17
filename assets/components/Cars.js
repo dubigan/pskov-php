@@ -5,6 +5,10 @@ import ListOfItems from "./ListOfItems";
 import { CarDeleteDialog } from "./CarDeleteDialog";
 import Alerts from "./Alerts";
 
+const DEF_SORTED_BY = {
+  name: "model",
+  direction: "ASC",
+};
 export default class Cars extends ListOfItems {
   url = "/api/cars/";
   tooltipPlace = "bottom";
@@ -13,6 +17,10 @@ export default class Cars extends ListOfItems {
   componentDidUpdate(prevProps, prevState) {
     super.componentDidUpdate(prevProps, prevState);
     if (prevProps.owner !== this.props.owner) this.getItems();
+  }
+
+  getDefaultSortedBy() {
+    return DEF_SORTED_BY;
   }
 
   render() {

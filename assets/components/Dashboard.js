@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
 
   checkWebsocket = () => {
     const ws = this.state.websocket.ws;
-    if (!ws || ws.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
+    //if (!ws || ws.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
   };
 
   connectWebsocket = () => {
@@ -72,7 +72,7 @@ export default class Dashboard extends Component {
   };
 
   componentDidMount() {
-    this.connectWebsocket();
+    //this.connectWebsocket();
   }
 
   selectFormat = (e) => {

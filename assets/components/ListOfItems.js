@@ -8,10 +8,7 @@ export default class ListOfItems extends Component {
     showDeleteDialog: false,
     itemDelete: "",
     items: [],
-    sortedBy: {
-      name: "",
-      direction: "asc",
-    },
+    sortedBy: this.getDefaultSortedBy(),
   };
 
   url = "";
@@ -23,6 +20,13 @@ export default class ListOfItems extends Component {
 
   componentDidMount() {
     this.getItems();
+  }
+
+  getDefaultSortedBy() {
+    return {
+      name: "",
+      direction: "asc",
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -48,6 +52,8 @@ export default class ListOfItems extends Component {
 
   getItems = () => {
     this.setState({ loading: true });
+    console.log("getItems owner", this.props.owner);
+
     axios
       .post(this.url, {
         sorted_by: this.state.sortedBy,

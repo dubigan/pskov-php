@@ -206,4 +206,10 @@ class Owner implements \JsonSerializable
 
         return $this;
     }
+
+    public function setCars(Array $cars) {
+        foreach($cars as $car) {
+            $this->addCar($car);
+        }
+    }
 }

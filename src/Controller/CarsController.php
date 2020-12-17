@@ -10,7 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Car;
+use App\Entity\Owner;
 use App\Repository\CarRepository;
+use App\Repository\OwnerRepository;
 
 
 
@@ -22,17 +24,24 @@ class CarsController extends CommonController
     public function cars(
         Request $request, 
         EntityManagerInterface $entityManager,
-        CarRepository $repository, 
+        CarRepository $carRepo, 
+        OwnerRepository $ownerRepo, 
         LoggerInterface $logger): Response
     {
         $data = $this->getJsonData($request);
+        $owner = null;
+        if (array_key_exists('owner', $data)) {
+            //$owner = $ownerRepo->find($data['owner']);
+            $owner = $data['owner'] > 0 ? $data['owner'] : null;
+        }
         
-        $this->deleteItem($data, $entityManager, $repository);
+        $this->deleteItem($data, $entityManager, $carRepo);
 
         $response = $this->editItem($request, $data, '/car');
         if (isset($response)) return $response;
 
-        return $this->response($this->getSortedQuerySet($data, $repository));
+        $querySet = $this->getSortedQuerySet($data, $carRepo, $owner, $logger);
+        return $this->response($querySet);
     }
 
     protected function setSessionParamsForItemEdit(Request $request, Array $data, $item_id) {

@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Owner;
+use App\Entity\Car;
 use App\Repository\OwnerRepository;
+use App\Repository\CarRepository;
 
 
 class OwnerDetailController extends CommonController
@@ -22,7 +24,8 @@ class OwnerDetailController extends CommonController
     public function owner(
         Request $request, 
         EntityManagerInterface $entityManager,
-        OwnerRepository $repository,
+        OwnerRepository $ownerRepo,
+        CarRepository $carRepo,
         ValidatorInterface $validator,
         LoggerInterface $logger
         ): Response
@@ -41,7 +44,9 @@ class OwnerDetailController extends CommonController
         $owner = new Owner();
         if ($owner_id > 0) {  
             // get owner
-            $owner = $repository->find($owner_id);
+            $owner = $ownerRepo->find($owner_id);
+            //$cars = $carRepo->findBy(['owner' => $owner_id]);
+            //$owner->setCars($cars);
         }
         
         $response = $this->saveItem($request, $data, $owner, $entityManager, $validator, $logger);

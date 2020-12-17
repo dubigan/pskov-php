@@ -17,15 +17,17 @@ class CommonController extends AbstractController {
         return new JsonResponse($data, $status, $headers);
     }
 
-    public function getSortedQuerySet(Array $data, $repository) {
+    public function getSortedQuerySet(Array $data, $repository, $owner = null, $logger = null) {
+        $crit = array();
+        if ($owner) $crit['owner'] = $owner;
         if (array_key_exists('sorted_by', $data)) {
             $sorted_name = $data["sorted_by"]["name"];
             $direction = $data["sorted_by"]["direction"];
-            if (isset($sorted_name) && !empty($sorted_name))
-                $querySet = $repository->findBy(array(), array("$sorted_name" => "$direction"));
+            if ($sorted_name && !empty($sorted_name))
+                $querySet = $repository->findBy($crit, array("$sorted_name" => "$direction"));
         }
 
-        if (!isset($querySet)) $querySet = $repository->findAll();
+        if (!isset($querySet)) $querySet = $repository->findBy($crit);
         return $querySet;
     }
 
@@ -33,8 +35,8 @@ class CommonController extends AbstractController {
         if (array_key_exists('btn_del', $data)) {
             // delete item
             $item_pk = $data['item_pk'];
-            if (isset($logger)) $logger->debug('Delete item: '.$item_pk);
-            if (isset($item_pk) && !empty($item_pk)) {
+            if ($logger) $logger->debug('Delete item: '.$item_pk);
+            if ($item_pk && !empty($item_pk)) {
                 $item = $repository->find($item_pk);
                 $entityManager->remove($item);
                 $entityManager->flush();
@@ -47,7 +49,7 @@ class CommonController extends AbstractController {
             // edit item
             if (array_key_exists('item_pk', $data)) {
                 $item_id = $data['item_pk'];
-                if (isset($logger)) $logger->debug('Edit item: '.$item_id);
+                if ($logger) $logger->debug('Edit item: '.$item_id);
 
                 $this->setSessionParamsForItemEdit($request, $data, $item_id);
 
