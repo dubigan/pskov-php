@@ -5,10 +5,18 @@ import ListOfItems from "./ListOfItems";
 import { OwnerDeleteDialog } from "./OwnerDeleteDialog";
 import Alerts from "./Alerts";
 
+const DEFAULT_SORTED_BY = {
+  name: "last_name",
+  direction: "ASC",
+};
 export default class Owners extends ListOfItems {
   url = "/api/owners/";
   tooltipPlace = "bottom";
   nameOfItem = "Автовладелец";
+
+  getDefaultSortedBy() {
+    return DEFAULT_SORTED_BY;
+  }
 
   render() {
     return (

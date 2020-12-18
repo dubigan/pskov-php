@@ -208,8 +208,8 @@ class Car implements \JsonSerializable
         $this->setModel($json['model']);
         $this->setColor($json['color']);
         $this->setProduction($json['production']);
-        $this->setPower($json['power']);
-        $this->setMileage($json['mileage']);
+        $this->setPower((int)$json['power']);
+        $this->setMileage((int)$json['mileage']);
         $this->setManufacturer($json['manufacturer']);
         $this->setComment($json['comment']);
     }
