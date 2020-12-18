@@ -131,7 +131,7 @@ class Owner implements \JsonSerializable
 
     public function setAge(int $age): self
     {
-        $this->age = $age ? $age : 0;
+        $this->age = $age ? $age : 18;
 
         return $this;
     }
