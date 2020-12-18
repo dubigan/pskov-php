@@ -51,7 +51,7 @@ class Owner implements \JsonSerializable
     private $comment;
 
     /**
-     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="owner")
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="owner", orphanRemoval=true)
      */
     private $cars;
 
