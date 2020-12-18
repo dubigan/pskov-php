@@ -118,6 +118,12 @@ class Owner implements \JsonSerializable
      *      notInRangeMessage = "Ваш возраст должен быть между {{ min }} и {{ max }} лет",
      * )
      */
+    /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Значение {{ value }} не является целым числом."
+     * )
+     */
     public function getAge(): ?int
     {
         return $this->age;
@@ -172,7 +178,7 @@ class Owner implements \JsonSerializable
         $this->setName($json['name']);
         $this->setPatronymic($json['patronymic']);
         $this->setLastName($json['last_name']);
-        $this->setAge($json['age']);
+        $this->setAge((int)$json['age']);
         $this->setGender($json['gender']);
         $this->setComment($json['comment']);
     }

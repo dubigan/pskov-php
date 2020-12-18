@@ -135,6 +135,12 @@ class Car implements \JsonSerializable
      *      message = "Поле Мощность должно быть больше 0",
      * )
     */
+    /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Значение {{ value }} не является целым числом."
+     * )
+     */
     public function getPower(): ?int
     {
         return $this->power;
@@ -219,6 +225,12 @@ class Car implements \JsonSerializable
      *      message = "Поле Пробег должно быть больше 0",
      * )
     */
+    /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Значение {{ value }} не является целым числом."
+     * )
+     */
     public function getMileage(): ?int
     {
         return $this->mileage;
