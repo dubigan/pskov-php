@@ -34,10 +34,10 @@ class OwnerDetailController extends CommonController
         $data = $this->getJsonData($request);
         
         $response = $this->addItem($request, $data, $url_add);
-        if (isset($response)) return $response;
+        if ($response) return $response;
 
         $response = $this->editItem($request, $data, $url_edit);
-        if (isset($response)) return $response;
+        if ($response)return $response;
 
         $owner_id = $request->getSession()->get('owner_id', -1);
         $logger->debug("owner_id: ".$owner_id);
@@ -50,7 +50,7 @@ class OwnerDetailController extends CommonController
         }
         
         $response = $this->saveItem($request, $data, $owner, $entityManager, $validator, $logger);
-        if (isset($response)) return $response;
+        if ($response) return $response;
 
         return $this->response($owner);
     }

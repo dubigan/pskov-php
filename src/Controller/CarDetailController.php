@@ -47,7 +47,14 @@ class CarDetailController extends CommonController
         return $this->response($car);
     }
 
-    public function saveItem(Request $request, Array $data, $item, $entityManager, $validator, $logger = null) {
+    public function saveItem(
+        Request $request, 
+        Array $data, $item, 
+        $entityManager, 
+        $validator, 
+        $logger = null
+        ) : ?Response
+    {
         $response = parent::saveItem($request, $data, $item, $entityManager, $validator, $logger);
         if (isset($response)) {
             if ($response->getStatusCode() == 200) {

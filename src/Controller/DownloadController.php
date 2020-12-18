@@ -28,11 +28,21 @@ class DownloadController extends CommonController
         $format = $request->get('format', 'json');
         $logger->debug('download: '.$format);
         $owners = $repository->findAll();
+        // foreach($owners as $owner) {
+        //     $logger->debug(
+        //         'name encoding: '.
+        //         \mb_detect_encoding($owner->getName()).
+        //         ': '.$owner->getName());
+        // }
         switch($format) {
             case 'csv':
                 break;
             default: //json
-                return $this->response($owners, 200, ['content-disposition' => 'attachment; filename=file.json']);
+                return new Response(json_encode($owners, JSON_UNESCAPED_UNICODE), 200, 
+                    [
+                        'content-disposition' => 'attachment; filename=file.json; charset=utf-8',
+                        'content-type' => 'application/json',
+                    ]);
         }
 
         return $this->response([]);

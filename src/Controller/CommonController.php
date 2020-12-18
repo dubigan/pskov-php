@@ -4,21 +4,31 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 
 class CommonController extends AbstractController {
     
-    public function getJsonData(Request $request) {
+    public function getJsonData(Request $request) : ?Array
+    {
         return json_decode($request->getContent(), true);
     }
 
-    public function response($data, $status = 200, $headers = []) {
+    public function response($data, $status = 200, $headers = []) : ?Response
+    {
         return new JsonResponse($data, $status, $headers);
     }
 
-    public function getSortedQuerySet(Array $data, $repository, $owner = null, $logger = null) {
+    public function getSortedQuerySet(
+        Array $data, 
+        $repository, 
+        $owner = null, 
+        $logger = null
+        ) : ?Array
+    {
         $crit = array();
+        $querySet = null;
         if ($owner) $crit['owner'] = $owner;
         if (array_key_exists('sorted_by', $data)) {
             $sorted_name = $data["sorted_by"]["name"];
@@ -31,7 +41,13 @@ class CommonController extends AbstractController {
         return $querySet;
     }
 
-    public function deleteItem(Array $data, $entityManager, $repository, $logger = null) {
+    public function deleteItem(
+        Array $data, 
+        $entityManager, 
+        $repository, 
+        $logger = null
+        ) 
+    {
         if (array_key_exists('btn_del', $data)) {
             // delete item
             $item_pk = $data['item_pk'];
@@ -44,7 +60,13 @@ class CommonController extends AbstractController {
         }
     }
 
-    public function editItem(Request $request, Array $data, String $redirect_url, $logger = null) {
+    public function editItem(
+        Request $request, 
+        Array $data, 
+        String $redirect_url, 
+        $logger = null
+        ) : ?Response
+    {
         if (array_key_exists('btn_edit', $data)) {
             // edit item
             if (array_key_exists('item_pk', $data)) {
@@ -59,7 +81,13 @@ class CommonController extends AbstractController {
         return null;
     }
 
-    public function addItem(Request $request, Array $data, String $redirect_url, $logger = null) {
+    public function addItem(
+        Request $request, 
+        Array $data, 
+        String $redirect_url, 
+        $logger = null
+        ) : ?Response
+    {
         if (array_key_exists('btn_add', $data)) {
             // add item
             $this->setSessionParamsForItemAdd($request, $data);
@@ -70,7 +98,15 @@ class CommonController extends AbstractController {
         return null;
     }
 
-    public function saveItem(Request $request, Array $data, $item, $entityManager, $validator, $logger = null) {
+    public function saveItem(
+        Request $request, 
+        Array $data, 
+        $item, 
+        $entityManager, 
+        $validator, 
+        $logger = null
+        ) : ?Response
+    {
         if (array_key_exists('item', $data)) {
             // add new or update owner
             $item->fillFromJson($data['item']);
@@ -86,13 +122,14 @@ class CommonController extends AbstractController {
         return null;
     }
 
-    public function validateErrors($validator, $item, $logger = null) {
+    public function validateErrors($validator, $item, $logger = null) : ?Response
+    {
         $errors = $validator->validate($item);
         if (count($errors) > 0) {
             $messages = [];
             $i = 0;
             foreach($errors as $error) {
-                if (isset($logger)) $logger->debug('validation errors: '.$error->getMessage());
+                if ($logger) $logger->debug('validation errors: '.$error->getMessage());
                 $messages[$i++] = $error->getMessage();
             }
             return $this->response($messages, 400);
