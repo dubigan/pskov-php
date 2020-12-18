@@ -205,7 +205,7 @@ class Car implements \JsonSerializable
             'mileage' => $this->getMileage(),
             'manufacturer' => $this->getManufacturer(),
             'comment' => $this->getComment(),
-            //'owner_id' => $this->getOwner() ? $this->getOwner->getId() : -1,
+            //'owner' => $this->getOwner(),
         ];
     }
 

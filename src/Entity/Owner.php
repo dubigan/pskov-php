@@ -160,6 +160,17 @@ class Owner implements \JsonSerializable
         return $this;
     }
 
+    public function jsonSerializeCars() {
+        $cars = [];
+        $i = 0;
+        if ($this->getCars()) {
+            foreach($this->getCars() as $car) {
+                $cars[$i++] = $car->jsonSerialize();
+            }
+        }
+        return $cars;
+    }
+
     public function jsonSerialize()
     {
         return [
@@ -170,7 +181,7 @@ class Owner implements \JsonSerializable
             "age" => $this->getAge(),
             "gender" => $this->getGender(),
             "comment" => $this->getComment(),
-            "cars" => $this->getCars()
+            "cars" => $this->jsonSerializeCars()
         ];
     }
 
