@@ -25,9 +25,22 @@ export default class Alerts extends Component {
   getReactAlerts = (array) => {
     return array ? (
       array.map((e, index) => {
-        const variant = e.type === "success" ? "primary" : "danger";
+        let type = "danger";
+        switch (e.type) {
+          case "info":
+            type = "info";
+            break;
+          case "success":
+            type = "success";
+            break;
+          case "error":
+            type = "danger";
+            break;
+          default:
+            type = "danger";
+        }
         return (
-          <ReactAlert variant={variant} key={index}>
+          <ReactAlert variant={type} key={index}>
             {e.message}
           </ReactAlert>
         );

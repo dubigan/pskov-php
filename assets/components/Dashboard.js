@@ -26,16 +26,36 @@ export default class Dashboard extends Component {
     this.setState({ websocket });
   };
 
+  getWsUrl = () => {
+    //console.log("getWsUrl protocol: ", window.location.protocol);
+
+    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    if (window.location.hostname.toLowerCase().indexOf("localhost") >= 0) {
+      return `ws://` + window.location.hostname + ":3000/";
+    }
+    // heroku deploy
+    const hostname = window.location.hostname.split(".");
+    console.log("getWsUrl heroku: ", hostname);
+    if (hostname[1] && hostname[1].toLowerCase().indexOf("heroku") >= 0) {
+      hostname[0] = "pskov-ws";
+      return `${ws_scheme}://` + hostname.join(".");
+    }
+    return "localhost";
+  };
+
   checkWebsocket = () => {
     const ws = this.state.websocket.ws;
-    //if (!ws || ws.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
+    if (!ws || ws.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
   };
 
   connectWebsocket = () => {
     const self = this; // cache the this
     let connectInterval;
-    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    const url = `ws://localhost:8080/`;
+    //const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
+    //const url = `ws://${this.getHostName()}:8080/`;
+    const url = this.getWsUrl();
+    console.log("connectWebsocket url: ", url);
+
     const ws = new WebSocket(url);
     ws.onopen = () => {
       self.timeout = 250; // reset timer to 250 on open of websocket connection
@@ -72,7 +92,7 @@ export default class Dashboard extends Component {
   };
 
   componentDidMount() {
-    //this.connectWebsocket();
+    this.connectWebsocket();
   }
 
   selectFormat = (e) => {
@@ -131,6 +151,11 @@ export default class Dashboard extends Component {
                 value={this.state.clearDB}
                 onChange={this.clearDB}
                 className="ml-2"
+                disabled={
+                  this.state.websocket.status === "disconnected"
+                    ? "disable"
+                    : ""
+                }
               />
             </Row>
             <Row>
@@ -149,6 +174,11 @@ export default class Dashboard extends Component {
                 variant="primary"
                 className=""
                 onClick={this.selectFileToUpload}
+                disabled={
+                  this.state.websocket.status === "disconnected"
+                    ? "disable"
+                    : ""
+                }
               >
                 ...
               </Button>

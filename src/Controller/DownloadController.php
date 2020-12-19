@@ -40,7 +40,7 @@ class DownloadController extends CommonController
             default: //json
                 return new Response(json_encode($owners, JSON_UNESCAPED_UNICODE), 200, 
                     [
-                        'content-disposition' => 'attachment; filename=file.json; charset=utf-8',
+                        'content-disposition' => 'attachment; filename=file.json',
                         'content-type' => 'application/json',
                     ]);
         }
