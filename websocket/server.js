@@ -75,7 +75,6 @@ wss.on("connection", function connection(ws) {
     try {
       message_json = JSON.parse(message);
       content_json = JSON.parse(message_json.content);
-      //console.log("received: %s", content_json);
       sendMessage(ws, "success", "Успешная загрузка файла");
     } catch (e) {
       console.log("parse incoming message error: ", e.message);
