@@ -11,23 +11,43 @@ class Item {
     return "";
   }
 
-  validate(item) {
-    const errors = [];
-    return errors;
-  }
-
-  getSkippedNames() {
+  getFieldNames() {
     return [];
   }
+
+  validate(item) {
+    const errors = [];
+    const fieldNames = this.getFieldNames();
+    fieldNames.forEach((name) => {
+      const funcName = "validate_" + name;
+      //console.log("funcName", funcName);
+
+      try {
+        if (this[funcName]) item[name] = this[funcName](item[name]);
+      } catch (e) {
+        if (e instanceof ValidationError) {
+          console.log("validate", e);
+
+          errors.push(e.message);
+        }
+      }
+    });
+    if (errors.length > 0)
+      throw new ValidationError("Validation errors").setMessages(errors);
+  }
+
+  //   getSkippedNames() {
+  //     return [];
+  //   }
 
   getQueryInfo(item) {
     let names = [];
     let values = [];
     let template = [];
     let i = 1;
-    const skippedNames = this.getSkippedNames();
+    const fieldNames = this.getFieldNames();
     Object.entries(item).forEach(([key, value]) => {
-      if (!skippedNames.includes(key)) {
+      if (fieldNames.includes(key)) {
         names.push(key);
         values.push(value);
         template.push(`$${i++}`);
@@ -35,7 +55,7 @@ class Item {
     });
     let qs = `insert into ${this.getTableName()} (${names.join(",")})
     values (${template.join(",")})`;
-    console.log("qs", qs);
+    //console.log("qs", qs);
 
     return { qs, values };
   }
@@ -48,7 +68,7 @@ class Item {
   }
 
   async insert(item, owner_id = null) {
-    const errors = this.validate(item);
+    this.validate(item);
     const item_id = await this.getNextId();
     item.id = item_id;
     if (owner_id) item.owner_id = owner_id;
@@ -58,4 +78,16 @@ class Item {
   }
 }
 
+class ValidationError {
+  constructor(message) {
+    this.message = message;
+    this.messages = [];
+  }
+
+  setMessages(messages) {
+    this.messages = messages;
+  }
+}
+
 module.exports.Item = Item;
+module.exports.ValidationError = ValidationError;
