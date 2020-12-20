@@ -126,7 +126,7 @@ export default class OwnerDetail extends DetailOfItem {
                       <small>М</small>
                     </Form.Label>
                     <input
-                      className="form-control col-1 border-0"
+                      className="form-control col-1 border-0 mt-2"
                       name="gender-m"
                       type="radio"
                       checked={this.state.item.gender === 'm' ? 1 : 0}
@@ -136,7 +136,7 @@ export default class OwnerDetail extends DetailOfItem {
                       <small>Ж</small>
                     </Form.Label>
                     <input
-                      className="form-control col-1 border-0"
+                      className="form-control col-1 border-0 mt-2"
                       name="gender-f"
                       type="radio"
                       checked={this.state.item.gender === 'f' ? 1 : 0}
