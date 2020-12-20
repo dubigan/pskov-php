@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Form, Button, Row, Card } from "react-bootstrap";
-import Alerts from "./Alerts";
+import React, { Component } from 'react';
+import { Form, Button, Row, Card } from 'react-bootstrap';
+import Alerts from './Alerts';
 
 export default class Dashboard extends Component {
   state = {
@@ -9,19 +9,19 @@ export default class Dashboard extends Component {
     clearDB: false,
     websocket: {
       ws: null,
-      status: "disconnected",
+      status: 'disconnected',
     },
-    downloadFormat: "json",
+    downloadFormat: 'json',
   };
 
-  downloadUrl = "/";
-  uploadUrl = "/";
+  downloadUrl = '/';
+  uploadUrl = '/';
 
   getDownloadUrl = () => {
     return `/api/download/`;
   };
 
-  setWebsocketStatus = (status) => {
+  setWebsocketStatus = status => {
     const websocket = { ...this.state.websocket, status: status };
     this.setState({ websocket });
   };
@@ -29,18 +29,18 @@ export default class Dashboard extends Component {
   getWsUrl = () => {
     //console.log("getWsUrl protocol: ", window.location.protocol);
 
-    const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    if (window.location.hostname.toLowerCase().indexOf("localhost") >= 0) {
-      return `ws://` + window.location.hostname + ":3000/";
+    const ws_scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    if (window.location.hostname.toLowerCase().indexOf('localhost') >= 0) {
+      return `ws://` + window.location.hostname + ':3000/';
     }
     // heroku deploy
-    const hostname = window.location.hostname.split(".");
-    console.log("getWsUrl heroku: ", hostname);
-    if (hostname[1] && hostname[1].toLowerCase().indexOf("heroku") >= 0) {
-      hostname[0] = "pskov-ws";
-      return `${ws_scheme}://` + hostname.join(".");
+    const hostname = window.location.hostname.split('.');
+    console.log('getWsUrl heroku: ', hostname);
+    if (hostname[1] && hostname[1].toLowerCase().indexOf('heroku') >= 0) {
+      hostname[0] = 'pskov-ws';
+      return `${ws_scheme}://` + hostname.join('.');
     }
-    return "localhost";
+    return 'localhost';
   };
 
   checkWebsocket = () => {
@@ -54,7 +54,7 @@ export default class Dashboard extends Component {
     //const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     //const url = `ws://${this.getHostName()}:8080/`;
     const url = this.getWsUrl();
-    console.log("connectWebsocket url: ", url);
+    console.log('connectWebsocket url: ', url);
 
     const ws = new WebSocket(url);
     ws.onopen = () => {
@@ -64,17 +64,23 @@ export default class Dashboard extends Component {
       this.setWebsocketStatus(`connected to ${url}`);
     };
 
-    ws.onmessage = (evt) => {
+    ws.onmessage = evt => {
       // listen to data sent from the websocket server
       const data = JSON.parse(evt.data);
-      this.setState({
-        messages: data ? [data] : [],
-      });
+      const messages = this.state.messages;
+      if (data) {
+        //console.log('onmessage', data);
+
+        messages.push(data);
+        this.setState({
+          messages: messages,
+        });
+      }
     };
 
     ws.onclose = () => {
       //console.log('disconnected');
-      this.setWebsocketStatus("disconnected");
+      this.setWebsocketStatus('disconnected');
       // automatically try to reconnect on connection loss
       self.timeout = self.timeout + self.timeout; //increment retry interval
       connectInterval = setTimeout(
@@ -83,8 +89,8 @@ export default class Dashboard extends Component {
       ); //call check function after timeout
     };
 
-    ws.onerror = (e) => {
-      console.log("websocket error", e);
+    ws.onerror = e => {
+      console.log('websocket error', e);
       this.setWebsocketStatus(`websocket error: ${e}`);
     };
     const websocket = { ...this.state.websocket, ws: ws };
@@ -95,15 +101,15 @@ export default class Dashboard extends Component {
     this.connectWebsocket();
   }
 
-  selectFormat = (e) => {
+  selectFormat = e => {
     this.setState({ downloadFormat: e.target.value });
   };
 
-  selectFileToUpload = (e) => {
-    const input = document.createElement("input");
-    input.type = "file";
+  selectFileToUpload = e => {
+    const input = document.createElement('input');
+    input.type = 'file';
 
-    input.onchange = (e) => {
+    input.onchange = e => {
       const file = e.target.files[0];
       this.setState({ uploadFile: file });
     };
@@ -111,16 +117,16 @@ export default class Dashboard extends Component {
     input.click();
   };
 
-  sendFile = (e) => {
+  sendFile = e => {
     const reader = new FileReader();
-    reader.readAsText(this.state.uploadFile, "UTF-8");
+    reader.readAsText(this.state.uploadFile, 'UTF-8');
 
     // here we tell the reader what to do when it's done reading...
-    reader.onload = (readerEvent) => {
+    reader.onload = readerEvent => {
       const content = readerEvent.target.result; // this is the content!
       this.state.websocket.ws.send(
         JSON.stringify({
-          type: "utf8",
+          type: 'utf8',
           cleardb: this.state.clearDB,
           content: content,
         })
@@ -132,10 +138,17 @@ export default class Dashboard extends Component {
     this.setState({ clearDB: !this.state.clearDB });
   };
 
+  clearMessages = () => {
+    this.setState({ messages: [] });
+  };
+
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} />
+        <Alerts
+          messages={this.state.messages}
+          clearMessages={this.clearMessages}
+        />
         <Card>
           <Card.Header>
             <Form.Label className="col-5">Загрузка в DB</Form.Label>
@@ -152,9 +165,9 @@ export default class Dashboard extends Component {
                 onChange={this.clearDB}
                 className="ml-2"
                 disabled={
-                  this.state.websocket.status === "disconnected"
-                    ? "disable"
-                    : ""
+                  this.state.websocket.status === 'disconnected'
+                    ? 'disable'
+                    : ''
                 }
               />
             </Row>
@@ -167,7 +180,7 @@ export default class Dashboard extends Component {
                 name="uploadFileName"
                 id="uploadFileName"
                 type="text"
-                value={this.state.uploadFile ? this.state.uploadFile.name : ""}
+                value={this.state.uploadFile ? this.state.uploadFile.name : ''}
                 readOnly
               />
               <Button
@@ -175,9 +188,9 @@ export default class Dashboard extends Component {
                 className=""
                 onClick={this.selectFileToUpload}
                 disabled={
-                  this.state.websocket.status === "disconnected"
-                    ? "disable"
-                    : ""
+                  this.state.websocket.status === 'disconnected'
+                    ? 'disable'
+                    : ''
                 }
               >
                 ...
@@ -186,7 +199,7 @@ export default class Dashboard extends Component {
                 variant="primary"
                 className="col-1 ml-2"
                 onClick={this.sendFile}
-                disabled={this.state.uploadFile ? "" : "disabled"}
+                disabled={this.state.uploadFile ? '' : 'disabled'}
               >
                 Старт
               </Button>
@@ -209,7 +222,7 @@ export default class Dashboard extends Component {
                 onChange={this.selectFormat}
               >
                 <option value="json">json</option>
-                <option value="csv">csv</option>
+                {/* <option value="csv">csv</option> */}
                 {/* <option value="text">text/plain</option> */}
               </Form.Control>
               <form action={this.getDownloadUrl()} method="post">

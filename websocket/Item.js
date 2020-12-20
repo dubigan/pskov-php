@@ -1,61 +1,73 @@
 class Item {
   constructor(pool) {
     this.pool = pool;
+    this.fieldNames = null;
   }
 
   getTableName() {
-    return "";
+    return '';
   }
 
   getSeqTableName() {
-    return "";
+    return '';
   }
 
-  getFieldNames() {
-    return [];
+  async getFieldNames() {
+    if (this.fieldNames) return this.fieldNames;
+    const res = await this.pool.query(
+      `select table_name, column_name 
+      from information_schema.columns 
+      where table_name='${this.getTableName()}'`
+    );
+    //console.log("getFieldNames", res.rows);
+    this.fieldNames = [];
+    res.rows.forEach(row => {
+      this.fieldNames.push(row.column_name);
+    });
+    return this.fieldNames;
   }
 
-  validate(item) {
+  async validate(item) {
     const errors = [];
-    const fieldNames = this.getFieldNames();
-    fieldNames.forEach((name) => {
-      const funcName = "validate_" + name;
+    const fieldNames = await this.getFieldNames();
+    fieldNames.forEach(name => {
+      const funcName = 'validate_' + name;
       //console.log("funcName", funcName);
 
       try {
         if (this[funcName]) item[name] = this[funcName](item[name]);
       } catch (e) {
-        if (e instanceof ValidationError) {
-          console.log("validate", e);
+        //if (e instanceof ValidationError) {
+        console.log('validate', e);
 
-          errors.push(e.message);
-        }
+        errors.push(e.message);
+        //}
       }
     });
-    if (errors.length > 0)
-      throw new ValidationError("Validation errors").setMessages(errors);
+    if (errors.length > 0) {
+      let ex = new ValidationError('Validation errors');
+      ex.setMessages(errors);
+      throw ex;
+    }
   }
 
-  //   getSkippedNames() {
-  //     return [];
-  //   }
-
-  getQueryInfo(item) {
+  async getQueryInfo(item) {
     let names = [];
     let values = [];
     let template = [];
     let i = 1;
-    const fieldNames = this.getFieldNames();
-    Object.entries(item).forEach(([key, value]) => {
-      if (fieldNames.includes(key)) {
-        names.push(key);
-        values.push(value);
+    const fieldNames = await this.getFieldNames();
+
+    fieldNames.forEach(name => {
+      if (item[name]) {
+        names.push(name);
+        values.push(item[name]);
         template.push(`$${i++}`);
       }
     });
-    let qs = `insert into ${this.getTableName()} (${names.join(",")})
-    values (${template.join(",")})`;
-    //console.log("qs", qs);
+    let qs = `insert into ${this.getTableName()} (${names.join(',')})
+    values (${template.join(',')})`;
+    //console.log('qs', qs);
 
     return { qs, values };
   }
@@ -68,24 +80,26 @@ class Item {
   }
 
   async insert(item, owner_id = null) {
-    this.validate(item);
+    await this.validate(item);
     const item_id = await this.getNextId();
     item.id = item_id;
     if (owner_id) item.owner_id = owner_id;
-    let queryInfo = this.getQueryInfo(item);
+    let queryInfo = await this.getQueryInfo(item);
     await this.pool.query(queryInfo.qs, queryInfo.values);
     return item_id;
   }
 }
 
-class ValidationError {
+class ValidationError extends Error {
   constructor(message) {
-    this.message = message;
+    super(message);
     this.messages = [];
   }
 
   setMessages(messages) {
-    this.messages = messages;
+    messages.forEach(m => {
+      this.messages.push({ type: 'error', message: m });
+    });
   }
 }
 
