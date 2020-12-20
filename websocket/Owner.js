@@ -40,9 +40,8 @@ class Owner extends Item {
   }
   validate_age(data) {
     //console.log("validate_name", data);
-    if (!data || !+data)
-      throw new ValidationError("field 'Age' can't be empty");
     data = +data;
+    if (!data) throw new ValidationError("field 'Age' can't be empty");
     if (data < 18 || data > 120)
       throw new ValidationError("field 'Age' must be between 18 and 120");
     return data;
