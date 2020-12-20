@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 import {
   Card,
   Row,
@@ -7,43 +7,43 @@ import {
   Button,
   Tooltip,
   OverlayTrigger,
-} from "react-bootstrap";
-import DatePicker from "react-date-picker";
-import { DetailOfItem } from "./DetailOfItem";
-import Alerts from "./Alerts";
+} from 'react-bootstrap';
+import DatePicker from 'react-date-picker';
+import { DetailOfItem } from './DetailOfItem';
+import Alerts from './Alerts';
 
 const EMPTY_CAR = {
   id: -1,
-  manufacturer: "",
-  model: "",
-  production: new Date().toLocaleDateString("ru"),
-  color: "",
+  manufacturer: '',
+  model: '',
+  production: new Date().toLocaleDateString('ru'),
+  color: '',
   power: 0,
   mileage: 0,
-  comment: "",
+  comment: '',
 };
 export default class CarDetail extends DetailOfItem {
-  url = "/api/car/";
+  url = '/api/car/';
 
   getNewItem() {
     const item = EMPTY_CAR;
-    console.log("getNewItem", item);
+    console.log('getNewItem', item);
 
     return item;
   }
 
-  changeDate = (date) => {
+  changeDate = date => {
     //console.log("changeDate", date.toLocaleDateString("ru"));
     const item = {
       ...this.state.item,
-      production: date.toLocaleDateString("ru"),
+      production: date.toLocaleDateString('ru'),
     };
     this.setState({ item });
   };
 
   getDate = () => {
     if (this.state.item.production) {
-      const [day, month, year] = this.state.item.production.split(".");
+      const [day, month, year] = this.state.item.production.split('.');
       //console.log("getDate", [day, month, year]);
       return new Date(year, (+month - 1).toString(), day);
     }
@@ -53,7 +53,10 @@ export default class CarDetail extends DetailOfItem {
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} />
+        <Alerts
+          messages={this.state.messages}
+          clearMessages={this.clearMessages}
+        />
         <Card>
           <Card.Title>Автомобиль</Card.Title>
           <Card.Body>
@@ -111,7 +114,7 @@ export default class CarDetail extends DetailOfItem {
                     name="power"
                     type="text"
                     maxLength="3"
-                    value={this.state.item.power ? this.state.item.power : ""}
+                    value={this.state.item.power ? this.state.item.power : ''}
                     onChange={this.changeItem}
                     onKeyPress={this.digitsOnly}
                   />
@@ -124,7 +127,7 @@ export default class CarDetail extends DetailOfItem {
                     type="text"
                     maxLength="10"
                     value={
-                      this.state.item.mileage ? this.state.item.mileage : ""
+                      this.state.item.mileage ? this.state.item.mileage : ''
                     }
                     onChange={this.changeItem}
                     onKeyPress={this.digitsOnly}

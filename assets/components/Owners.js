@@ -1,18 +1,18 @@
-import React from "react";
-import { Table, Button, Row, Tooltip, OverlayTrigger } from "react-bootstrap";
-import Loader from "./Loader";
-import ListOfItems from "./ListOfItems";
-import { OwnerDeleteDialog } from "./OwnerDeleteDialog";
-import Alerts from "./Alerts";
+import React from 'react';
+import { Table, Button, Row, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import Loader from './Loader';
+import ListOfItems from './ListOfItems';
+import { OwnerDeleteDialog } from './OwnerDeleteDialog';
+import Alerts from './Alerts';
 
 const DEFAULT_SORTED_BY = {
-  name: "last_name",
-  direction: "ASC",
+  name: 'last_name',
+  direction: 'ASC',
 };
 export default class Owners extends ListOfItems {
-  url = "/api/owners/";
-  tooltipPlace = "bottom";
-  nameOfItem = "Автовладелец";
+  url = '/api/owners/';
+  tooltipPlace = 'bottom';
+  nameOfItem = 'Автовладелец';
 
   getDefaultSortedBy() {
     return DEFAULT_SORTED_BY;
@@ -25,7 +25,10 @@ export default class Owners extends ListOfItems {
         {this.state.showDeleteDialog && (
           <OwnerDeleteDialog params={this.state} itemDelete={this.itemDelete} />
         )}
-        <Alerts messages={this.state.messages} />
+        <Alerts
+          messages={this.state.messages}
+          clearMessages={this.clearMessages}
+        />
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -38,11 +41,11 @@ export default class Owners extends ListOfItems {
               >
                 <th id="last_name" onClick={this.btnSortClick}>
                   <Row id="last_name">
-                    {this.state.sortedBy.name === "last_name" && (
+                    {this.state.sortedBy.name === 'last_name' && (
                       <div id="last_name" className="ml-2">
                         {this.arrow}
                       </div>
-                    )}{" "}
+                    )}{' '}
                     <div id="last_name" className="ml-2">
                       Фамилия
                     </div>
@@ -58,11 +61,11 @@ export default class Owners extends ListOfItems {
               >
                 <th id="name" onClick={this.btnSortClick}>
                   <Row id="name">
-                    {this.state.sortedBy.name === "name" && (
+                    {this.state.sortedBy.name === 'name' && (
                       <div id="name" className="ml-2">
                         {this.arrow}
                       </div>
-                    )}{" "}
+                    )}{' '}
                     <div id="name" className="ml-2">
                       Имя
                     </div>
@@ -79,7 +82,7 @@ export default class Owners extends ListOfItems {
               >
                 <th id="gender" onClick={this.btnSortClick}>
                   <Row id="gender">
-                    {this.state.sortedBy.name === "gender" && (
+                    {this.state.sortedBy.name === 'gender' && (
                       <div id="gender" className="ml-2">
                         {this.arrow}
                       </div>
@@ -99,11 +102,11 @@ export default class Owners extends ListOfItems {
               >
                 <th id="age" onClick={this.btnSortClick}>
                   <Row id="age">
-                    {this.state.sortedBy.name === "age" && (
+                    {this.state.sortedBy.name === 'age' && (
                       <div id="age" className="ml-2">
                         {this.arrow}
                       </div>
-                    )}{" "}
+                    )}{' '}
                     <div id="age" className="ml-2">
                       Возраст
                     </div>
@@ -120,9 +123,9 @@ export default class Owners extends ListOfItems {
                   <td>{o.last_name}</td>
                   <td>{o.name}</td>
                   <td>{o.patronymic}</td>
-                  <td>{o.gender === "f" ? "Жен" : "Муж"}</td>
+                  <td>{o.gender === 'f' ? 'Жен' : 'Муж'}</td>
                   <td>{o.age}</td>
-                  <td style={{ width: 100 + "px" }}>
+                  <td style={{ width: 100 + 'px' }}>
                     <Row>
                       <OverlayTrigger
                         key={5}
@@ -137,7 +140,7 @@ export default class Owners extends ListOfItems {
                           className="ml-2"
                           onClick={this.btnEditClick}
                         >
-                          {"\u27f6"}
+                          {'\u27f6'}
                         </Button>
                       </OverlayTrigger>
                       <OverlayTrigger

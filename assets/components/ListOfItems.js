@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class ListOfItems extends Component {
   state = {
     loading: false,
     messages: [],
     showDeleteDialog: false,
-    itemDelete: "",
+    itemDelete: '',
     items: [],
     sortedBy: this.getDefaultSortedBy(),
   };
 
-  url = "";
+  url = '';
   //upArrow = '&#x0225C;';
-  upArrow = "\u2191";
+  upArrow = '\u2191';
   //downArrow = '&#x0225C;';
-  downArrow = "\u2193";
-  nameOfItem = "";
+  downArrow = '\u2193';
+  nameOfItem = '';
 
   componentDidMount() {
     this.getItems();
@@ -24,8 +24,8 @@ export default class ListOfItems extends Component {
 
   getDefaultSortedBy() {
     return {
-      name: "",
-      direction: "asc",
+      name: '',
+      direction: 'asc',
     };
   }
 
@@ -39,34 +39,34 @@ export default class ListOfItems extends Component {
   }
 
   get arrow() {
-    return this.state.sortedBy.direction === "asc"
+    return this.state.sortedBy.direction === 'asc'
       ? this.upArrow
       : this.downArrow;
   }
 
-  getErrors = (data) => {
-    return Object.keys(data).map((key) => {
-      return { type: "error", message: data[key] };
+  getErrors = data => {
+    return Object.keys(data).map(key => {
+      return { type: 'error', message: data[key] };
     });
   };
 
   getItems = () => {
     this.setState({ loading: true });
-    console.log("getItems owner", this.props.owner);
+    console.log('getItems owner', this.props.owner);
 
     axios
       .post(this.url, {
         sorted_by: this.state.sortedBy,
         owner: this.props.owner ? this.props.owner : -1,
       })
-      .then((res) => {
-        console.log("getItems", res.data);
+      .then(res => {
+        console.log('getItems', res.data);
         const state = { items: res.data };
         //console.log("getItems state", state);
 
         this.setState(state);
       })
-      .catch((err) => {
+      .catch(err => {
         this.setState({
           messages: this.getErrors(err.response.data),
         });
@@ -74,24 +74,24 @@ export default class ListOfItems extends Component {
       .finally(() => this.setState({ loading: false }));
   };
 
-  getItem = (id) => {
-    return this.state.items.filter((item) => +item.id === +id)[0];
+  getItem = id => {
+    return this.state.items.filter(item => +item.id === +id)[0];
   };
 
-  btnSortClick = (e) => {
+  btnSortClick = e => {
     const sorted_name = e.target.id;
 
     if (this.state.sortedBy.name !== sorted_name) {
       const sortedBy = {
         name: sorted_name,
-        direction: "desc",
+        direction: 'desc',
       };
       this.setState({
         sortedBy: sortedBy,
       });
     } else {
       const direction =
-        this.state.sortedBy.direction === "desc" ? "asc" : "desc";
+        this.state.sortedBy.direction === 'desc' ? 'asc' : 'desc';
 
       const sortedBy = {
         ...this.state.sortedBy,
@@ -102,7 +102,7 @@ export default class ListOfItems extends Component {
     }
   };
 
-  btnDelClick = (e) => {
+  btnDelClick = e => {
     const item = this.getItem(e.target.value);
     this.setState({
       showDeleteDialog: true,
@@ -110,73 +110,77 @@ export default class ListOfItems extends Component {
     });
   };
 
-  btnAddClick = (e) => {
+  btnAddClick = e => {
     axios
-      .post(this.url, { btn_add: "" })
-      .then((res) => {
+      .post(this.url, { btn_add: '' })
+      .then(res => {
         if (res.data.redirect) {
-          window.location.href = res.data["redirect"];
+          window.location.href = res.data['redirect'];
         }
       })
-      .catch((err) => {
+      .catch(err => {
         this.setState({
           messages: this.getErrors(err.response.data),
         });
       });
   };
 
-  btnEditClick = (e) => {
+  btnEditClick = e => {
     const item_pk = e.target.value;
     //console.log("btnEditClick", item_pk);
 
     axios
       .post(this.url, {
-        btn_edit: "",
+        btn_edit: '',
         item_pk: item_pk,
         url: window.location.pathname,
       })
-      .then((res) => {
+      .then(res => {
         if (res.data.redirect) {
-          window.location.href = res.data["redirect"];
+          window.location.href = res.data['redirect'];
         }
       })
-      .catch((err) => {
+      .catch(err => {
         this.setState({
           messages: this.getErrors(err.response.data),
         });
       });
   };
 
-  itemDelete = (confirm) => {
+  itemDelete = confirm => {
     this.setState({ showDeleteDialog: false });
 
-    if (confirm === "true") {
+    if (confirm === 'true') {
       this.setState({ loading: true });
       axios
         .post(this.url, {
           sorted_by: this.state.sortedBy,
-          btn_del: "",
+          btn_del: '',
           item_pk: this.state.itemDelete.id,
           owner: this.props.owner ? this.props.owner : -1,
         })
-        .then((res) => {
+        .then(res => {
           this.setState({
             items: res.data,
             messages: [
               {
-                type: "success",
+                type: 'success',
                 message: `${this.nameOfItem} успешно удален`,
               },
             ],
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.setState({
             messages: this.getErrors(err.response.data),
           });
         })
         .finally(() => this.setState({ loading: false }));
     }
+  };
+
+  clearMessages = () => {
+    this.setState({ messages: [] });
   };
 
   render() {
