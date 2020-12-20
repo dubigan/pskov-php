@@ -225,11 +225,6 @@ class Car implements \JsonSerializable
     }
 
     /**
-     * @Assert\Positive(
-     *      message = "Поле Пробег должно быть больше 0",
-     * )
-    */
-    /**
      * @Assert\Type(
      *     type="integer",
      *     message="Значение {{ value }} не является целым числом."
@@ -240,6 +235,11 @@ class Car implements \JsonSerializable
      *      message = "Поле Пробег не может быть пустым",
      * )
      */
+    /**
+     * @Assert\Positive(
+     *      message = "Поле Пробег должно быть больше 0",
+     * )
+    */
     public function getMileage(): ?int
     {
         return $this->mileage;
