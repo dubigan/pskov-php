@@ -32,7 +32,9 @@ class CarsController extends CommonController
         $owner = null;
         if (array_key_exists('owner', $data)) {
             //$owner = $ownerRepo->find($data['owner']);
-            $owner = $data['owner'] > 0 ? $data['owner'] : null;
+            $owner = $data['owner'];
+            //$owner = $data['owner'] > 0 ? $data['owner'] : null;
+            //$logger->debug('owner'.$owner);
         }
         
         $this->deleteItem($data, $entityManager, $carRepo);

@@ -29,7 +29,10 @@ class CommonController extends AbstractController {
     {
         $crit = array();
         $querySet = null;
-        if ($owner) $crit['owner'] = $owner;
+        if ($owner) {
+            if ($owner == -10) return []; //new owner, no cars
+            if ($owner > 0) $crit['owner'] = $owner;
+        }
         if (array_key_exists('sorted_by', $data)) {
             $sorted_name = $data["sorted_by"]["name"];
             $direction = $data["sorted_by"]["direction"];

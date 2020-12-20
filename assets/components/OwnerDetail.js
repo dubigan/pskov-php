@@ -106,7 +106,7 @@ export default class OwnerDetail extends DetailOfItem {
                         ? this.state.item.patronymic
                         : ''
                     }
-                    onChange={this.changItem}
+                    onChange={this.changeItem}
                   />
                   <Form.Label className="col-4">Фамилия</Form.Label>
                   <input

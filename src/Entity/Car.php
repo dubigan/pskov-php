@@ -131,15 +131,19 @@ class Car implements \JsonSerializable
     }
 
     /**
-     * @Assert\Positive(
-     *      message = "Поле Мощность должно быть больше 0",
+     * @Assert\NotBlank(
+     *      message = "Поле Мощность не может быть пустым",
      * )
-    */
+     */
     /**
      * @Assert\Type(
      *     type="integer",
      *     message="Значение {{ value }} не является целым числом."
      * )
+     */
+    /**
+     * @Assert\Positive(
+     *      message="Поле Мощность должно быть положительным числом")
      */
     public function getPower(): ?int
     {
@@ -148,7 +152,7 @@ class Car implements \JsonSerializable
 
      public function setPower(?int $power): self
     {
-        $this->power = $power ? $power : 1;
+        $this->power = $power;
 
         return $this;
     }
@@ -231,6 +235,11 @@ class Car implements \JsonSerializable
      *     message="Значение {{ value }} не является целым числом."
      * )
      */
+    /**
+     * @Assert\NotBlank(
+     *      message = "Поле Пробег не может быть пустым",
+     * )
+     */
     public function getMileage(): ?int
     {
         return $this->mileage;
@@ -238,7 +247,7 @@ class Car implements \JsonSerializable
 
     public function setMileage(?int $mileage): self
     {
-        $this->mileage = $mileage ? $mileage : 1;
+        $this->mileage = $mileage;
 
         return $this;
     }

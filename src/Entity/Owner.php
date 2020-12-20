@@ -15,7 +15,7 @@ class Owner implements \JsonSerializable
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -77,7 +77,7 @@ class Owner implements \JsonSerializable
 
     public function setName(string $name): self
     {
-        $this->name = $name ? $name : '';
+        $this->name = $name;
 
         return $this;
     }
@@ -112,6 +112,11 @@ class Owner implements \JsonSerializable
     }
 
     /**
+     * @Assert\NotBlank(
+     *      message = "Поле Возраст не может быть пустым",
+     * )
+     */
+    /**
      * @Assert\Range(
      *      min = 18,
      *      max = 120,
@@ -124,6 +129,10 @@ class Owner implements \JsonSerializable
      *     message="Значение {{ value }} не является целым числом."
      * )
      */
+    /**
+     * @Assert\Positive(
+     *      message="Поле Возраст должно быть положительным числом")
+     */
     public function getAge(): ?int
     {
         return $this->age;
@@ -131,7 +140,7 @@ class Owner implements \JsonSerializable
 
     public function setAge(int $age): self
     {
-        $this->age = $age ? $age : 18;
+        $this->age = $age;
 
         return $this;
     }
