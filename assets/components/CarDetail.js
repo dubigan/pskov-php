@@ -11,6 +11,7 @@ import {
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
+import './DatePicker.css';
 
 const EMPTY_CAR = {
   id: -1,
@@ -87,7 +88,8 @@ export default class CarDetail extends DetailOfItem {
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
                   <DatePicker
-                    className="col-6 border-0 rounded ml-0 pl-0 mr-0 pr-0"
+                    className="form-control col-6 m-0 p-0"
+                    calendarClassName="border"
                     format="dd.MM.yyyy"
                     locale="ru"
                     maxDate={new Date()}
