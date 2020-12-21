@@ -6,6 +6,7 @@ use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -65,11 +66,6 @@ class Owner implements \JsonSerializable
         return $this->id;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Имя не может быть пустым",
-     * )
-     */
     public function getName(): ?string
     {
         return $this->name;
@@ -89,16 +85,11 @@ class Owner implements \JsonSerializable
 
     public function setPatronymic(string $patronymic): self
     {
-        $this->patronymic = $patronymic ? $patronymic : '';
+        $this->patronymic = $patronymic;
 
         return $this;
     }
     
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Фамилия не может быть пустым",
-     * )
-     */
     public function getLastName(): ?string
     {
         return $this->last_name;
@@ -106,33 +97,11 @@ class Owner implements \JsonSerializable
 
     public function setLastName(string $last_name): self
     {
-        $this->last_name = $last_name ? $last_name : '';
+        $this->last_name = $last_name;
 
         return $this;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Возраст не может быть пустым",
-     * )
-     */
-    /**
-     * @Assert\Range(
-     *      min = 18,
-     *      max = 120,
-     *      notInRangeMessage = "Ваш возраст должен быть между {{ min }} и {{ max }} лет",
-     * )
-     */
-    /**
-     * @Assert\Type(
-     *     type="integer",
-     *     message="Значение {{ value }} не является целым числом."
-     * )
-     */
-    /**
-     * @Assert\Positive(
-     *      message="Поле Возраст должно быть положительным числом")
-     */
     public function getAge(): ?int
     {
         return $this->age;
@@ -152,7 +121,7 @@ class Owner implements \JsonSerializable
 
     public function setGender(string $gender): self
     {
-        $this->gender = $gender ? $gender : 'm';
+        $this->gender = $gender;
 
         return $this;
     }
@@ -237,5 +206,43 @@ class Owner implements \JsonSerializable
         foreach($cars as $car) {
             $this->addCar($car);
         }
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('name', new Assert\NotNull(array(
+            'message' => 'Поле Имя не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('name', new Assert\NotBlank(array(
+            'message' => 'Поле Имя не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('patronymic', new Assert\NotNull(array(
+            'message' => 'Поле Отчество не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('last_name', new Assert\NotNull(array(
+            'message' => 'Поле Фамилия не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('last_name', new Assert\NotBlank(array(
+            'message' => 'Поле Фамилия не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('age', new Assert\Range(array(
+            'min'        => 18,
+            'max'        => 120,
+            'notInRangeMessage' => "Ваш возраст должен быть между {{ min }} и {{ max }} годами",
+        )));
+        $metadata->addPropertyConstraint('age', new Assert\NotNull(array(
+            'message' => 'Поле Возраст не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('age', new Assert\NotBlank(array(
+            'message' => 'Поле Возраст не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('age', new Assert\Positive(array(
+            'message' => 'Поле Возраст должно быть больше 0',
+        )));
+        $metadata->addPropertyConstraint('age', new Assert\Type(array(
+            'type'    => 'integer',
+            'message' => 'Поле Возраст должно быть целым числом',
+        )));
+
     }
 }

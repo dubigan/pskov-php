@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use App\Validator\DateMax;
+use App\Validator\DateMin;
 
 /**
  * @ORM\Entity(repositoryClass=CarRepository::class)
@@ -64,11 +66,6 @@ class Car implements \JsonSerializable
         return $this->id;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Модель не может быть пустым",
-     * )
-     */
     public function getModel(): ?string
     {
         return $this->model;
@@ -81,11 +78,6 @@ class Car implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Цвет не может быть пустым",
-     * )
-     */
     public function getColor(): ?string
     {
         return $this->color;
@@ -98,26 +90,6 @@ class Car implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Дата не может быть пустым",
-     * )
-     */
-    /**
-     * @Assert\DateTime(
-     *      format = "d.m.Y",
-     *      message = "Поле Дата должно быть в формате dd.mm.yyyy"
-     * )
-     * @var string A "Y-m-d H:i:s" formatted value
-     */
-    /**
-     * @DateMax(
-     *      format = "d.m.Y",
-     *      maxDate = "now",
-     *      message = "Поле Дата не должно превышать {{maxDate}}"
-     * )
-     * @var string A "Y-m-d H:i:s" formatted value
-     */
     public function getProduction(): ?string
     {
         return $this->production;
@@ -130,21 +102,6 @@ class Car implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Мощность не может быть пустым",
-     * )
-     */
-    /**
-     * @Assert\Type(
-     *     type="integer",
-     *     message="Значение {{ value }} не является целым числом."
-     * )
-     */
-    /**
-     * @Assert\Positive(
-     *      message="Поле Мощность должно быть положительным числом")
-     */
     public function getPower(): ?int
     {
         return $this->power;
@@ -157,11 +114,6 @@ class Car implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Производитель не может быть пустым",
-     * )
-     */
     public function getManufacturer(): ?string
     {
         return $this->manufacturer;
@@ -224,22 +176,6 @@ class Car implements \JsonSerializable
         $this->setComment($json['comment']);
     }
 
-    /**
-     * @Assert\Type(
-     *     type="integer",
-     *     message="Значение {{ value }} не является целым числом."
-     * )
-     */
-    /**
-     * @Assert\NotBlank(
-     *      message = "Поле Пробег не может быть пустым",
-     * )
-     */
-    /**
-     * @Assert\Positive(
-     *      message = "Поле Пробег должно быть больше 0",
-     * )
-    */
     public function getMileage(): ?int
     {
         return $this->mileage;
@@ -250,5 +186,45 @@ class Car implements \JsonSerializable
         $this->mileage = $mileage;
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('model', new Assert\NotBlank(array(
+            'message' => 'Поле Модель не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('color', new Assert\NotBlank(array(
+            'message' => 'Поле Цвет не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('production', new DateMax(array(
+            'format' => "d.m.Y",
+            'maxDate' => 'now',
+            'message' => "Поле Дата не должно превышать {{maxDate}}",
+        )));
+        $metadata->addPropertyConstraint('production', new DateMin(array(
+            'format' => "d.m.Y",
+            'message' => "Поле Дата должно превышать {{minDate}}",
+        )));
+        $metadata->addPropertyConstraint('production', new Assert\DateTime(array(
+            'format' => "d.m.Y",
+            'message' => "Поле Дата должно быть в формате dd.mm.yyyy",
+        )));
+        $metadata->addPropertyConstraint('manufacturer', new Assert\NotBlank(array(
+            'message' => 'Поле Производитель не может быть пустым',
+        )));
+        $metadata->addPropertyConstraint('power', new Assert\Type(array(
+            'type'    => 'integer',
+            'message' => 'Поле Мощность должно быть целым числом',
+        )));
+        $metadata->addPropertyConstraint('power', new Assert\Positive(array(
+            'message' => 'Поле Мощность должно быть больше 0',
+        )));
+        $metadata->addPropertyConstraint('mileage', new Assert\Type(array(
+            'type'    => 'integer',
+            'message' => 'Поле Пробег должно быть целым числом',
+        )));
+        $metadata->addPropertyConstraint('mileage', new Assert\Positive(array(
+            'message' => 'Поле Пробег должно быть больше 0',
+        )));
     }
 }

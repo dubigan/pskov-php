@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Validator;
-
-use Symfony\Component\Validator\Constraint;
+namespace App\Validator;use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use DateTime;
 
-class DateMaxValidator extends ConstraintValidator {
+class DateMinValidator extends ConstraintValidator {
     
     public function validate($value, Constraint $constraint) {
-        if (!$constraint instanceof DateMax) {
-            throw new UnexpectedTypeException($constraint, DateMax::class);
+        if (!$constraint instanceof DateMin) {
+            throw new UnexpectedTypeException($constraint, DateMin::class);
         }
 
         if (null === $value || '' === $value) {
@@ -24,17 +22,13 @@ class DateMaxValidator extends ConstraintValidator {
         }
         
         try {
-            $maxDate = null;
-            if ($constraint->maxDate == 'now') {
-                $maxDate = new DateTime();
-            } else {
-                $maxDate = DateTime::createFromFormat($constraint->format, $constraint->maxDate);
-            }
+            $minDate = DateTime::createFromFormat($constraint->format, $constraint->minDate);
+
             $valDate = DateTime::createFromFormat($constraint->format, $value);
-            if ($valDate > $maxDate) {
+            if ($valDate < $minDate) {
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ string }}', $value)
-                    ->setParameter('{{maxDate}}', $maxDate->format($constraint->format))
+                    ->setParameter('{{minDate}}', $minDate->format($constraint->format))
                     ->addViolation();
             }
         } catch (\Exception $e) {
