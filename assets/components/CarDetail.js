@@ -87,7 +87,7 @@ export default class CarDetail extends DetailOfItem {
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
                   <DatePicker
-                    className="col-6 border-0 rounded"
+                    className="col-6 border-0 rounded ml-0 pl-0 mr-0 pr-0"
                     format="dd.MM.yyyy"
                     locale="ru"
                     maxDate={new Date()}
