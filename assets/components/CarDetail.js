@@ -87,9 +87,11 @@ export default class CarDetail extends DetailOfItem {
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
                   <DatePicker
-                    className="col-6"
-                    format="dd.MM.y"
+                    className="col-6 border-0 rounded"
+                    format="dd.MM.yyyy"
                     locale="ru"
+                    maxDate={new Date()}
+                    minDate={new Date('1900', 0, 1)}
                     name="production"
                     // showYearDropdown={true}
                     onChange={this.changeDate}
