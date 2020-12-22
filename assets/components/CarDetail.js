@@ -11,7 +11,8 @@ import {
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
-import './DatePicker.css';
+import './css/DatePicker.css';
+import './css/Calendar.css';
 
 const EMPTY_CAR = {
   id: -1,
@@ -28,7 +29,7 @@ export default class CarDetail extends DetailOfItem {
 
   getNewItem() {
     const item = EMPTY_CAR;
-    console.log('getNewItem', item);
+    //console.log('getNewItem', item);
 
     return item;
   }

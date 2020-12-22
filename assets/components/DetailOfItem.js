@@ -29,7 +29,7 @@ export class DetailOfItem extends Component {
   };
 
   getErrors = data => {
-    console.log('getErrors', data);
+    //console.log('getErrors', data);
 
     return Object.keys(data).map(key => {
       return { type: 'error', message: data[key] };
@@ -37,7 +37,7 @@ export class DetailOfItem extends Component {
   };
 
   getItemFromData(data) {
-    console.log('getItemFromData', data);
+    //onsole.log('getItemFromData', data);
     return data.id ? data : this.getNewItem();
   }
 
@@ -64,7 +64,7 @@ export class DetailOfItem extends Component {
   };
 
   saveItem = () => {
-    console.log('saveItem', this.state.item);
+    //console.log('saveItem', this.state.item);
 
     axios
       .post(this.url, { item: this.state.item })

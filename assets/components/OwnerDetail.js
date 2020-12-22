@@ -17,7 +17,7 @@ const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
 
 const EMPTY_ITEM = {
-  id: EMPTY_ITEM_ID, // indicate new owner, -1 is not acceptable
+  id: EMPTY_ITEM_ID, // indicate new owner, -1 means undefined owner
   cars: [],
   name: '',
   patronymic: '',

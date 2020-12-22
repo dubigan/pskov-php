@@ -52,7 +52,7 @@ export default class ListOfItems extends Component {
 
   getItems = () => {
     this.setState({ loading: true });
-    console.log('getItems owner', this.props.owner);
+    //console.log('getItems owner', this.props.owner);
 
     axios
       .post(this.url, {
@@ -60,7 +60,7 @@ export default class ListOfItems extends Component {
         owner: this.props.owner ? this.props.owner : -1,
       })
       .then(res => {
-        console.log('getItems', res.data);
+        //console.log('getItems', res.data);
         const state = { items: res.data };
         //console.log("getItems state", state);
 
