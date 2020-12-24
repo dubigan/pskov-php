@@ -13,6 +13,7 @@
     "date-fns": "^2.16.1",
     "datepicker": "^0.0.0",
     "pg": "^8.5.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-date-picker": "^8.0.5",

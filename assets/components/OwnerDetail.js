@@ -39,27 +39,6 @@ export default class OwnerDetail extends DetailOfItem {
     return EMPTY_ITEM_ID;
   }
 
-  // getChangedItem = e => {
-  //   let item;
-  //   switch (e.target.name) {
-  //     case 'gender-f':
-  //       item = {
-  //         ...this.state.item,
-  //         gender: 'f',
-  //       };
-  //       break;
-  //     case 'gender-m':
-  //       item = {
-  //         ...this.state.item,
-  //         gender: 'm',
-  //       };
-  //       break;
-  //     default:
-  //       item = super.getChangedItem(e);
-  //   }
-  //   return item;
-  // };
-
   btnNewCarClick = () => {
     axios
       .post(this.url, {
@@ -132,26 +111,6 @@ export default class OwnerDetail extends DetailOfItem {
                     Пол
                   </Form.Label>
                   <Row className="col-6 p-0 m-0">
-                    {/* <Form.Label className="col-1" name="gender-m">
-                      <small>М</small>
-                    </Form.Label>
-                    <input
-                      className="form-control col-1 border-0 mt-2"
-                      name="gender-m"
-                      type="radio"
-                      checked={this.state.item.gender === 'm' ? 1 : 0}
-                      onChange={this.changeItem}
-                    />
-                    <Form.Label className="col-1" name="gender-f">
-                      <small>Ж</small>
-                    </Form.Label>
-                    <input
-                      className="form-control col-1 border-0 mt-2"
-                      name="gender-f"
-                      type="radio"
-                      checked={this.state.item.gender === 'f' ? 1 : 0}
-                      onChange={this.changeItem}
-                    /> */}
                     <ToggleButtonGroup
                       className="col-12 m-0 p-0"
                       name="gender"
@@ -255,9 +214,9 @@ export default class OwnerDetail extends DetailOfItem {
             <div className="col-12">
               <Cars
                 owner={this.state.item.id}
-                withButtons="true"
-                withOwnerInfo="false"
-                withSearch="false"
+                // withButtons={true}
+                // withOwnerInfo={false}
+                // withSearch={false}
               />
             </div>
           </div>

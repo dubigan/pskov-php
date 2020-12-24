@@ -4,12 +4,20 @@ import Loader from './Loader';
 import ListOfItems from './ListOfItems';
 import { CarDeleteDialog } from './CarDeleteDialog';
 import Alerts from './Alerts';
+import PropTypes from 'prop-types';
 
 const DEF_SORTED_BY = {
   name: 'model',
   direction: 'ASC',
 };
 export default class Cars extends ListOfItems {
+  static propTypes = {
+    owner: PropTypes.number,
+    // withButtons: PropTypes.bool,
+    // withOwnerInfo: PropTypes.bool,
+    // withSearch: PropTypes.bool,
+  };
+
   url = '/api/cars/';
   tooltipPlace = 'bottom';
   nameOfItem = 'Автомобиль';

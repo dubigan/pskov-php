@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Alert as ReactAlert } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export default class Alerts extends Component {
+  static propTypes = {
+    messages: PropTypes.array.isRequired,
+    clearMessages: PropTypes.func.isRequired,
+  };
+
   state = {
     messages: [],
     showAlert: false,
