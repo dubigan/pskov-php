@@ -8,6 +8,8 @@ import {
   Col,
   Tooltip,
   OverlayTrigger,
+  ToggleButton,
+  ToggleButtonGroup,
 } from 'react-bootstrap';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
@@ -37,26 +39,26 @@ export default class OwnerDetail extends DetailOfItem {
     return EMPTY_ITEM_ID;
   }
 
-  getChangedItem = e => {
-    let item;
-    switch (e.target.name) {
-      case 'gender-f':
-        item = {
-          ...this.state.item,
-          gender: 'f',
-        };
-        break;
-      case 'gender-m':
-        item = {
-          ...this.state.item,
-          gender: 'm',
-        };
-        break;
-      default:
-        item = super.getChangedItem(e);
-    }
-    return item;
-  };
+  // getChangedItem = e => {
+  //   let item;
+  //   switch (e.target.name) {
+  //     case 'gender-f':
+  //       item = {
+  //         ...this.state.item,
+  //         gender: 'f',
+  //       };
+  //       break;
+  //     case 'gender-m':
+  //       item = {
+  //         ...this.state.item,
+  //         gender: 'm',
+  //       };
+  //       break;
+  //     default:
+  //       item = super.getChangedItem(e);
+  //   }
+  //   return item;
+  // };
 
   btnNewCarClick = () => {
     axios
@@ -73,6 +75,13 @@ export default class OwnerDetail extends DetailOfItem {
           messages: this.getErrors(err.response.data),
         });
       });
+  };
+
+  changeGender = value => {
+    const item = { ...this.state.item, gender: value };
+    //console.log('changeGender', item);
+
+    this.setState({ item });
   };
 
   render() {
@@ -118,11 +127,12 @@ export default class OwnerDetail extends DetailOfItem {
                     }
                     onChange={this.changeItem}
                   />
+
                   <Form.Label className="col-4" name="gender">
                     Пол
                   </Form.Label>
-                  <Row className="col-6">
-                    <Form.Label className="col-1" name="gender-m">
+                  <Row className="col-6 p-0 m-0">
+                    {/* <Form.Label className="col-1" name="gender-m">
                       <small>М</small>
                     </Form.Label>
                     <input
@@ -141,7 +151,31 @@ export default class OwnerDetail extends DetailOfItem {
                       type="radio"
                       checked={this.state.item.gender === 'f' ? 1 : 0}
                       onChange={this.changeItem}
-                    />
+                    /> */}
+                    <ToggleButtonGroup
+                      className="col-12 m-0 p-0"
+                      name="gender"
+                      type="radio"
+                      value={this.state.item.gender}
+                      onChange={this.changeGender}
+                    >
+                      <ToggleButton
+                        className="col-6 m-0"
+                        variant="outline-primary"
+                        block={true}
+                        value={'m'}
+                      >
+                        Мужской
+                      </ToggleButton>
+                      <ToggleButton
+                        className="col-6 m-0"
+                        variant="outline-primary"
+                        block={true}
+                        value={'f'}
+                      >
+                        Женский
+                      </ToggleButton>
+                    </ToggleButtonGroup>
                   </Row>
                   <Form.Label className="col-4" name="age">
                     Возраст
@@ -162,7 +196,7 @@ export default class OwnerDetail extends DetailOfItem {
                 <Form.Control
                   as="textarea"
                   rows="6"
-                  value={this.state.item.comment}
+                  value={this.state.item.comment ? this.state.item.comment : ''}
                   name="comment"
                   onChange={this.changeItem}
                 />

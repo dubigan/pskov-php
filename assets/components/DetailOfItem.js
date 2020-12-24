@@ -37,7 +37,7 @@ export class DetailOfItem extends Component {
   };
 
   getItemFromData(data) {
-    //onsole.log('getItemFromData', data);
+    //console.log('getItemFromData', data);
     return data.id ? data : this.getNewItem();
   }
 
@@ -85,16 +85,16 @@ export class DetailOfItem extends Component {
       });
   };
 
-  getChangedItem(e) {
+  getChangedItem(name, value) {
     const item = {
       ...this.state.item,
-      [e.target.name]: e.target.value,
+      [name]: value,
     };
     return item;
   }
 
   changeItem = e => {
-    this.setState({ item: this.getChangedItem(e) });
+    this.setState({ item: this.getChangedItem(e.target.name, e.target.value) });
   };
 
   clearMessages = () => {
