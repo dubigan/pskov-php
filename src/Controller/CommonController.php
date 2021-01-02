@@ -130,10 +130,10 @@ class CommonController extends AbstractController {
         $errors = $validator->validate($item);
         if (count($errors) > 0) {
             $messages = [];
-            $i = 0;
+            //$i = 0;
             foreach($errors as $error) {
                 if ($logger) $logger->debug('validation errors: '.$error->getMessage());
-                $messages[$i++] = $error->getMessage();
+                $messages[] = $error->getMessage();
             }
             return $this->response($messages, 400);
         }
