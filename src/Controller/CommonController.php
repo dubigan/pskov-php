@@ -40,7 +40,8 @@ class CommonController extends AbstractController {
                 $querySet = $repository->findBy($crit, array("$sorted_name" => "$direction"));
         }
 
-        if (!isset($querySet)) $querySet = $repository->findBy($crit);
+        //if (!isset($querySet)) $querySet = $repository->findBy($crit);
+        $querySet ??= $repository->findBy($crit);
         return $querySet;
     }
 
@@ -95,7 +96,7 @@ class CommonController extends AbstractController {
             // add item
             $this->setSessionParamsForItemAdd($request, $data);
             //$request->getSession()->set('owner_id', -1);
-            if (isset($logger)) $logger->debug('Add item');
+            if ($logger) $logger->debug('Add item');
             return $this->response(['redirect' => $redirect_url]);
         }
         return null;

@@ -42,7 +42,7 @@ class CarDetailController extends CommonController
         if ($car_id > 0) $car = $carRepo->find($car_id);
 
         $response = $this->saveItem($request, $data, $car, $entityManager, $validator, $logger);
-        if (isset($response)) return $response;
+        if ($response) return $response;
 
         return $this->response($car);
     }
@@ -59,8 +59,8 @@ class CarDetailController extends CommonController
         if (isset($response)) {
             if ($response->getStatusCode() == 200) {
                 $redirect_url = $request->getSession()->get('back_from_car', null);
-                $logger->debug('saveItem redirect url: '.$redirect_url);
-                if (isset($redirect_url)) {
+                if ($logger) $logger->debug('saveItem redirect url: '.$redirect_url);
+                if ($redirect_url) {
                     return $this->response(['redirect' => $redirect_url]);
                 }
             }

@@ -29,10 +29,10 @@ class OwnersController extends CommonController
         $this->deleteItem($data, $entityManager, $repository);
 
         $response = $this->editItem($request, $data, $url_edit);
-        if (isset($response)) return $response;
+        if ($response) return $response;
        
         $response = $this->addItem($request, $data, $url_add);
-        if (isset($response)) return $response;
+        if ($response) return $response;
         
         return $this->response($this->getSortedQuerySet($data, $repository));
         //return $this->testResponse();

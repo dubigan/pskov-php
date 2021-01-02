@@ -40,7 +40,7 @@ class CarsController extends CommonController
         $this->deleteItem($data, $entityManager, $carRepo);
 
         $response = $this->editItem($request, $data, '/car');
-        if (isset($response)) return $response;
+        if ($response) return $response;
 
         $querySet = $this->getSortedQuerySet($data, $carRepo, $owner, $logger);
         return $this->response($querySet);

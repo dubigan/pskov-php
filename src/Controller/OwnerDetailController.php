@@ -37,7 +37,7 @@ class OwnerDetailController extends CommonController
         if ($response) return $response;
 
         $response = $this->editItem($request, $data, $url_edit);
-        if ($response)return $response;
+        if ($response) return $response;
 
         $owner_id = $request->getSession()->get('owner_id', -1);
         $logger->debug("owner_id: ".$owner_id);
