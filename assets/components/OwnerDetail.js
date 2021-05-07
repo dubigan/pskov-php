@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {
-  Card,
-  Row,
-  Form,
-  Button,
-  Col,
-  Tooltip,
-  OverlayTrigger,
-  ToggleButton,
-  ToggleButtonGroup,
-} from 'react-bootstrap';
+import { Col, Tooltip, OverlayTrigger, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
 import Alerts from './Alerts';
+import Card from './lib/Card';
+import { Row } from './lib/Row';
+import { Button } from './lib/Button';
+import Form from './lib/Form';
 
 const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
@@ -66,100 +60,95 @@ export default class OwnerDetail extends DetailOfItem {
   render() {
     return (
       <div>
-        <Alerts
-          messages={this.state.messages}
-          clearMessages={this.clearMessages}
-        />
+        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
         <Card>
           <Card.Title>Автовладелец</Card.Title>
           <Card.Body>
             <Row>
-              <div className="col-5">
-                <Row>
-                  <Form.Label className="col-4">Имя</Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="name"
-                    type="text"
-                    value={this.state.item.name ? this.state.item.name : ''}
-                    onChange={this.changeItem}
-                  />
-                  <Form.Label className="col-4">Отчество</Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="patronymic"
-                    type="text"
-                    value={
-                      this.state.item.patronymic
-                        ? this.state.item.patronymic
-                        : ''
-                    }
-                    onChange={this.changeItem}
-                  />
-                  <Form.Label className="col-4">Фамилия</Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="last_name"
-                    type="text"
-                    value={
-                      this.state.item.last_name ? this.state.item.last_name : ''
-                    }
-                    onChange={this.changeItem}
-                  />
-
-                  <Form.Label className="col-4" name="gender">
-                    Пол
-                  </Form.Label>
-                  <Row className="col-6 p-0 m-0">
-                    <ToggleButtonGroup
-                      className="col-12 m-0 p-0"
-                      name="gender"
-                      type="radio"
-                      value={this.state.item.gender}
-                      onChange={this.changeGender}
-                    >
-                      <ToggleButton
-                        className="col-6 m-0"
-                        variant="outline-primary"
-                        block={true}
-                        value={'m'}
+              <Form>
+                <Form.Group className="form__group form__group_owner-input">
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_owner-input">Имя</Form.Label>
+                    <Form.Control
+                      className="form__control form__control_owner-input"
+                      name="name"
+                      type="text"
+                      value={this.state.item.name ? this.state.item.name : ''}
+                      placeholder="Имя"
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_owner-input">Отчество</Form.Label>
+                    <Form.Control
+                      className="form__control form__control_owner-input"
+                      name="patronymic"
+                      type="text"
+                      value={this.state.item.patronymic ? this.state.item.patronymic : ''}
+                      placeholder="Отчество"
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_owner-input">Фамилия</Form.Label>
+                    <Form.Control
+                      className="form__control form__control_owner-input"
+                      name="last_name"
+                      type="text"
+                      placeholder="Фамилия"
+                      value={this.state.item.last_name ? this.state.item.last_name : ''}
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_owner-input" name="gender">
+                      Пол
+                    </Form.Label>
+                    <Row className="col-6 p-0 m-0">
+                      <ToggleButtonGroup
+                        className="col-12 m-0 p-0"
+                        name="gender"
+                        type="radio"
+                        value={this.state.item.gender}
+                        onChange={this.changeGender}
                       >
-                        Мужской
-                      </ToggleButton>
-                      <ToggleButton
-                        className="col-6 m-0"
-                        variant="outline-primary"
-                        block={true}
-                        value={'f'}
-                      >
-                        Женский
-                      </ToggleButton>
-                    </ToggleButtonGroup>
-                  </Row>
-                  <Form.Label className="col-4" name="age">
-                    Возраст
-                  </Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="age"
-                    type="text"
-                    maxLength="3"
-                    value={this.state.item.age ? this.state.item.age : ''}
+                        <ToggleButton className="col-6 m-0" variant="outline-primary" block={true} value={'m'}>
+                          Мужской
+                        </ToggleButton>
+                        <ToggleButton className="col-6 m-0" variant="outline-primary" block={true} value={'f'}>
+                          Женский
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                    </Row>
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_owner-input" name="age">
+                      Возраст
+                    </Form.Label>
+                    <Form.Control
+                      className="form__control form__control_owner-input"
+                      name="age"
+                      type="text"
+                      maxLength="3"
+                      placeholder="Возраст"
+                      value={this.state.item.age ? this.state.item.age : ''}
+                      onChange={this.changeItem}
+                      onKeyPress={this.digitsOnly}
+                    />
+                  </Form.Group>
+                </Form.Group>
+                <Form.Group className="form__group form__group_owner-comment">
+                  <Form.Label className="col-4">Комментарий</Form.Label>
+                  <Form.Control
+                    type="textarea"
+                    rows="6"
+                    value={this.state.item.comment ? this.state.item.comment : ''}
+                    name="comment"
+                    placeholder="Комментарий"
                     onChange={this.changeItem}
-                    onKeyPress={this.digitsOnly}
                   />
-                </Row>
-              </div>
-              <div className="col-7">
-                <Form.Label className="col-4">Комментарий</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows="6"
-                  value={this.state.item.comment ? this.state.item.comment : ''}
-                  name="comment"
-                  onChange={this.changeItem}
-                />
-              </div>
+                </Form.Group>
+              </Form>
             </Row>
             <hr />
             <div className="row spacer">
@@ -167,17 +156,9 @@ export default class OwnerDetail extends DetailOfItem {
                 <OverlayTrigger
                   key={1}
                   placement={this.tooltipPlace}
-                  overlay={
-                    <Tooltip id={`tooltip-1`}>
-                      Сохранить информацию об автовладельце
-                    </Tooltip>
-                  }
+                  overlay={<Tooltip id={`tooltip-1`}>Сохранить информацию об автовладельце</Tooltip>}
                 >
-                  <Button
-                    variant="primary"
-                    className="col"
-                    onClick={this.saveItem}
-                  >
+                  <Button variant="primary" onClick={this.saveItem}>
                     Сохранить
                   </Button>
                 </OverlayTrigger>
@@ -190,13 +171,7 @@ export default class OwnerDetail extends DetailOfItem {
           <Card.Header>
             <Row className="spacer">
               <Col xs={12}>
-                <OverlayTrigger
-                  key={2}
-                  placement={this.tooltipPlace}
-                  overlay={
-                    <Tooltip id={`tooltip-2`}>Добавить автомобиль</Tooltip>
-                  }
-                >
+                <OverlayTrigger key={2} placement={this.tooltipPlace} overlay={<Tooltip id={`tooltip-2`}>Добавить автомобиль</Tooltip>}>
                   <Button
                     variant="primary"
                     className="col"

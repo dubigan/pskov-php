@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 export class Header extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <button
+      <nav className="navbar">
+        {/* <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -14,19 +14,19 @@ export class Header extends Component {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a className="navbar-brand" href="/owners">
-            Автовладельцы
-          </a>
-          <a className="navbar-brand col-md-4" href="/cars">
-            Автомобили
-          </a>
-          <a className="navbar-brand col-md-4 offset-md-4" href="/dashboard">
-            Админ
-          </a>
-          <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
-        </div>
+        </button> */}
+        {/* <div className="collapse navbar-collapse" id="navbarTogglerDemo01"> */}
+        <a className="navbar__item" href="/owners">
+          Автовладельцы
+        </a>
+        <a className="navbar__item navbar__item_cars" href="/cars">
+          Автомобили
+        </a>
+        <a className="navbar__item navbar__item_admin" href="/dashboard">
+          Админ
+        </a>
+        {/* <ul className="navbar-nav mr-auto mt-2 mt-lg-0"></ul> */}
+        {/* </div> */}
       </nav>
     );
   }

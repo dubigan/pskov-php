@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Row } from './lib/Row';
+import { TooltipContent } from './lib/Tooltip';
+import { Button } from './lib/Button';
+import Alerts from './Alerts';
+import Loader from './Loader';
 
 export default class ListOfItems extends Component {
   state = {
@@ -18,6 +23,8 @@ export default class ListOfItems extends Component {
   downArrow = '\u2193';
   nameOfItem = '';
 
+  addButton = false;
+
   componentDidMount() {
     this.getItems();
   }
@@ -30,18 +37,13 @@ export default class ListOfItems extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.sortedBy.name !== this.state.sortedBy.name ||
-      prevState.sortedBy.direction !== this.state.sortedBy.direction
-    ) {
+    if (prevState.sortedBy.name !== this.state.sortedBy.name || prevState.sortedBy.direction !== this.state.sortedBy.direction) {
       this.getItems();
     }
   }
 
   get arrow() {
-    return this.state.sortedBy.direction === 'asc'
-      ? this.upArrow
-      : this.downArrow;
+    return this.state.sortedBy.direction === 'asc' ? this.upArrow : this.downArrow;
   }
 
   getErrors = data => {
@@ -80,7 +82,9 @@ export default class ListOfItems extends Component {
 
   btnSortClick = e => {
     const sorted_name = e.target.id;
+    console.log('btnSortClick.sorted_name', sorted_name);
 
+    if (!sorted_name) return;
     if (this.state.sortedBy.name !== sorted_name) {
       const sortedBy = {
         name: sorted_name,
@@ -90,8 +94,7 @@ export default class ListOfItems extends Component {
         sortedBy: sortedBy,
       });
     } else {
-      const direction =
-        this.state.sortedBy.direction === 'desc' ? 'asc' : 'desc';
+      const direction = this.state.sortedBy.direction === 'desc' ? 'asc' : 'desc';
 
       const sortedBy = {
         ...this.state.sortedBy,
@@ -183,7 +186,60 @@ export default class ListOfItems extends Component {
     this.setState({ messages: [] });
   };
 
+  getThCell = (id, title, index) => {
+    return (
+      <th className="tooltip" id={id} onClick={this.btnSortClick} key={index}>
+        <TooltipContent>Нажмите&nbsp;для&nbsp;сортировки</TooltipContent>
+        <Row id={id} className="sorted-row">
+          {this.state.sortedBy.name === id && <div id={id}>{this.arrow}</div>}{' '}
+          <div id={id} className="sorted-row__text">
+            {title}
+          </div>
+        </Row>
+      </th>
+    );
+  };
+
+  getButtons = id => {
+    return (
+      <Row>
+        <Button value={id} variant="primary" className="btn-primary tooltip" onClick={this.btnEditClick}>
+          <TooltipContent className="tooltip__content tooltip__content_left">Редактирование</TooltipContent>
+          {'\u27f6'}
+        </Button>
+        <Button value={id} variant="danger" className="btn-danger btn-danger_del tooltip" onClick={this.btnDelClick}>
+          <TooltipContent className="tooltip__content tooltip__content_left">Удаление</TooltipContent>x
+        </Button>
+      </Row>
+    );
+  };
+
+  getAddButton = () => {
+    if (this.addButton)
+      return (
+        <Button variant="primary" className="btn-primary btn-primary_add tooltip" onClick={this.btnAddClick}>
+          <TooltipContent>Добавление&nbsp;нового&nbsp;автовладельца</TooltipContent>+
+        </Button>
+      );
+    return <></>;
+  };
+
+  getDeleteDialog = () => {};
+
+  deleteDialog = () => {
+    if (this.state.showDeleteDialog) return this.getDeleteDialog();
+    return <></>;
+  };
+  getTable = () => {};
+
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
+        {this.deleteDialog()}
+        {this.state.loading ? <Loader /> : this.getTable()}
+        {this.getAddButton()}
+      </div>
+    );
   }
 }

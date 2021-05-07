@@ -116,7 +116,7 @@ class CommonController extends AbstractController {
             $item->fillFromJson($data['item']);
 
             $response = $this->validateErrors($validator, $item, $logger);
-            if (isset($response)) return $response;
+            if ($response) return $response;
 
             $entityManager->persist($item);
             $entityManager->flush();

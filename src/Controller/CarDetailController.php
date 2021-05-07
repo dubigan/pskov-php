@@ -56,7 +56,7 @@ class CarDetailController extends CommonController
         ) : ?Response
     {
         $response = parent::saveItem($request, $data, $item, $entityManager, $validator, $logger);
-        if (isset($response)) {
+        if ($response) {
             if ($response->getStatusCode() == 200) {
                 $redirect_url = $request->getSession()->get('back_from_car', null);
                 if ($logger) $logger->debug('saveItem redirect url: '.$redirect_url);
