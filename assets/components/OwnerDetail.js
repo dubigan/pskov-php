@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Col, Tooltip, OverlayTrigger, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
 import Alerts from './Alerts';
@@ -8,6 +7,8 @@ import Card from './lib/Card';
 import { Row } from './lib/Row';
 import { Button } from './lib/Button';
 import Form from './lib/Form';
+import GenderSelect from './parts/GenderSelect';
+import { TooltipContent } from './lib/Tooltip';
 
 const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
@@ -50,8 +51,8 @@ export default class OwnerDetail extends DetailOfItem {
       });
   };
 
-  changeGender = value => {
-    const item = { ...this.state.item, gender: value };
+  changeGender = e => {
+    const item = { ...this.state.item, gender: e.target.value };
     //console.log('changeGender', item);
 
     this.setState({ item });
@@ -65,7 +66,7 @@ export default class OwnerDetail extends DetailOfItem {
           <Card.Title>Автовладелец</Card.Title>
           <Card.Body>
             <Row>
-              <Form>
+              <div className="form">
                 <Form.Group className="form__group form__group_owner-input">
                   <Form.Group className="form__group form__group_horiz">
                     <Form.Label className="form__label form__label_owner-input">Имя</Form.Label>
@@ -104,22 +105,13 @@ export default class OwnerDetail extends DetailOfItem {
                     <Form.Label className="form__label form__label_owner-input" name="gender">
                       Пол
                     </Form.Label>
-                    <Row className="col-6 p-0 m-0">
-                      <ToggleButtonGroup
-                        className="col-12 m-0 p-0"
-                        name="gender"
-                        type="radio"
-                        value={this.state.item.gender}
-                        onChange={this.changeGender}
-                      >
-                        <ToggleButton className="col-6 m-0" variant="outline-primary" block={true} value={'m'}>
-                          Мужской
-                        </ToggleButton>
-                        <ToggleButton className="col-6 m-0" variant="outline-primary" block={true} value={'f'}>
-                          Женский
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-                    </Row>
+                    <GenderSelect
+                      className="toggleButtonGroup toggleButtonGroup_owner-gender"
+                      name="gender"
+                      type="radio"
+                      checkValue={this.state.item.gender}
+                      onChange={this.changeGender}
+                    />
                   </Form.Group>
                   <Form.Group className="form__group form__group_horiz">
                     <Form.Label className="form__label form__label_owner-input" name="age">
@@ -138,63 +130,44 @@ export default class OwnerDetail extends DetailOfItem {
                   </Form.Group>
                 </Form.Group>
                 <Form.Group className="form__group form__group_owner-comment">
-                  <Form.Label className="col-4">Комментарий</Form.Label>
+                  <Form.Label className="form__label form__label_owner-comment">Комментарий</Form.Label>
                   <Form.Control
                     type="textarea"
-                    rows="6"
+                    rows="7"
                     value={this.state.item.comment ? this.state.item.comment : ''}
                     name="comment"
                     placeholder="Комментарий"
                     onChange={this.changeItem}
                   />
                 </Form.Group>
-              </Form>
+              </div>
             </Row>
             <hr />
-            <div className="row spacer">
-              <div className="col-12">
-                <OverlayTrigger
-                  key={1}
-                  placement={this.tooltipPlace}
-                  overlay={<Tooltip id={`tooltip-1`}>Сохранить информацию об автовладельце</Tooltip>}
-                >
-                  <Button variant="primary" onClick={this.saveItem}>
-                    Сохранить
-                  </Button>
-                </OverlayTrigger>
-              </div>
-            </div>
+            <Button className="btn-primary btn-primary_owner-save tooltip" variant="primary" onClick={this.saveItem}>
+              <TooltipContent>Сохранить&nbsp;информацию&nbsp;об&nbsp;автовладельце</TooltipContent>
+              Сохранить
+            </Button>
           </Card.Body>
         </Card>
         <Card>
           <Card.Title>Автомобили</Card.Title>
           <Card.Header>
-            <Row className="spacer">
-              <Col xs={12}>
-                <OverlayTrigger key={2} placement={this.tooltipPlace} overlay={<Tooltip id={`tooltip-2`}>Добавить автомобиль</Tooltip>}>
-                  <Button
-                    variant="primary"
-                    className="col"
-                    name="add_car"
-                    onClick={this.btnNewCarClick}
-                    disabled={this.state.item.id < 0 ? 'disabled' : ''}
-                  >
-                    Добавить автомобиль
-                  </Button>
-                </OverlayTrigger>
-              </Col>
+            <Row>
+              <Button
+                variant="primary"
+                className="btn-primary btn-primary_owner-add-car tooltip"
+                name="add_car"
+                onClick={this.btnNewCarClick}
+                disabled={this.state.item.id < 0 ? 'disabled' : ''}
+              >
+                <TooltipContent>Добавить&nbsp;автомобиль</TooltipContent>
+                Добавить автомобиль
+              </Button>
             </Row>
           </Card.Header>
-          <div className="row spacer">
-            <div className="col-12">
-              <Cars
-                owner={this.state.item.id}
-                // withButtons={true}
-                // withOwnerInfo={false}
-                // withSearch={false}
-              />
-            </div>
-          </div>
+          <Card.Body>
+            <Cars owner={this.state.item.id} />
+          </Card.Body>
         </Card>
       </div>
     );

@@ -7,6 +7,7 @@
 @import 'lib/buttons';
 @import 'lib/table';
 @import 'lib/card';
+@import 'lib/toggleButtons';
 
 html {
   font-size: 10px;
@@ -66,6 +67,10 @@ a {
     &_owner-input {
       @include size(4);
     }
+    &_owner-comment {
+      width: 100%;
+      text-align: left;
+    }
   }
   &__group {
     &_owner-input {
@@ -73,7 +78,21 @@ a {
     }
     &_owner-comment {
       @include size(7);
+      justify-content: flex-start;
     }
+  }
+}
+
+.toggleButtonGroup {
+  &_owner-gender {
+    @include size(6);
+  }
+}
+
+.btn-primary {
+  &_owner-add-car,
+  &_owner-save {
+    @include size(12);
   }
 }
 

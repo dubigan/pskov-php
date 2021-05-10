@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 
 interface IFormProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ interface IFormControlProps extends IFormProps {
   placeholder?: string;
   maxLength?: number;
   rows?: number;
-  onChange?: any;
+  onChange?: ChangeEventHandler<HTMLInputElement> | ChangeEventHandler<HTMLTextAreaElement>;
   onClick?: any;
 }
 
@@ -36,8 +36,8 @@ const FormControl: React.FC<IFormControlProps> = props => {
           value={props.value}
           placeholder={props.placeholder}
           maxLength={props.maxLength ? +props.maxLength : undefined}
-          onChange={props.onChange}
-          onClick={props.onClick}
+          onChange={props.onChange as ChangeEventHandler<HTMLInputElement>}
+          //onClick={props.onClick}
         />
       );
     case 'textarea':
@@ -49,8 +49,8 @@ const FormControl: React.FC<IFormControlProps> = props => {
           placeholder={props.placeholder}
           maxLength={props.maxLength ? +props.maxLength : undefined}
           rows={props.rows ? +props.rows : undefined}
-          onChange={props.onChange}
-          onClick={props.onClick}
+          onChange={props.onChange as ChangeEventHandler<HTMLTextAreaElement>}
+          //onClick={props.onClick}
         />
       );
 
@@ -59,14 +59,14 @@ const FormControl: React.FC<IFormControlProps> = props => {
   }
 };
 
-type TForm = React.FC<IFormProps> & {
+export type TForm = React.FC<IFormProps> & {
   Label: typeof FormLabel;
   Control: typeof FormControl;
   Group: typeof FormGroup;
 };
 
 const Form: TForm = ({ children, className }) => {
-  return <div className={className ? className : 'form'}>{children}</div>;
+  return <form className={className ? className : 'form'}>{children}</form>;
 };
 
 Form.Label = FormLabel;

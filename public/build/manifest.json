@@ -7,16 +7,16 @@
   "build/4.js": "/build/4.js",
   "build/5.css": "/build/5.css",
   "build/5.js": "/build/5.js",
-  "build/6.css": "/build/6.css",
   "build/6.js": "/build/6.js",
+  "build/7.css": "/build/7.css",
   "build/7.js": "/build/7.js",
   "build/8.js": "/build/8.js",
   "build/9.js": "/build/9.js",
+  "build/10.js": "/build/10.js",
+  "build/11.js": "/build/11.js",
+  "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
   "build/vendors~app.js": "/build/vendors~app.js",
-  "build/app.css": "/build/app.css",
-  "build/10.css": "/build/10.css",
-  "build/10.js": "/build/10.js",
-  "build/11.js": "/build/11.js"
+  "build/12.js": "/build/12.js"
 }

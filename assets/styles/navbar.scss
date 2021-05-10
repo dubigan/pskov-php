@@ -10,6 +10,7 @@
     }
     &_admin {
       @include offset-md(4);
+      text-align: right;
     }
   }
 }
