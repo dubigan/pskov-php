@@ -85,7 +85,7 @@ class Owner implements \JsonSerializable
 
     public function setPatronymic(string $patronymic): self
     {
-        $this->patronymic = $patronymic;
+        $this->patronymic = $patronymic ? $patronymic : '';
 
         return $this;
     }
@@ -165,7 +165,7 @@ class Owner implements \JsonSerializable
 
     public function fillFromJson($json) {
         $this->setName($json['name']);
-        $this->setPatronymic($json['patronymic']);
+        $this->setPatronymic($json['patronymic']? $json['patronymic']: '');
         $this->setLastName($json['last_name']);
         $this->setAge((int)$json['age']);
         $this->setGender($json['gender']);

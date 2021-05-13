@@ -11,7 +11,7 @@ export default class Alerts extends Component {
   state = {
     messages: [],
     showAlert: false,
-    timeout: 5000,
+    timeout: 7000,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -21,11 +21,7 @@ export default class Alerts extends Component {
 
     //console.log('Alerts', messages);
 
-    if (
-      messages &&
-      messages.length > 0 &&
-      JSON.stringify(this.state.messages) !== JSON.stringify(messages)
-    ) {
+    if (messages && messages.length > 0 && JSON.stringify(this.state.messages) !== JSON.stringify(messages)) {
       showAlert = true;
     }
     if (showAlert && !this.state.showAlert) {
@@ -36,7 +32,7 @@ export default class Alerts extends Component {
     }
   }
 
-  getReactAlerts = array => {
+  getAlerts = array => {
     return array ? (
       array.map((e, index) => {
         let type = 'danger';
@@ -54,9 +50,9 @@ export default class Alerts extends Component {
             type = 'danger';
         }
         return (
-          <ReactAlert variant={type} key={index}>
+          <div className={'alert alert_' + type} key={index}>
             {e.message}
-          </ReactAlert>
+          </div>
         );
       })
     ) : (
@@ -71,16 +67,14 @@ export default class Alerts extends Component {
 
   showAlert = () => {
     if (this.state.showAlert) {
-      this.delay(
-        this.props.timeout ? this.props.timeout : this.state.timeout
-      ).then(() => {
+      this.delay(this.props.timeout ? this.props.timeout : this.state.timeout).then(() => {
         this.setState({
           messages: [],
           showAlert: false,
         });
         this.props.clearMessages();
       });
-      return <>{this.getReactAlerts(this.state.messages)}</>;
+      return <>{this.getAlerts(this.state.messages)}</>;
     }
     return <div />;
   };

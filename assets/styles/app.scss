@@ -8,6 +8,7 @@
 @import 'lib/table';
 @import 'lib/card';
 @import 'lib/toggleButtons';
+@import 'lib/alert';
 
 html {
   font-size: 10px;
@@ -59,23 +60,28 @@ a {
 
 .form {
   &__control {
+    &_car-input,
     &_owner-input {
       @include size(6);
     }
   }
   &__label {
+    &_car-input,
     &_owner-input {
       @include size(4);
     }
+    &_car-comment,
     &_owner-comment {
       width: 100%;
       text-align: left;
     }
   }
   &__group {
+    &_car-input,
     &_owner-input {
       @include size(5);
     }
+    &_car-comment,
     &_owner-comment {
       @include size(7);
       justify-content: flex-start;
@@ -91,9 +97,29 @@ a {
 
 .btn-primary {
   &_owner-add-car,
+  &_car-save,
   &_owner-save {
     @include size(12);
   }
+}
+
+// .react-date-picker__wrapper {
+//   border: thin none white;
+//   font: inherit;
+// }
+
+.react-date-picker__inputGroup {
+  font: inherit;
+  &__input {
+    //font: inherit;
+    font-family: $font-sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+}
+
+.alert {
+  @include alert;
 }
 
 @import 'navbar';

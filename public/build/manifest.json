@@ -18,5 +18,9 @@
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
   "build/vendors~app.js": "/build/vendors~app.js",
-  "build/12.js": "/build/12.js"
+  "build/12.js": "/build/12.js",
+  "build/12.css": "/build/12.css",
+  "build/13.js": "/build/13.js",
+  "build/3.css": "/build/3.css",
+  "build/4.css": "/build/4.css"
 }

@@ -82,7 +82,7 @@ export default class ListOfItems extends Component {
 
   btnSortClick = e => {
     const sorted_name = e.target.id;
-    console.log('btnSortClick.sorted_name', sorted_name);
+    //console.log('btnSortClick.sorted_name', sorted_name);
 
     if (!sorted_name) return;
     if (this.state.sortedBy.name !== sorted_name) {
@@ -118,7 +118,8 @@ export default class ListOfItems extends Component {
       .post(this.url, { btn_add: '' })
       .then(res => {
         if (res.data.redirect) {
-          window.location.href = res.data['redirect'];
+          //window.location.href = res.data['redirect'];
+          this.props.history.push(res.data.redirect);
         }
       })
       .catch(err => {
@@ -140,7 +141,10 @@ export default class ListOfItems extends Component {
       })
       .then(res => {
         if (res.data.redirect) {
-          window.location.href = res.data['redirect'];
+          //console.log('btnEditClick.props', this.props);
+
+          //window.location.href = res.data['redirect'];
+          this.props.history.push(res.data.redirect);
         }
       })
       .catch(err => {

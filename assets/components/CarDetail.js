@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {
-  Card,
-  Row,
-  Form,
-  Button,
-  Tooltip,
-  OverlayTrigger,
-} from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
 import './css/DatePicker.css';
-import './css/Calendar.css';
+//import './css/Calendar.css';
+import Card from './lib/Card';
+import { Row } from './lib/Row';
+import { Button } from './lib/Button';
+import Form from './lib/Form';
+import { TooltipContent } from './lib/Tooltip';
 
 const EMPTY_CAR = {
   id: -1,
@@ -55,123 +52,106 @@ export default class CarDetail extends DetailOfItem {
   render() {
     return (
       <div>
-        <Alerts
-          messages={this.state.messages}
-          clearMessages={this.clearMessages}
-        />
+        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
         <Card>
           <Card.Title>Автомобиль</Card.Title>
           <Card.Body>
             <Row>
-              <div className="col-6">
-                <Row>
-                  <Form.Label className="col-5">Производитель</Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="manufacturer"
-                    type="text"
-                    value={this.state.item.manufacturer}
-                    onChange={this.changeItem}
-                  />
-                  <Form.Label className="col-5">Модель</Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="model"
-                    type="text"
-                    value={this.state.item.model}
-                    onChange={this.changeItem}
-                  />
-
-                  <Form.Label className="col-5">Дата выпуска</Form.Label>
-                  {/* <OverlayTrigger
+              <div className="form">
+                <Form.Group className="form__group form__group_car-input">
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input">Производитель</Form.Label>
+                    <Form.Control
+                      className="form__control form__control_car-input"
+                      name="manufacturer"
+                      type="text"
+                      value={this.state.item.manufacturer}
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input">Модель</Form.Label>
+                    <Form.Control
+                      className="form__control form__control_car-input"
+                      name="model"
+                      type="text"
+                      value={this.state.item.model}
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input">Дата выпуска</Form.Label>
+                    {/* <OverlayTrigger
                     key={1}
                     placement={this.tooltipPlace}
                     overlay={<Tooltip id={`tooltip-1`}>Дата выпуска в формате dd.mm.yyy</Tooltip>}
                   > */}
-                  <DatePicker
-                    className="form-control col-6 m-0"
-                    calendarClassName="border"
-                    format="dd.MM.yyyy"
-                    locale="ru"
-                    maxDate={new Date()}
-                    minDate={new Date('1900', 0, 1)}
-                    name="production"
-                    // showYearDropdown={true}
-                    onChange={this.changeDate}
-                    value={this.getDate()}
-                  />
+                    <DatePicker
+                      className="form__control form__control_car-input"
+                      calendarClassName="border"
+                      format="dd.MM.yyyy"
+                      locale="ru"
+                      maxDate={new Date()}
+                      minDate={new Date('1900', 0, 1)}
+                      name="production"
+                      // showYearDropdown={true}
+                      onChange={this.changeDate}
+                      value={this.getDate()}
+                    />
+                  </Form.Group>
                   {/* </OverlayTrigger> */}
-                  <Form.Label className="col-5" name="color">
-                    Цвет
-                  </Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="color"
-                    type="text"
-                    value={this.state.item.color}
-                    onChange={this.changeItem}
-                  />
-                  <Form.Label className="col-5" name="age">
-                    Мощность (л.с.)
-                  </Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="power"
-                    type="text"
-                    maxLength="3"
-                    value={this.state.item.power ? this.state.item.power : ''}
-                    onChange={this.changeItem}
-                    onKeyPress={this.digitsOnly}
-                  />
-                  <Form.Label className="col-5" name="age">
-                    Пробег (км.)
-                  </Form.Label>
-                  <input
-                    className="form-control col-6"
-                    name="mileage"
-                    type="text"
-                    maxLength="10"
-                    value={
-                      this.state.item.mileage ? this.state.item.mileage : ''
-                    }
-                    onChange={this.changeItem}
-                    onKeyPress={this.digitsOnly}
-                  />
-                </Row>
-              </div>
-              <div className="col-6">
-                <Form.Label className="col-5">Комментарий</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows="7"
-                  value={this.state.item.comment}
-                  name="comment"
-                  onChange={this.changeItem}
-                />
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input" name="color">
+                      Цвет
+                    </Form.Label>
+                    <Form.Control
+                      className="form__control form__control_car-input"
+                      name="color"
+                      type="text"
+                      value={this.state.item.color}
+                      onChange={this.changeItem}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input" name="age">
+                      Мощность (л.с.)
+                    </Form.Label>
+                    <Form.Control
+                      className="form__control form__control_car-input"
+                      name="power"
+                      type="text"
+                      maxLength="3"
+                      value={this.state.item.power ? this.state.item.power : ''}
+                      onChange={this.changeItem}
+                      onKeyPress={this.digitsOnly}
+                    />
+                  </Form.Group>
+                  <Form.Group className="form__group form__group_horiz">
+                    <Form.Label className="form__label form__label_car-input" name="age">
+                      Пробег (км.)
+                    </Form.Label>
+                    <Form.Control
+                      className="form__control form__control_car-input"
+                      name="mileage"
+                      type="text"
+                      maxLength="10"
+                      value={this.state.item.mileage ? this.state.item.mileage : ''}
+                      onChange={this.changeItem}
+                      onKeyPress={this.digitsOnly}
+                    />
+                  </Form.Group>
+                </Form.Group>
+                <Form.Group className="form__group form__group_car-comment">
+                  <Form.Label className="form__label form__label_car-comment">Комментарий</Form.Label>
+                  <Form.Control type="textarea" rows="8" value={this.state.item.comment} name="comment" onChange={this.changeItem} />
+                </Form.Group>
               </div>
             </Row>
             <hr />
-            <div className="row spacer">
-              <div className="col-12">
-                <OverlayTrigger
-                  key={2}
-                  placement={this.tooltipPlace}
-                  overlay={
-                    <Tooltip id={`tooltip-2`}>
-                      Сохранить информацию об автомобиле
-                    </Tooltip>
-                  }
-                >
-                  <Button
-                    variant="primary"
-                    className="col"
-                    onClick={this.saveItem}
-                  >
-                    Сохранить
-                  </Button>
-                </OverlayTrigger>
-              </div>
-            </div>
+            <Button className="btn-primary btn-primary_car-save tooltip" onClick={this.saveItem}>
+              <TooltipContent>Сохранить информацию об автомобиле</TooltipContent>
+              Сохранить
+            </Button>
           </Card.Body>
         </Card>
       </div>
