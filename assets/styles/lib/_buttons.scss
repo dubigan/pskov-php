@@ -18,7 +18,8 @@
   margin: 0.375rem;
   font-size: 1.6rem;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   &:disabled {
     pointer-events: none;
     opacity: 0.65;
@@ -74,4 +75,8 @@
 
 .btn-danger {
   @include btn-danger;
+}
+
+.btn-secondary {
+  @include btn-secondary;
 }

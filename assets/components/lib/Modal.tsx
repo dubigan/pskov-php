@@ -1,68 +1,125 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 
-type ModalPartsProps = {
+type TModalPartsProps = {
   id?: string;
   className?: string;
   children?: any;
 };
 
-export const ModalHeader: React.FC<ModalPartsProps> = ({ id, className, children }) => {
-  return (
-    <div className={className} id={id}>
-      {children}
-    </div>
-  );
-};
+type TModalHeaderProps = { closeButton?: boolean } & TModalPartsProps;
 
-export const ModalTitle: React.FC<ModalPartsProps> = ({ id, className, children }) => {
-  return (
-    <div className={className} id={id}>
-      <h4>{children}</h4>
-    </div>
-  );
-};
+//type TModalPart<T> = React.FC<T> & { baseClass?: string };
 
-export const ModalBody: React.FC<ModalPartsProps> = ({ id, className, children }) => {
-  return (
-    <div className={className} id={id}>
-      {children}
-    </div>
-  );
-};
+function ModalHeader(baseClassName: string): React.FC<TModalHeaderProps> {
+  const baseClass: string = baseClassName;
+  const ModalHeader: React.FC<TModalHeaderProps> = props => {
+    useEffect(() => console.log('ModalHeader.baseClass', baseClass));
+    return (
+      <div className={baseClass + '__header'} id={props.id}>
+        {props.children}
+      </div>
+    );
+  };
+  return ModalHeader;
+}
 
-export const ModalFooter: React.FC<ModalPartsProps> = ({ id, className, children }) => {
-  return (
-    <div className={className} id={id}>
-      {children}
-    </div>
-  );
-};
+// function ModalHeader(props: TModalHeaderProps): JSX.Element & { baseClass: string } {
+//   var baseClass: string = 'modal';
+//   const el = (
+//     <div className={baseClass + '__header'} id={props.id}>
+//       {props.children}
+//     </div>
+//   );
+//   return Object.assign(el, { baseClass: '' });
+// }
 
-type ModalProps = {
+function ModalTitle(baseClassName: string): React.FC {
+  const baseClass: string = baseClassName;
+  const ModalTitle: React.FC<TModalPartsProps> = props => {
+    useEffect(() => console.log('Modal.Title', baseClass));
+    return (
+      <div className={baseClass + '__title'} id={props.id}>
+        <h4>{props.children}</h4>
+      </div>
+    );
+  };
+  return ModalTitle;
+}
+
+function ModalBody(baseClassName: string): React.FC {
+  const baseClass: string = baseClassName;
+  const ModalBody: React.FC<TModalPartsProps> = props => {
+    useEffect(() => console.log('Modal.Body', baseClass));
+    return (
+      <div className={baseClass + '__body'} id={props.id}>
+        {props.children}
+      </div>
+    );
+  };
+  return ModalBody;
+}
+
+function ModalFooter(baseClassName: string): React.FC {
+  const baseClass: string = baseClassName;
+  const ModalFooter: React.FC<TModalPartsProps> = props => {
+    useEffect(() => console.log('Modal.Footer', baseClass));
+    return (
+      <div className={baseClass + '__footer'} id={props.id}>
+        {props.children}
+      </div>
+    );
+  };
+  return ModalFooter;
+}
+
+type TModalProps = {
   show: boolean;
-  id: string;
-  className?: string;
+  id?: string;
+  baseClassName: string;
+  children?: any;
+  onHide: EventHandlerNonNull;
 };
 
-class Modal extends Component<ModalProps> {
+type TModalAddOns = {
+  Header: React.FC<TModalHeaderProps>;
+  Title: React.FC<TModalPartsProps>;
+  Body: React.FC<TModalPartsProps>;
+  Footer: React.FC<TModalPartsProps>;
+};
+
+class Modal extends Component<TModalProps, {}> {
+  // public Header = ModalHeader(this.props.baseClassName);
+  // public Title = ModalTitle(this.props.baseClassName);
+  // public Body = ModalBody(this.props.baseClassName);
+  // public Footer = ModalFooter(this.props.baseClassName);
   changeShowStatus = () => {
     const $body = document.querySelector('body')!;
-    const $modal = document.querySelector(this.props.id);
-    const $modalBackdrop = document.querySelector('#oak-modal-backdrop');
+    const $modal = document.querySelector('.' + this.props.baseClassName)! as HTMLElement;
+    const $modalBackdrop = document.querySelector(
+      '.' + this.props.baseClassName + '__backdrop'
+    )! as HTMLElement;
+    const $dialog = document.querySelector(
+      '.' + this.props.baseClassName + '__dialog'
+    ) as HTMLElement;
+    //console.log('Modal.modal', $modal);
     if (this.props.show) {
-      $body.className = 'oak-modal-open';
-      $body.style.overflow = 'hidden';
-      $body.style.paddingRight = '15px';
-      $modalBackdrop.style.display = 'block';
-      $modal.style.display = 'block';
+      $body.classList.add('body-modal-open');
+      $modalBackdrop.classList.add(this.props.baseClassName + '__backdrop_show');
+      $modal.classList.add(this.props.baseClassName + '_show');
+      $dialog.classList.add(this.props.baseClassName + '__dialog_show');
     } else {
-      $body.className = '';
-      //$body.style ;
-      $modal.style.display = 'none';
-      $modalBackdrop.style.display = 'none';
+      $body.classList.remove('body-modal-open');
+      $modalBackdrop.classList.remove(this.props.baseClassName + '__backdrop_show');
+      $modal.classList.remove(this.props.baseClassName + '_show');
+      $dialog.classList.remove(this.props.baseClassName + '__dialog_show');
     }
   };
-  componentDidUpdate(prevProps: ModalProps) {
+  componentDidMount(): void {
+    //console.log('Modal.baseClassName', this.props.baseClassName);
+    this.changeShowStatus();
+  }
+  componentDidUpdate(prevProps: TModalProps): void {
+    console.log('Modal.baseClassName', this.props.baseClassName);
     if (this.props.show != prevProps.show) {
       this.changeShowStatus();
     }
@@ -70,10 +127,19 @@ class Modal extends Component<ModalProps> {
   render() {
     return (
       <>
-        <div id={this.props.id} className="modal-backdrop show"></div>
-        <div id="oak-modal" className="oak-modal oak-show">
-          <div className="oak-modal-dialog">
-            <div id={this.props.id} className={this.props.className}>
+        <div
+          id={this.props.id}
+          className={
+            this.props.baseClassName +
+            '__backdrop' +
+            ' ' +
+            this.props.baseClassName +
+            '__backdrop_show'
+          }
+        ></div>
+        <div id={this.props.id} className={this.props.baseClassName}>
+          <div className={this.props.baseClassName + '__dialog'}>
+            <div id={this.props.id} className={this.props.baseClassName + '__children'}>
               {this.props.children}
             </div>
           </div>
@@ -88,21 +154,28 @@ class Modal extends Component<ModalProps> {
 //   id: 'oak-modal-content',
 //   className: 'oak-modal-content',
 // };
-ModalHeader.defaultProps = {
-  id: 'modal-header',
-  className: 'modal__header',
-};
-ModalTitle.defaultProps = {
-  id: 'modal-title',
-  className: 'modal__title',
-};
-ModalBody.defaultProps = {
-  id: 'modal-body',
-  className: 'modal__body',
-};
-ModalFooter.defaultProps = {
-  id: 'modal-footer',
-  className: 'modal__footer',
-};
-
-export default Modal;
+// ModalHeader.defaultProps = {
+//   id: 'modal-header',
+//   className: 'modal__header',
+// };
+// ModalTitle.defaultProps = {
+//   id: 'modal-title',
+//   className: 'modal__title',
+// };
+// ModalBody.defaultProps = {
+//   id: 'modal-body',
+//   className: 'modal__body',
+// };
+// ModalFooter.defaultProps = {
+//   id: 'modal-footer',
+//   className: 'modal__footer',
+// };
+type TModal = typeof Modal & TModalAddOns;
+const baseClass = 'delete-dialog';
+Object.assign(Modal, {
+  Header: ModalHeader(baseClass),
+  Title: ModalTitle(baseClass),
+  Body: ModalBody(baseClass),
+  Footer: ModalFooter(baseClass),
+});
+export default Modal as TModal;

@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'react';
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
 import './css/DatePicker.css';
-//import './css/Calendar.css';
 import Card from './lib/Card';
 import { Row } from './lib/Row';
 import { Button } from './lib/Button';
@@ -60,7 +58,9 @@ export default class CarDetail extends DetailOfItem {
               <div className="form">
                 <Form.Group className="form__group form__group_car-input">
                   <Form.Group className="form__group form__group_horiz">
-                    <Form.Label className="form__label form__label_car-input">Производитель</Form.Label>
+                    <Form.Label className="form__label form__label_car-input">
+                      Производитель
+                    </Form.Label>
                     <Form.Control
                       className="form__control form__control_car-input"
                       name="manufacturer"
@@ -80,7 +80,9 @@ export default class CarDetail extends DetailOfItem {
                     />
                   </Form.Group>
                   <Form.Group className="form__group form__group_horiz">
-                    <Form.Label className="form__label form__label_car-input">Дата выпуска</Form.Label>
+                    <Form.Label className="form__label form__label_car-input">
+                      Дата выпуска
+                    </Form.Label>
                     {/* <OverlayTrigger
                     key={1}
                     placement={this.tooltipPlace}
@@ -142,8 +144,16 @@ export default class CarDetail extends DetailOfItem {
                   </Form.Group>
                 </Form.Group>
                 <Form.Group className="form__group form__group_car-comment">
-                  <Form.Label className="form__label form__label_car-comment">Комментарий</Form.Label>
-                  <Form.Control type="textarea" rows="8" value={this.state.item.comment} name="comment" onChange={this.changeItem} />
+                  <Form.Label className="form__label form__label_car-comment">
+                    Комментарий
+                  </Form.Label>
+                  <Form.Control
+                    type="textarea"
+                    rows="8"
+                    value={this.state.item.comment}
+                    name="comment"
+                    onChange={this.changeItem}
+                  />
                 </Form.Group>
               </div>
             </Row>

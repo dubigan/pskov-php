@@ -87,11 +87,7 @@ wss.on('connection', function connection(ws) {
       processDbRecords(ws, content_json, message_json.cleardb);
     } catch (e) {
       //console.log('error: ', e.message);
-      sendMessage(
-        ws,
-        'error',
-        'Ошибка чтения данных. Используйте формат файла JSON'
-      );
+      sendMessage(ws, 'error', 'Ошибка чтения данных. Используйте формат файла JSON');
     }
   });
 });

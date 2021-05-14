@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
@@ -80,7 +80,9 @@ export default class OwnerDetail extends DetailOfItem {
                     />
                   </Form.Group>
                   <Form.Group className="form__group form__group_horiz">
-                    <Form.Label className="form__label form__label_owner-input">Отчество</Form.Label>
+                    <Form.Label className="form__label form__label_owner-input">
+                      Отчество
+                    </Form.Label>
                     <Form.Control
                       className="form__control form__control_owner-input"
                       name="patronymic"
@@ -130,7 +132,9 @@ export default class OwnerDetail extends DetailOfItem {
                   </Form.Group>
                 </Form.Group>
                 <Form.Group className="form__group form__group_owner-comment">
-                  <Form.Label className="form__label form__label_owner-comment">Комментарий</Form.Label>
+                  <Form.Label className="form__label form__label_owner-comment">
+                    Комментарий
+                  </Form.Label>
                   <Form.Control
                     type="textarea"
                     rows="7"
@@ -143,7 +147,11 @@ export default class OwnerDetail extends DetailOfItem {
               </div>
             </Row>
             <hr />
-            <Button className="btn-primary btn-primary_owner-save tooltip" variant="primary" onClick={this.saveItem}>
+            <Button
+              className="btn-primary btn-primary_owner-save tooltip"
+              variant="primary"
+              onClick={this.saveItem}
+            >
               <TooltipContent>Сохранить&nbsp;информацию&nbsp;об&nbsp;автовладельце</TooltipContent>
               Сохранить
             </Button>

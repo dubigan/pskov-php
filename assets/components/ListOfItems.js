@@ -37,7 +37,10 @@ export default class ListOfItems extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.sortedBy.name !== this.state.sortedBy.name || prevState.sortedBy.direction !== this.state.sortedBy.direction) {
+    if (
+      prevState.sortedBy.name !== this.state.sortedBy.name ||
+      prevState.sortedBy.direction !== this.state.sortedBy.direction
+    ) {
       this.getItems();
     }
   }
@@ -207,12 +210,27 @@ export default class ListOfItems extends Component {
   getButtons = id => {
     return (
       <Row>
-        <Button value={id} variant="primary" className="btn-primary tooltip" onClick={this.btnEditClick}>
-          <TooltipContent className="tooltip__content tooltip__content_left">Редактирование</TooltipContent>
+        <Button
+          value={id}
+          variant="primary"
+          className="btn-primary tooltip"
+          onClick={this.btnEditClick}
+        >
+          <TooltipContent className="tooltip__content tooltip__content_left">
+            Редактирование
+          </TooltipContent>
           {'\u27f6'}
         </Button>
-        <Button value={id} variant="danger" className="btn-danger btn-danger_del tooltip" onClick={this.btnDelClick}>
-          <TooltipContent className="tooltip__content tooltip__content_left">Удаление</TooltipContent>x
+        <Button
+          value={id}
+          variant="danger"
+          className="btn-danger btn-danger_del tooltip"
+          onClick={this.btnDelClick}
+        >
+          <TooltipContent className="tooltip__content tooltip__content_left">
+            Удаление
+          </TooltipContent>
+          x
         </Button>
       </Row>
     );
@@ -221,7 +239,11 @@ export default class ListOfItems extends Component {
   getAddButton = () => {
     if (this.addButton)
       return (
-        <Button variant="primary" className="btn-primary btn-primary_add tooltip" onClick={this.btnAddClick}>
+        <Button
+          variant="primary"
+          className="btn-primary btn-primary_add tooltip"
+          onClick={this.btnAddClick}
+        >
           <TooltipContent>Добавление&nbsp;нового&nbsp;автовладельца</TooltipContent>+
         </Button>
       );
@@ -231,8 +253,8 @@ export default class ListOfItems extends Component {
   getDeleteDialog = () => {};
 
   deleteDialog = () => {
-    if (this.state.showDeleteDialog) return this.getDeleteDialog();
-    return <></>;
+    //if (this.state.showDeleteDialog) return this.getDeleteDialog();
+    return this.getDeleteDialog();
   };
   getTable = () => {};
 

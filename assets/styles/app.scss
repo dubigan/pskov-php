@@ -9,6 +9,7 @@
 @import 'lib/card';
 @import 'lib/toggleButtons';
 @import 'lib/alert';
+@import 'lib/modal';
 
 html {
   font-size: 10px;
@@ -120,6 +121,10 @@ a {
 
 .alert {
   @include alert;
+}
+
+.delete-dialog {
+  @include modal;
 }
 
 @import 'navbar';

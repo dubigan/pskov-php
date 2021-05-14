@@ -49,6 +49,12 @@ export default class Owners extends ListOfItems {
   };
 
   getDeleteDialog = () => {
-    return <OwnerDeleteDialog params={this.state} itemDelete={this.itemDelete} />;
+    return (
+      <OwnerDeleteDialog
+        show={this.state.showDeleteDialog}
+        params={this.state}
+        itemDelete={this.itemDelete}
+      />
+    );
   };
 }
