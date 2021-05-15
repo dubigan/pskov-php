@@ -90,19 +90,19 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 var Owners = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_7__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ./Owners */ "./assets/components/Owners.js"));
+  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./Owners */ "./assets/components/Owners.js"));
 });
 var Cars = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_7__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2), __webpack_require__.e(5), __webpack_require__.e(11)]).then(__webpack_require__.bind(null, /*! ./Cars */ "./assets/components/Cars.js"));
+  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(2), __webpack_require__.e(5), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ./Cars */ "./assets/components/Cars.js"));
 });
 var OwnerDetail = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_7__["lazy"])(function () {
   return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(7), __webpack_require__.e(2), __webpack_require__.e(4), __webpack_require__.e(5), __webpack_require__.e(12)]).then(__webpack_require__.bind(null, /*! ./OwnerDetail */ "./assets/components/OwnerDetail.js"));
 });
 var CarDetail = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_7__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(3), __webpack_require__.e(6), __webpack_require__.e(4), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./CarDetail */ "./assets/components/CarDetail.js"));
+  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1), __webpack_require__.e(3), __webpack_require__.e(6), __webpack_require__.e(4), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ./CarDetail */ "./assets/components/CarDetail.js"));
 });
 var Dashboard = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_7__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3), __webpack_require__.e(10)]).then(__webpack_require__.bind(null, /*! ./Dashboard */ "./assets/components/Dashboard.js"));
+  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3), __webpack_require__.e(11)]).then(__webpack_require__.bind(null, /*! ./Dashboard */ "./assets/components/Dashboard.js"));
 });
 
 var App = /*#__PURE__*/function (_Component) {
