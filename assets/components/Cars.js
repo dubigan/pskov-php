@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import ListOfItems from './ListOfItems';
 import { CarDeleteDialog } from './CarDeleteDialog';
 import PropTypes from 'prop-types';
@@ -8,7 +9,7 @@ const DEF_SORTED_BY = {
   name: 'model',
   direction: 'ASC',
 };
-export default class Cars extends ListOfItems {
+class Cars extends ListOfItems {
   static propTypes = {
     owner: PropTypes.number,
     // withButtons: PropTypes.bool,
@@ -66,3 +67,5 @@ export default class Cars extends ListOfItems {
     return <CarDeleteDialog params={this.state} itemDelete={this.itemDelete} />;
   };
 }
+
+export default withRouter(Cars);

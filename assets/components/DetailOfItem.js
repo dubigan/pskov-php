@@ -62,8 +62,12 @@ export class DetailOfItem extends Component {
       });
   };
 
-  redirect = redirect => {
+  redirect = (redirect, dir = '') => {
     if (redirect) {
+      if (dir === 'back') {
+        this.props.history.goBack();
+        return;
+      }
       this.props.history.push(redirect);
     }
   };
@@ -76,7 +80,7 @@ export class DetailOfItem extends Component {
       .then(res => {
         //console.log("saveItem", res.data);
 
-        this.redirect(res.data.redirect);
+        this.redirect(res.data.redirect, 'back');
 
         this.setState({
           item: this.getItemFromData(res.data),
@@ -84,6 +88,8 @@ export class DetailOfItem extends Component {
         });
       })
       .catch(err => {
+        //console.log('saveItem', err);
+
         let messages;
         if (typeof err.response.data == 'string') {
           console.log('saveItem', err.response.data);

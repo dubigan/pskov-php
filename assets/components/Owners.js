@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import ListOfItems from './ListOfItems';
 import { OwnerDeleteDialog } from './OwnerDeleteDialog';
 import { Table } from './lib/Table';
@@ -7,7 +8,7 @@ const DEFAULT_SORTED_BY = {
   name: 'last_name',
   direction: 'ASC',
 };
-export default class Owners extends ListOfItems {
+class Owners extends ListOfItems {
   url = '/api/owners/';
   tooltipPlace = 'bottom';
   nameOfItem = 'Автовладелец';
@@ -58,3 +59,5 @@ export default class Owners extends ListOfItems {
     );
   };
 }
+
+export default withRouter(Owners);

@@ -127,6 +127,28 @@ a {
   @include modal;
 }
 
+.form {
+  &__text {
+    &_upload {
+      @include size(4);
+    }
+  }
+  &__label {
+    &_upload {
+      @include size(2);
+      margin-bottom: 0.5rem;
+    }
+    &_download {
+      @include size(3);
+    }
+  }
+  &__select {
+    &_download {
+      @include size(3);
+    }
+  }
+}
+
 @import 'navbar';
 @import 'tooltip';
 @import 'buttons';

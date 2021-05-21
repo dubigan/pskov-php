@@ -1,13 +1,12 @@
-import React, { Component, Fragment, Suspense, lazy } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ReactDOM from "react-dom";
-import { Header } from "./Header";
+import React, { Component, Fragment, Suspense, lazy } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Header } from './Header';
 
-const Owners = lazy(() => import("./Owners"));
-const Cars = lazy(() => import("./Cars"));
-const OwnerDetail = lazy(() => import("./OwnerDetail"));
-const CarDetail = lazy(() => import("./CarDetail"));
-const Dashboard = lazy(() => import("./Dashboard"));
+const Owners = lazy(() => import('./Owners'));
+const Cars = lazy(() => import('./Cars'));
+const OwnerDetail = lazy(() => import('./OwnerDetail'));
+const CarDetail = lazy(() => import('./CarDetail'));
+const Dashboard = lazy(() => import('./Dashboard'));
 
 export default class App extends Component {
   render() {

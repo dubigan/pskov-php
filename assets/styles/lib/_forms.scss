@@ -4,6 +4,9 @@
 @mixin form {
   @include row;
   flex-direction: row;
+  &__text,
+  &__check,
+  &__select,
   &__control {
     display: block;
     width: 100%;
@@ -20,20 +23,39 @@
     appearance: none;
     border-radius: 0.5rem;
     padding: 0.8rem 1rem;
+    text-align: left;
     &:focus {
       border-color: $light-blue;
       outline: 0;
       box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
+    &[readonly] {
+      background-color: #e9ecef;
+      opacity: 1;
+    }
+  }
+  &__text {
+    appearance: textfield;
+  }
+  &__check {
+    appearance: checkbox;
+    display: inline-block;
+    width: fit-content;
+    padding: 0;
+    position: static !important;
   }
   &__label {
     font-size: 1.6rem;
+  }
+  &__select {
+    appearance: menulist-button;
   }
   &__group {
     @include row-nowrap;
     flex-direction: column;
     &_horiz {
       flex-direction: row;
+      flex-wrap: nowrap;
     }
   }
 }

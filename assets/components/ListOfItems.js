@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import axios from 'axios';
 import { Row } from './lib/Row';
 import { TooltipContent } from './lib/Tooltip';
@@ -15,6 +16,8 @@ export default class ListOfItems extends Component {
     items: [],
     sortedBy: this.getDefaultSortedBy(),
   };
+
+  history = this.props.history;
 
   url = '';
   //upArrow = '&#x0225C;';
@@ -134,7 +137,7 @@ export default class ListOfItems extends Component {
 
   btnEditClick = e => {
     const item_pk = e.target.value;
-    //console.log("btnEditClick", item_pk);
+    //console.log('btnEditClick', item_pk);
 
     axios
       .post(this.url, {
@@ -144,13 +147,15 @@ export default class ListOfItems extends Component {
       })
       .then(res => {
         if (res.data.redirect) {
-          //console.log('btnEditClick.props', this.props);
+          //console.log('btnEditClick.history', this.props);
 
           //window.location.href = res.data['redirect'];
           this.props.history.push(res.data.redirect);
         }
       })
       .catch(err => {
+        //console.log('btnEditClick.catch', err);
+
         this.setState({
           messages: this.getErrors(err.response.data),
         });
@@ -269,3 +274,5 @@ export default class ListOfItems extends Component {
     );
   }
 }
+
+//export default withRouter(ListOfItems);

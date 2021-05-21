@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
 import Alerts from './Alerts';
@@ -24,7 +25,7 @@ const EMPTY_ITEM = {
   comment: '',
 };
 
-export default class OwnerDetail extends DetailOfItem {
+class OwnerDetail extends DetailOfItem {
   url = '/api/owner/';
 
   getNewItem() {
@@ -181,3 +182,5 @@ export default class OwnerDetail extends DetailOfItem {
     );
   }
 }
+
+export default withRouter(OwnerDetail);

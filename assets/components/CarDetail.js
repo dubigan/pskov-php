@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
@@ -19,7 +20,7 @@ const EMPTY_CAR = {
   mileage: 0,
   comment: '',
 };
-export default class CarDetail extends DetailOfItem {
+class CarDetail extends DetailOfItem {
   url = '/api/car/';
 
   getNewItem() {
@@ -168,3 +169,5 @@ export default class CarDetail extends DetailOfItem {
     );
   }
 }
+
+export default withRouter(CarDetail);

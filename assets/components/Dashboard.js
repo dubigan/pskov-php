@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Form, Button, Row, Card } from 'react-bootstrap';
+import { withRouter } from 'react-router';
+import Form from './lib/Form';
+import { Button } from './lib/Button';
+import Card from './lib/Card';
 import Alerts from './Alerts';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   state = {
     messages: [],
     uploadFile: null,
@@ -83,10 +86,7 @@ export default class Dashboard extends Component {
       this.setWebsocketStatus('disconnected');
       // automatically try to reconnect on connection loss
       self.timeout = self.timeout + self.timeout; //increment retry interval
-      connectInterval = setTimeout(
-        this.checkWebsocket,
-        Math.min(10000, self.timeout)
-      ); //call check function after timeout
+      connectInterval = setTimeout(this.checkWebsocket, Math.min(10000, self.timeout)); //call check function after timeout
     };
 
     ws.onerror = e => {
@@ -145,38 +145,27 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Alerts
-          messages={this.state.messages}
-          clearMessages={this.clearMessages}
-        />
+        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
         <Card>
           <Card.Header>
-            <Form.Label className="col-5">Загрузка в DB</Form.Label>
-            <div className="col-12 text-left">
-              Websocket status: {this.state.websocket.status}
-            </div>
+            <Form.Label>Загрузка в DB</Form.Label>
+            <div className="col-12 text-left">Websocket status: {this.state.websocket.status}</div>
           </Card.Header>
           <Card.Body>
-            <Row>
-              <Form.Label className="col-2 text-left">Очистить DB</Form.Label>
-              <Form.Check
+            <Form.Group auxClassName="form__group_horiz">
+              <Form.Label auxClassName="form__label_upload">Очистить DB</Form.Label>
+              <Form.Control
+                type="check"
                 name="clearBD"
                 value={this.state.clearDB}
                 onChange={this.clearDB}
-                className="ml-2"
-                disabled={
-                  this.state.websocket.status === 'disconnected'
-                    ? 'disable'
-                    : ''
-                }
+                disabled={this.state.websocket.status === 'disconnected' ? 'disable' : ''}
               />
-            </Row>
-            <Row>
-              <Form.Label className="col-2 text-left">
-                Файл загрузки в DB
-              </Form.Label>
-              <input
-                className="form-control col-3"
+            </Form.Group>
+            <Form.Group auxClassName="form__group_horiz">
+              <Form.Label auxClassName="form__label_upload">Файл загрузки в DB</Form.Label>
+              <Form.Control
+                auxClassName="form__text form__text_upload"
                 name="uploadFileName"
                 id="uploadFileName"
                 type="text"
@@ -184,61 +173,51 @@ export default class Dashboard extends Component {
                 readOnly
               />
               <Button
-                variant="primary"
-                className=""
+                //variant="primary"
+                className="btn-primary"
                 onClick={this.selectFileToUpload}
-                disabled={
-                  this.state.websocket.status === 'disconnected'
-                    ? 'disable'
-                    : ''
-                }
+                disabled={this.state.websocket.status === 'disconnected' ? 'disable' : ''}
               >
                 ...
               </Button>
               <Button
-                variant="primary"
-                className="col-1 ml-2"
+                //variant="primary"
+                className="btn-primary"
                 onClick={this.sendFile}
                 disabled={this.state.uploadFile ? '' : 'disabled'}
               >
                 Старт
               </Button>
-            </Row>
+            </Form.Group>
           </Card.Body>
         </Card>
         <hr />
         <Card>
           <Card.Header>
-            <Form.Label className="col-5">Выгрузка DB</Form.Label>
+            <Form.Label>Выгрузка DB</Form.Label>
           </Card.Header>
           <Card.Body>
-            <Row>
-              <Form.Label className="col-3 text-left">
+            <Form.Group auxClassName="form__group_horiz">
+              <Form.Label auxClassName="form__label_download">
                 Выберите формат сохраняемого файла
               </Form.Label>
-              <Form.Control
-                as="select"
-                className="col-2"
-                onChange={this.selectFormat}
-              >
+              <Form.Select auxClassName="form__select_download" onChange={this.selectFormat}>
                 <option value="json">json</option>
                 {/* <option value="csv">csv</option> */}
                 {/* <option value="text">text/plain</option> */}
-              </Form.Control>
+              </Form.Select>
               <form action={this.getDownloadUrl()} method="post">
-                <input
-                  type="hidden"
-                  name="format"
-                  value={this.state.downloadFormat}
-                />
-                <Button variant="primary" type="submit" className="col ml-4">
+                <input type="hidden" name="format" value={this.state.downloadFormat} />
+                <Button type="submit" className="btn-primary">
                   Старт
                 </Button>
               </form>
-            </Row>
+            </Form.Group>
           </Card.Body>
         </Card>
       </div>
     );
   }
 }
+
+export default withRouter(Dashboard);
