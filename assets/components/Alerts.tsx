@@ -91,7 +91,7 @@ export default class Alerts extends Component<TAlertsProps, TAlertsState> {
   showAlert = () => {
     if (this.state.showAlert) {
       this.delay(this.props.timeout ? this.props.timeout : this.state.timeout).then(
-        () => this.clearMessages
+        this.clearMessages
       );
       return <>{this.getAlerts(this.state.messages)}</>;
     }
