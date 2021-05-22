@@ -1,23 +1,45 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import React, { Component, MouseEvent } from 'react';
+import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
 import { Row } from './lib/Row';
 import { TooltipContent } from './lib/Tooltip';
 import { Button } from './lib/Button';
 import Alerts from './Alerts';
 import Loader from './Loader';
+import { TOwnerItem } from './Owners';
+import { TCarItem } from './Cars';
 
-export default class ListOfItems extends Component {
+export type TListOfItemsProps = RouteComponentProps & { owner?: number };
+export type TSortedBy = {
+  name: string;
+  direction: 'asc' | 'desc';
+};
+
+type TItem = TOwnerItem | TCarItem | undefined;
+
+export type TListOfItemsState = {
+  loading: boolean;
+  messages: Array<TListOfItemsError>;
+  showDeleteDialog: boolean;
+  itemDelete: TItem;
+  items: Array<TOwnerItem | TCarItem>;
+  sortedBy: TSortedBy;
+};
+
+type TListOfItemsError = {
+  type: string;
+  message: string;
+};
+
+export default class ListOfItems extends Component<TListOfItemsProps, TListOfItemsState> {
   state = {
     loading: false,
     messages: [],
     showDeleteDialog: false,
-    itemDelete: '',
+    itemDelete: undefined,
     items: [],
     sortedBy: this.getDefaultSortedBy(),
   };
-
-  history = this.props.history;
 
   url = '';
   //upArrow = '&#x0225C;';
@@ -28,18 +50,18 @@ export default class ListOfItems extends Component {
 
   addButton = false;
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.getItems();
   }
 
-  getDefaultSortedBy() {
+  getDefaultSortedBy(): TSortedBy {
     return {
       name: '',
       direction: 'asc',
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState) {
     if (
       prevState.sortedBy.name !== this.state.sortedBy.name ||
       prevState.sortedBy.direction !== this.state.sortedBy.direction
@@ -48,13 +70,15 @@ export default class ListOfItems extends Component {
     }
   }
 
-  get arrow() {
+  get arrow(): string {
     return this.state.sortedBy.direction === 'asc' ? this.upArrow : this.downArrow;
   }
 
-  getErrors = data => {
-    return Object.keys(data).map(key => {
-      return { type: 'error', message: data[key] };
+  getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
+
+  getErrors = (data: Object): TListOfItemsError[] => {
+    return Object.keys(data).map((key: any) => {
+      return { type: 'error', message: this.getKeyValue(data, key) };
     });
   };
 
@@ -82,17 +106,17 @@ export default class ListOfItems extends Component {
       .finally(() => this.setState({ loading: false }));
   };
 
-  getItem = id => {
-    return this.state.items.filter(item => +item.id === +id)[0];
+  getItem = (id: number) => {
+    return this.state.items.filter((item: any) => +item.id === +id)[0];
   };
 
-  btnSortClick = e => {
-    const sorted_name = e.target.id;
+  btnSortClick = (e: MouseEvent<HTMLElement>) => {
+    const sorted_name = (e.target as HTMLElement).id;
     //console.log('btnSortClick.sorted_name', sorted_name);
 
     if (!sorted_name) return;
     if (this.state.sortedBy.name !== sorted_name) {
-      const sortedBy = {
+      const sortedBy: TSortedBy = {
         name: sorted_name,
         direction: 'desc',
       };
@@ -102,7 +126,7 @@ export default class ListOfItems extends Component {
     } else {
       const direction = this.state.sortedBy.direction === 'desc' ? 'asc' : 'desc';
 
-      const sortedBy = {
+      const sortedBy: TSortedBy = {
         ...this.state.sortedBy,
         direction: direction,
       };
@@ -111,15 +135,15 @@ export default class ListOfItems extends Component {
     }
   };
 
-  btnDelClick = e => {
-    const item = this.getItem(e.target.value);
+  btnDelClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const item = this.getItem(Number((e.target as HTMLButtonElement).value));
     this.setState({
       showDeleteDialog: true,
       itemDelete: item,
     });
   };
 
-  btnAddClick = e => {
+  btnAddClick = (e: MouseEvent<HTMLElement>) => {
     axios
       .post(this.url, { btn_add: '' })
       .then(res => {
@@ -135,8 +159,8 @@ export default class ListOfItems extends Component {
       });
   };
 
-  btnEditClick = e => {
-    const item_pk = e.target.value;
+  btnEditClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const item_pk = (e.target as HTMLButtonElement).value;
     //console.log('btnEditClick', item_pk);
 
     axios
@@ -162,7 +186,11 @@ export default class ListOfItems extends Component {
       });
   };
 
-  itemDelete = confirm => {
+  getItemId = (item: TItem): number => {
+    return item ? item.id : -1;
+  };
+
+  itemDelete = (confirm: string) => {
     this.setState({ showDeleteDialog: false });
 
     if (confirm === 'true') {
@@ -171,7 +199,7 @@ export default class ListOfItems extends Component {
         .post(this.url, {
           sorted_by: this.state.sortedBy,
           btn_del: '',
-          item_pk: this.state.itemDelete.id,
+          item_pk: this.getItemId(this.state.itemDelete),
           owner: this.props.owner ? this.props.owner : -1,
         })
         .then(res => {
@@ -198,7 +226,7 @@ export default class ListOfItems extends Component {
     this.setState({ messages: [] });
   };
 
-  getThCell = (id, title, index) => {
+  getThCell = (id: string, title: string, index: number) => {
     return (
       <th className="tooltip" id={id} onClick={this.btnSortClick} key={index}>
         <TooltipContent>Нажмите&nbsp;для&nbsp;сортировки</TooltipContent>
@@ -212,7 +240,7 @@ export default class ListOfItems extends Component {
     );
   };
 
-  getButtons = id => {
+  getButtons = (id: string) => {
     return (
       <Row>
         <Button

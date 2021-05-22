@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router';
 import { DetailOfItem } from './DetailOfItem';
@@ -52,7 +52,7 @@ class OwnerDetail extends DetailOfItem {
       });
   };
 
-  changeGender = e => {
+  changeGender = (e: ChangeEvent<HTMLInputElement>) => {
     const item = { ...this.state.item, gender: e.target.value };
     //console.log('changeGender', item);
 
@@ -111,7 +111,6 @@ class OwnerDetail extends DetailOfItem {
                     <GenderSelect
                       className="toggleButtonGroup toggleButtonGroup_owner-gender"
                       name="gender"
-                      type="radio"
                       checkValue={this.state.item.gender}
                       onChange={this.changeGender}
                     />
@@ -124,7 +123,7 @@ class OwnerDetail extends DetailOfItem {
                       className="form__control form__control_owner-input"
                       name="age"
                       type="text"
-                      maxLength="3"
+                      maxLength={3}
                       placeholder="Возраст"
                       value={this.state.item.age ? this.state.item.age : ''}
                       onChange={this.changeItem}
@@ -138,7 +137,7 @@ class OwnerDetail extends DetailOfItem {
                   </Form.Label>
                   <Form.Control
                     type="textarea"
-                    rows="7"
+                    rows={7}
                     value={this.state.item.comment ? this.state.item.comment : ''}
                     name="comment"
                     placeholder="Комментарий"
@@ -167,7 +166,7 @@ class OwnerDetail extends DetailOfItem {
                 className="btn-primary btn-primary_owner-add-car tooltip"
                 name="add_car"
                 onClick={this.btnNewCarClick}
-                disabled={this.state.item.id < 0 ? 'disabled' : ''}
+                disabled={this.state.item.id < 0}
               >
                 <TooltipContent>Добавить&nbsp;автомобиль</TooltipContent>
                 Добавить автомобиль

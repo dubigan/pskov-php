@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-//import {  } from "react-router-dom";
+import React, { ChangeEvent, ChangeEventHandler, Component, KeyboardEvent } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
-export class DetailOfItem extends Component {
-  getNewItem() {}
-  getNewItemId() {
+export class DetailOfItem extends Component<RouteComponentProps, any> {
+  getNewItem(): any {}
+  getNewItemId(): number {
     return -1;
   }
 
@@ -16,11 +16,11 @@ export class DetailOfItem extends Component {
   url = '/api/owner/';
   tooltipPlace = 'bottom';
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.getItem();
   }
 
-  digitsOnly = e => {
+  digitsOnly = (e: KeyboardEvent<Element>) => {
     let charCode = e.charCode;
     //console.log(charCode);
     if (charCode < 48 || charCode > 57) {
@@ -29,7 +29,7 @@ export class DetailOfItem extends Component {
     }
   };
 
-  getErrors = data => {
+  getErrors = (data: any) => {
     //console.log('getErrors', data);
     const type = 'error';
     if (typeof data == 'string') {
@@ -40,7 +40,7 @@ export class DetailOfItem extends Component {
     });
   };
 
-  getItemFromData(data) {
+  getItemFromData(data: any) {
     //console.log('getItemFromData', data);
     return data.id ? data : this.getNewItem();
   }
@@ -62,7 +62,7 @@ export class DetailOfItem extends Component {
       });
   };
 
-  redirect = (redirect, dir = '') => {
+  redirect = (redirect: string, dir = '') => {
     if (redirect) {
       if (dir === 'back') {
         this.props.history.goBack();
@@ -104,7 +104,7 @@ export class DetailOfItem extends Component {
       });
   };
 
-  getChangedItem(name, value) {
+  getChangedItem(name: string, value: string) {
     const item = {
       ...this.state.item,
       [name]: value,
@@ -112,7 +112,7 @@ export class DetailOfItem extends Component {
     return item;
   }
 
-  changeItem = e => {
+  changeItem = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({ item: this.getChangedItem(e.target.name, e.target.value) });
   };
 

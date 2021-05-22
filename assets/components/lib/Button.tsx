@@ -7,14 +7,32 @@ interface IButtonProps {
   name?: string;
   value?: any;
   variant?: string;
-  onClick: any;
+  onClick?: any;
   disabled?: boolean;
   children?: any;
+  type?: string;
 }
 
-export const Button: React.FC<IButtonProps> = ({ tooltip, id, className, name, value, onClick, disabled, children }) => {
+export const Button: React.FC<IButtonProps> = ({
+  tooltip,
+  id,
+  className,
+  name,
+  value,
+  onClick,
+  disabled,
+  children,
+}) => {
   return (
-    <button title={tooltip} id={id} className={className ? className : ''} name={name} value={value} onClick={onClick} disabled={disabled}>
+    <button
+      title={tooltip}
+      id={id}
+      className={className ? className : ''}
+      name={name}
+      value={value}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -1,27 +1,29 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import ListOfItems from './ListOfItems';
+import ListOfItems, { TSortedBy, TListOfItemsProps, TListOfItemsState } from './ListOfItems';
 import { CarDeleteDialog } from './CarDeleteDialog';
-import PropTypes from 'prop-types';
 import { Table } from './lib/Table';
 
-const DEF_SORTED_BY = {
+export type TCarItem = {
+  id: number;
+  manufacturer: string;
+  model: string;
+  production: string;
+  color: string;
+  power: number;
+  mileage: number;
+};
+
+const DEF_SORTED_BY: TSortedBy = {
   name: 'model',
-  direction: 'ASC',
+  direction: 'asc',
 };
 class Cars extends ListOfItems {
-  static propTypes = {
-    owner: PropTypes.number,
-    // withButtons: PropTypes.bool,
-    // withOwnerInfo: PropTypes.bool,
-    // withSearch: PropTypes.bool,
-  };
-
   url = '/api/cars/';
   tooltipPlace = 'bottom';
   nameOfItem = 'Автомобиль';
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState) {
     super.componentDidUpdate(prevProps, prevState);
     if (prevProps.owner !== this.props.owner) this.getItems();
   }
@@ -45,7 +47,7 @@ class Cars extends ListOfItems {
           </tr>
         </thead>
         <tbody>
-          {this.state.items.map((o, index) => {
+          {this.state.items.map((o: TCarItem, index: number) => {
             return (
               <tr key={index}>
                 <td>{o.manufacturer}</td>
@@ -54,7 +56,7 @@ class Cars extends ListOfItems {
                 <td>{o.color}</td>
                 <td>{o.power}</td>
                 <td>{o.mileage}</td>
-                <td style={{ width: 100 + 'px' }}>{this.getButtons(o.id)}</td>
+                <td style={{ width: 100 + 'px' }}>{this.getButtons(String(o.id))}</td>
               </tr>
             );
           })}
@@ -64,7 +66,13 @@ class Cars extends ListOfItems {
   };
 
   getDeleteDialog = () => {
-    return <CarDeleteDialog params={this.state} itemDelete={this.itemDelete} />;
+    return (
+      <CarDeleteDialog
+        show={this.state.showDeleteDialog}
+        params={this.state}
+        itemDelete={this.itemDelete}
+      />
+    );
   };
 }
 

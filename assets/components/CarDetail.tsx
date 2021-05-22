@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
 import Alerts from './Alerts';
@@ -20,6 +20,9 @@ const EMPTY_CAR = {
   mileage: 0,
   comment: '',
 };
+
+//type TCarDetailProps = RouteComponentProps;
+
 class CarDetail extends DetailOfItem {
   url = '/api/car/';
 
@@ -30,11 +33,12 @@ class CarDetail extends DetailOfItem {
     return item;
   }
 
-  changeDate = date => {
+  changeDate = (date: Date | Date[]) => {
     //console.log("changeDate", date.toLocaleDateString("ru"));
+    if (typeof date !== 'object') return;
     const item = {
       ...this.state.item,
-      production: date.toLocaleDateString('ru'),
+      production: (date as Date).toLocaleDateString('ru'),
     };
     this.setState({ item });
   };
@@ -43,7 +47,7 @@ class CarDetail extends DetailOfItem {
     if (this.state.item.production) {
       const [day, month, year] = this.state.item.production.split('.');
       //console.log("getDate", [day, month, year]);
-      return new Date(year, (+month - 1).toString(), day);
+      return new Date(year, +month - 1, day);
     }
     return new Date();
   };
@@ -95,7 +99,7 @@ class CarDetail extends DetailOfItem {
                       format="dd.MM.yyyy"
                       locale="ru"
                       maxDate={new Date()}
-                      minDate={new Date('1900', 0, 1)}
+                      minDate={new Date(1900, 0, 1)}
                       name="production"
                       // showYearDropdown={true}
                       onChange={this.changeDate}
@@ -123,7 +127,7 @@ class CarDetail extends DetailOfItem {
                       className="form__control form__control_car-input"
                       name="power"
                       type="text"
-                      maxLength="3"
+                      maxLength={3}
                       value={this.state.item.power ? this.state.item.power : ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
@@ -137,7 +141,7 @@ class CarDetail extends DetailOfItem {
                       className="form__control form__control_car-input"
                       name="mileage"
                       type="text"
-                      maxLength="10"
+                      maxLength={10}
                       value={this.state.item.mileage ? this.state.item.mileage : ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
@@ -150,7 +154,7 @@ class CarDetail extends DetailOfItem {
                   </Form.Label>
                   <Form.Control
                     type="textarea"
-                    rows="8"
+                    rows={8}
                     value={this.state.item.comment}
                     name="comment"
                     onChange={this.changeItem}

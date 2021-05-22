@@ -1,11 +1,24 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import React, { ChangeEvent, Component, MouseEvent } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router';
 import Form from './lib/Form';
 import { Button } from './lib/Button';
 import Card from './lib/Card';
 import Alerts from './Alerts';
 
-class Dashboard extends Component {
+type TWebsocket = {
+  ws: WebSocket | null;
+  status: string;
+};
+
+type TDashboardState = {
+  messages: Array<any>;
+  uploadFile: File | null;
+  clearDB: boolean;
+  websocket: TWebsocket;
+  downloadFormat: string;
+};
+
+class Dashboard extends Component<RouteComponentProps, TDashboardState> {
   state = {
     messages: [],
     uploadFile: null,
@@ -20,12 +33,14 @@ class Dashboard extends Component {
   downloadUrl = '/';
   uploadUrl = '/';
 
+  timeout: number = 250;
+
   getDownloadUrl = () => {
     return `/api/download/`;
   };
 
-  setWebsocketStatus = status => {
-    const websocket = { ...this.state.websocket, status: status };
+  setWebsocketStatus = (status: string) => {
+    const websocket: TWebsocket = { ...this.state.websocket, status: status };
     this.setState({ websocket });
   };
 
@@ -47,13 +62,13 @@ class Dashboard extends Component {
   };
 
   checkWebsocket = () => {
-    const ws = this.state.websocket.ws;
-    if (!ws || ws.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
+    const ws: WebSocket | null = this.state.websocket.ws;
+    if (!ws || ws!.readyState === WebSocket.CLOSED) this.connectWebsocket(); //check if websocket instance is closed, if so call `connect` function.
   };
 
   connectWebsocket = () => {
     const self = this; // cache the this
-    let connectInterval;
+    let connectInterval: NodeJS.Timeout;
     //const ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     //const url = `ws://${this.getHostName()}:8080/`;
     const url = this.getWsUrl();
@@ -69,8 +84,8 @@ class Dashboard extends Component {
 
     ws.onmessage = evt => {
       // listen to data sent from the websocket server
-      const data = JSON.parse(evt.data);
-      const messages = this.state.messages;
+      const data: any = JSON.parse(evt.data);
+      const messages: Array<any> = this.state.messages;
       if (data) {
         //console.log('onmessage', data);
 
@@ -86,7 +101,7 @@ class Dashboard extends Component {
       this.setWebsocketStatus('disconnected');
       // automatically try to reconnect on connection loss
       self.timeout = self.timeout + self.timeout; //increment retry interval
-      connectInterval = setTimeout(this.checkWebsocket, Math.min(10000, self.timeout)); //call check function after timeout
+      connectInterval = global.setTimeout(this.checkWebsocket, Math.min(10000, self.timeout)); //call check function after timeout
     };
 
     ws.onerror = e => {
@@ -101,36 +116,39 @@ class Dashboard extends Component {
     this.connectWebsocket();
   }
 
-  selectFormat = e => {
+  selectFormat = (e: ChangeEvent<HTMLSelectElement>) => {
     this.setState({ downloadFormat: e.target.value });
   };
 
-  selectFileToUpload = e => {
+  selectFileToUpload = (e: MouseEvent<HTMLButtonElement>) => {
     const input = document.createElement('input');
     input.type = 'file';
 
-    input.onchange = e => {
-      const file = e.target.files[0];
+    input.onchange = (e: any): any => {
+      const file: File = e.target!.files[0];
       this.setState({ uploadFile: file });
     };
 
     input.click();
   };
 
-  sendFile = e => {
+  sendFile = (e: MouseEvent<HTMLButtonElement>) => {
     const reader = new FileReader();
-    reader.readAsText(this.state.uploadFile, 'UTF-8');
+    reader.readAsText(this.state.uploadFile!, 'UTF-8');
 
     // here we tell the reader what to do when it's done reading...
     reader.onload = readerEvent => {
-      const content = readerEvent.target.result; // this is the content!
-      this.state.websocket.ws.send(
-        JSON.stringify({
-          type: 'utf8',
-          cleardb: this.state.clearDB,
-          content: content,
-        })
-      );
+      const content = readerEvent.target!.result; // this is the content!
+      const ws: any = this.state.websocket.ws;
+      if (ws !== null) {
+        ws.send(
+          JSON.stringify({
+            type: 'utf8',
+            cleardb: this.state.clearDB,
+            content: content,
+          })
+        );
+      }
     };
   };
 
@@ -159,7 +177,7 @@ class Dashboard extends Component {
                 name="clearBD"
                 value={this.state.clearDB}
                 onChange={this.clearDB}
-                disabled={this.state.websocket.status === 'disconnected' ? 'disable' : ''}
+                disabled={this.state.websocket.status === 'disconnected'}
               />
             </Form.Group>
             <Form.Group auxClassName="form__group_horiz">
@@ -169,14 +187,14 @@ class Dashboard extends Component {
                 name="uploadFileName"
                 id="uploadFileName"
                 type="text"
-                value={this.state.uploadFile ? this.state.uploadFile.name : ''}
+                value={(this.state.uploadFile as any)?.name}
                 readOnly
               />
               <Button
                 //variant="primary"
                 className="btn-primary"
                 onClick={this.selectFileToUpload}
-                disabled={this.state.websocket.status === 'disconnected' ? 'disable' : ''}
+                disabled={this.state.websocket.status === 'disconnected'}
               >
                 ...
               </Button>
@@ -184,7 +202,7 @@ class Dashboard extends Component {
                 //variant="primary"
                 className="btn-primary"
                 onClick={this.sendFile}
-                disabled={this.state.uploadFile ? '' : 'disabled'}
+                disabled={this.state.uploadFile === null}
               >
                 Старт
               </Button>

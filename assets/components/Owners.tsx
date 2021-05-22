@@ -1,12 +1,21 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import ListOfItems from './ListOfItems';
+import { withRouter, RouteComponentProps } from 'react-router';
+import ListOfItems, { TSortedBy } from './ListOfItems';
 import { OwnerDeleteDialog } from './OwnerDeleteDialog';
 import { Table } from './lib/Table';
 
-const DEFAULT_SORTED_BY = {
+export type TOwnerItem = {
+  id: number;
+  name: string;
+  patronymic: string;
+  last_name: string;
+  gender: 'f' | 'm';
+  age: number;
+};
+
+const DEFAULT_SORTED_BY: TSortedBy = {
   name: 'last_name',
-  direction: 'ASC',
+  direction: 'asc',
 };
 class Owners extends ListOfItems {
   url = '/api/owners/';
@@ -32,7 +41,7 @@ class Owners extends ListOfItems {
           </tr>
         </thead>
         <tbody>
-          {this.state.items.map((o, index) => {
+          {this.state.items.map((o: TOwnerItem, index: number) => {
             return (
               <tr key={index}>
                 <td>{o.last_name}</td>
@@ -40,7 +49,7 @@ class Owners extends ListOfItems {
                 <td>{o.patronymic}</td>
                 <td>{o.gender === 'f' ? 'Жен' : 'Муж'}</td>
                 <td>{o.age}</td>
-                <td style={{ width: 100 + 'px' }}>{this.getButtons(o.id)}</td>
+                <td style={{ width: 100 + 'px' }}>{this.getButtons(String(o.id))}</td>
               </tr>
             );
           })}

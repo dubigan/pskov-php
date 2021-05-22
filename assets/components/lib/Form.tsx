@@ -1,4 +1,9 @@
-import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react';
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+  MouseEventHandler,
+} from 'react';
 
 type TFormProps = {
   children?: React.ReactNode;
@@ -21,9 +26,14 @@ type TFormControlProps = {
   rows?: number;
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>; // | ChangeEventHandler<HTMLTextAreaElement>;
   onClick?: MouseEventHandler;
+  onKeyPress?: KeyboardEventHandler;
+  disabled?: boolean;
+  id?: string;
+  readOnly?: boolean;
 };
 
 type TFormLabelProps = {
+  name?: string;
   className?: string;
   auxClassName?: string;
   children?: React.ReactNode;
