@@ -21,7 +21,7 @@ export default class Alerts extends Component<TAlertsProps, TAlertsState> {
   state = {
     messages: [],
     showAlert: false,
-    timeout: 7000,
+    timeout: 5000,
   };
 
   componentDidUpdate(prevProps: TAlertsProps, prevState: TAlertsState) {
@@ -75,9 +75,7 @@ export default class Alerts extends Component<TAlertsProps, TAlertsState> {
   };
 
   delay = (wait: number) => {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(''), wait);
-    });
+    return new Promise(resolve => global.setTimeout(() => resolve(''), wait));
   };
 
   clearMessages = () => {

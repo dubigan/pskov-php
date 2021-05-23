@@ -56,7 +56,7 @@ class Cars extends ListOfItems {
                 <td>{o.color}</td>
                 <td>{o.power}</td>
                 <td>{o.mileage}</td>
-                <td style={{ width: 100 + 'px' }}>{this.getButtons(String(o.id))}</td>
+                <td style={{ width: 10 + 'rem' }}>{this.getButtons(String(o.id))}</td>
               </tr>
             );
           })}
