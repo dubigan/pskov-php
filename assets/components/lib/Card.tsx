@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 interface ICardProps {
   children?: any;
@@ -29,17 +29,7 @@ type ICard = React.FC<ICardProps> & {
 };
 
 const Card: ICard = ({ children, className }) => {
-  // let Body: typeof CardBody;
-  // let Footer: typeof CardFooter;
-  return (
-    // {
-    //   Header: CardHeader,
-    //   Title: CardTitle,
-    //   Body: CardBody,
-    //   Footer: CardFooter
-    // }
-    <div className={className ? className : 'card'}>{children}</div>
-  );
+  return <div className={className ? className : 'card'}>{children}</div>;
 };
 
 Card.Header = CardHeader;

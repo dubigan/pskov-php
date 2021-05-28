@@ -2,8 +2,10 @@ import React, { ChangeEvent, ChangeEventHandler, Component, KeyboardEvent } from
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
-export class DetailOfItem extends Component<RouteComponentProps, any> {
-  getNewItem(): any {}
+export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
+  getNewItem(): TItem | undefined {
+    return undefined;
+  }
   getNewItemId(): number {
     return -1;
   }

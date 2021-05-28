@@ -12,18 +12,19 @@ export type TCarItem = {
   color: string;
   power: number;
   mileage: number;
+  comment: string;
 };
 
 const DEF_SORTED_BY: TSortedBy = {
   name: 'model',
   direction: 'asc',
 };
-class Cars extends ListOfItems {
+class Cars extends ListOfItems<TCarItem> {
   url = '/api/cars/';
   tooltipPlace = 'bottom';
   nameOfItem = 'Автомобиль';
 
-  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState) {
+  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState<TCarItem>) {
     super.componentDidUpdate(prevProps, prevState);
     if (prevProps.owner !== this.props.owner) this.getItems();
   }

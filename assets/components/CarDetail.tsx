@@ -9,6 +9,7 @@ import { Row } from './lib/Row';
 import { Button } from './lib/Button';
 import Form from './lib/Form';
 import { TooltipContent } from './lib/Tooltip';
+import { TCarItem } from './Cars';
 
 const EMPTY_CAR = {
   id: -1,
@@ -23,11 +24,11 @@ const EMPTY_CAR = {
 
 //type TCarDetailProps = RouteComponentProps;
 
-class CarDetail extends DetailOfItem {
+class CarDetail extends DetailOfItem<TCarItem> {
   url = '/api/car/';
 
   getNewItem() {
-    const item = EMPTY_CAR;
+    const item: TCarItem = EMPTY_CAR;
     //console.log('getNewItem', item);
 
     return item;
@@ -44,10 +45,10 @@ class CarDetail extends DetailOfItem {
   };
 
   getDate = () => {
-    if (this.state.item.production) {
-      const [day, month, year] = this.state.item.production.split('.');
+    if (this.state.item?.production) {
+      const [day, month, year] = this.state.item!.production.split('.');
       //console.log("getDate", [day, month, year]);
-      return new Date(year, +month - 1, day);
+      return new Date(+year, +month - 1, +day);
     }
     return new Date();
   };
@@ -70,7 +71,7 @@ class CarDetail extends DetailOfItem {
                       className="form__control form__control_car-input"
                       name="manufacturer"
                       type="text"
-                      value={this.state.item.manufacturer}
+                      value={this.state.item?.manufacturer}
                       onChange={this.changeItem}
                     />
                   </Form.Group>
@@ -80,7 +81,7 @@ class CarDetail extends DetailOfItem {
                       className="form__control form__control_car-input"
                       name="model"
                       type="text"
-                      value={this.state.item.model}
+                      value={this.state.item?.model}
                       onChange={this.changeItem}
                     />
                   </Form.Group>
@@ -115,7 +116,7 @@ class CarDetail extends DetailOfItem {
                       className="form__control form__control_car-input"
                       name="color"
                       type="text"
-                      value={this.state.item.color}
+                      value={this.state.item?.color}
                       onChange={this.changeItem}
                     />
                   </Form.Group>
@@ -128,7 +129,7 @@ class CarDetail extends DetailOfItem {
                       name="power"
                       type="text"
                       maxLength={3}
-                      value={this.state.item.power ? this.state.item.power : ''}
+                      value={this.state.item?.power ? this.state.item!.power : ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
                     />
@@ -142,7 +143,7 @@ class CarDetail extends DetailOfItem {
                       name="mileage"
                       type="text"
                       maxLength={10}
-                      value={this.state.item.mileage ? this.state.item.mileage : ''}
+                      value={this.state.item?.mileage ? this.state.item!.mileage : ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
                     />
@@ -155,7 +156,7 @@ class CarDetail extends DetailOfItem {
                   <Form.Control
                     type="textarea"
                     rows={8}
-                    value={this.state.item.comment}
+                    value={this.state.item?.comment}
                     name="comment"
                     onChange={this.changeItem}
                   />

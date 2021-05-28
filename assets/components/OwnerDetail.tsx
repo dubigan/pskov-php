@@ -10,11 +10,12 @@ import { Button } from './lib/Button';
 import Form from './lib/Form';
 import GenderSelect from './parts/GenderSelect';
 import { TooltipContent } from './lib/Tooltip';
+import { TOwnerItem } from './Owners';
 
 const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
 
-const EMPTY_ITEM = {
+const EMPTY_ITEM: TOwnerItem = {
   id: EMPTY_ITEM_ID, // indicate new owner, -1 means undefined owner
   cars: [],
   name: '',
@@ -25,7 +26,7 @@ const EMPTY_ITEM = {
   comment: '',
 };
 
-class OwnerDetail extends DetailOfItem {
+class OwnerDetail extends DetailOfItem<TOwnerItem> {
   url = '/api/owner/';
 
   getNewItem() {
@@ -36,11 +37,12 @@ class OwnerDetail extends DetailOfItem {
   }
 
   btnNewCarClick = () => {
+    if (!this.state.item) return;
     axios
       .post(this.url, {
         btn_add: '',
         url: window.location.pathname,
-        owner_pk: this.state.item.id,
+        owner_pk: this.state.item!.id,
       })
       .then(res => {
         this.redirect(res.data.redirect);
@@ -75,7 +77,7 @@ class OwnerDetail extends DetailOfItem {
                       className="form__control form__control_owner-input"
                       name="name"
                       type="text"
-                      value={this.state.item.name ? this.state.item.name : ''}
+                      value={this.state.item?.name ? this.state.item!.name : ''}
                       placeholder="Имя"
                       onChange={this.changeItem}
                     />
@@ -88,7 +90,7 @@ class OwnerDetail extends DetailOfItem {
                       className="form__control form__control_owner-input"
                       name="patronymic"
                       type="text"
-                      value={this.state.item.patronymic ? this.state.item.patronymic : ''}
+                      value={this.state.item?.patronymic ? this.state.item!.patronymic : ''}
                       placeholder="Отчество"
                       onChange={this.changeItem}
                     />
@@ -100,7 +102,7 @@ class OwnerDetail extends DetailOfItem {
                       name="last_name"
                       type="text"
                       placeholder="Фамилия"
-                      value={this.state.item.last_name ? this.state.item.last_name : ''}
+                      value={this.state.item?.last_name ? this.state.item!.last_name : ''}
                       onChange={this.changeItem}
                     />
                   </Form.Group>
@@ -111,7 +113,7 @@ class OwnerDetail extends DetailOfItem {
                     <GenderSelect
                       className="toggleButtonGroup toggleButtonGroup_owner-gender"
                       name="gender"
-                      checkValue={this.state.item.gender}
+                      checkValue={this.state.item!.gender}
                       onChange={this.changeGender}
                     />
                   </Form.Group>
@@ -125,7 +127,7 @@ class OwnerDetail extends DetailOfItem {
                       type="text"
                       maxLength={3}
                       placeholder="Возраст"
-                      value={this.state.item.age ? this.state.item.age : ''}
+                      value={this.state.item?.age ? this.state.item!.age : ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
                     />
@@ -138,7 +140,7 @@ class OwnerDetail extends DetailOfItem {
                   <Form.Control
                     type="textarea"
                     rows={7}
-                    value={this.state.item.comment ? this.state.item.comment : ''}
+                    value={this.state.item?.comment ? this.state.item!.comment : ''}
                     name="comment"
                     placeholder="Комментарий"
                     onChange={this.changeItem}
@@ -166,7 +168,7 @@ class OwnerDetail extends DetailOfItem {
                 className="btn-primary btn-primary_owner-add-car tooltip"
                 name="add_car"
                 onClick={this.btnNewCarClick}
-                disabled={this.state.item.id < 0}
+                disabled={this.state.item!.id < 0}
               >
                 <TooltipContent>Добавить&nbsp;автомобиль</TooltipContent>
                 Добавить автомобиль
@@ -174,7 +176,7 @@ class OwnerDetail extends DetailOfItem {
             </Row>
           </Card.Header>
           <Card.Body>
-            <Cars owner={this.state.item.id} />
+            <Cars owner={this.state.item?.id} />
           </Card.Body>
         </Card>
       </div>

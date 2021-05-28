@@ -3,6 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import ListOfItems, { TSortedBy } from './ListOfItems';
 import { OwnerDeleteDialog } from './OwnerDeleteDialog';
 import { Table } from './lib/Table';
+import { TCarItem } from './Cars';
 
 export type TOwnerItem = {
   id: number;
@@ -11,13 +12,15 @@ export type TOwnerItem = {
   last_name: string;
   gender: 'f' | 'm';
   age: number;
+  comment: string;
+  cars: TCarItem[];
 };
 
 const DEFAULT_SORTED_BY: TSortedBy = {
   name: 'last_name',
   direction: 'asc',
 };
-class Owners extends ListOfItems {
+class Owners extends ListOfItems<TOwnerItem> {
   url = '/api/owners/';
   tooltipPlace = 'bottom';
   nameOfItem = 'Автовладелец';

@@ -6,8 +6,6 @@ import { TooltipContent } from './lib/Tooltip';
 import { Button } from './lib/Button';
 import Alerts from './Alerts';
 import Loader from './Loader';
-import { TOwnerItem } from './Owners';
-import { TCarItem } from './Cars';
 
 export type TListOfItemsProps = RouteComponentProps & { owner?: number };
 export type TSortedBy = {
@@ -15,14 +13,12 @@ export type TSortedBy = {
   direction: 'asc' | 'desc';
 };
 
-type TItem = TOwnerItem | TCarItem | undefined;
-
-export type TListOfItemsState = {
+export type TListOfItemsState<TItem> = {
   loading: boolean;
   messages: Array<TListOfItemsError>;
   showDeleteDialog: boolean;
-  itemDelete: TItem;
-  items: Array<TOwnerItem | TCarItem>;
+  itemDelete: TItem | undefined;
+  items: Array<TItem>;
   sortedBy: TSortedBy;
 };
 
@@ -31,7 +27,10 @@ type TListOfItemsError = {
   message: string;
 };
 
-export default class ListOfItems extends Component<TListOfItemsProps, TListOfItemsState> {
+export default class ListOfItems<TItem> extends Component<
+  TListOfItemsProps,
+  TListOfItemsState<TItem>
+> {
   state = {
     loading: false,
     messages: [],
@@ -61,7 +60,7 @@ export default class ListOfItems extends Component<TListOfItemsProps, TListOfIte
     };
   }
 
-  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState) {
+  componentDidUpdate(prevProps: TListOfItemsProps, prevState: TListOfItemsState<TItem>) {
     if (
       prevState.sortedBy.name !== this.state.sortedBy.name ||
       prevState.sortedBy.direction !== this.state.sortedBy.direction
@@ -82,28 +81,25 @@ export default class ListOfItems extends Component<TListOfItemsProps, TListOfIte
     });
   };
 
-  getItems = () => {
+  getItems = async () => {
     this.setState({ loading: true });
     //console.log('getItems owner', this.props.owner);
-
-    axios
-      .post(this.url, {
+    try {
+      const res = await axios.post(this.url, {
         sorted_by: this.state.sortedBy,
         owner: this.props.owner ? this.props.owner : -1,
-      })
-      .then(res => {
-        //console.log('getItems', res.data);
-        const state = { items: res.data };
-        //console.log("getItems state", state);
+      });
+      const state = { items: res.data };
+      //console.log("getItems state", state);
 
-        this.setState(state);
-      })
-      .catch(err => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
-      })
-      .finally(() => this.setState({ loading: false }));
+      this.setState(state);
+    } catch (err) {
+      this.setState({
+        messages: this.getErrors(err.response.data),
+      });
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   getItem = (id: number) => {
@@ -186,7 +182,7 @@ export default class ListOfItems extends Component<TListOfItemsProps, TListOfIte
       });
   };
 
-  getItemId = (item: TItem): number => {
+  getItemId = (item: any): number => {
     return item ? item.id : -1;
   };
 
