@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 type TModalPartsProps = {
   id?: string;
@@ -66,55 +66,46 @@ type TModalAddOns = {
   Footer: React.FC<TModalPartsProps>;
 };
 
-class Modal extends Component<TModalProps, {}> {
-  changeShowStatus = () => {
+const Modal = (props: TModalProps) => {
+  const setBaseClass = (): void => {
+    baseClass = props.baseClassName;
+  };
+  useEffect(setBaseClass, []);
+  const changeShowStatus = () => {
     const $body = document.querySelector('body')!;
-    const $modal = document.querySelector('.' + this.props.baseClassName)! as HTMLElement;
+    const $modal = document.querySelector('.' + props.baseClassName)! as HTMLElement;
     const $modalBackdrop = document.querySelector(
-      '.' + this.props.baseClassName + '__backdrop'
+      '.' + props.baseClassName + '__backdrop'
     )! as HTMLElement;
-    const $dialog = document.querySelector(
-      '.' + this.props.baseClassName + '__dialog'
-    ) as HTMLElement;
+    const $dialog = document.querySelector('.' + props.baseClassName + '__dialog') as HTMLElement;
     //console.log('Modal.modal', $modal);
-    if (this.props.show) {
+    if (props.show) {
       $body.classList.add('body-modal-open');
-      $modalBackdrop.classList.add(this.props.baseClassName + '__backdrop_show');
-      $modal.classList.add(this.props.baseClassName + '_show');
-      $dialog.classList.add(this.props.baseClassName + '__dialog_show');
+      $modalBackdrop.classList.add(props.baseClassName + '__backdrop_show');
+      $modal.classList.add(props.baseClassName + '_show');
+      $dialog.classList.add(props.baseClassName + '__dialog_show');
     } else {
       $body.classList.remove('body-modal-open');
-      $modalBackdrop.classList.remove(this.props.baseClassName + '__backdrop_show');
-      $modal.classList.remove(this.props.baseClassName + '_show');
-      $dialog.classList.remove(this.props.baseClassName + '__dialog_show');
+      $modalBackdrop.classList.remove(props.baseClassName + '__backdrop_show');
+      $modal.classList.remove(props.baseClassName + '_show');
+      $dialog.classList.remove(props.baseClassName + '__dialog_show');
     }
   };
-  componentDidMount(): void {
-    baseClass = this.props.baseClassName;
-    //console.log('Modal.baseClassName', this.props.baseClassName);
-    //this.changeShowStatus();
-  }
-  componentDidUpdate(prevProps: TModalProps): void {
-    //console.log('Modal.baseClassName', this.props.baseClassName);
-    if (this.props.show != prevProps.show) {
-      this.changeShowStatus();
-    }
-  }
-  render() {
-    return (
-      <>
-        <div id={this.props.id} className={this.props.baseClassName + '__backdrop'}></div>
-        <div id={this.props.id} className={this.props.baseClassName}>
-          <div className={this.props.baseClassName + '__dialog'}>
-            <div id={this.props.id} className={this.props.baseClassName + '__children'}>
-              {this.props.children}
-            </div>
+  useEffect(changeShowStatus, [props.show]);
+
+  return (
+    <>
+      <div id={props.id} className={props.baseClassName + '__backdrop'}></div>
+      <div id={props.id} className={props.baseClassName}>
+        <div className={props.baseClassName + '__dialog'}>
+          <div id={props.id} className={props.baseClassName + '__children'}>
+            {props.children}
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};
 
 type TModal = typeof Modal & TModalAddOns;
 Object.assign(Modal, {
