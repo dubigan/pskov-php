@@ -30,6 +30,7 @@ type TFormControlProps = {
   disabled?: boolean;
   id?: string;
   readOnly?: boolean;
+  children?: React.ReactNode;
 };
 
 type TFormLabelProps = {
@@ -46,15 +47,15 @@ const getClassName = (className: string = '', auxClassName: string = '', suffix:
   return baseClass + suffix + (auxClassName ? ' ' + auxClassName : '');
 };
 
-const FormLabel: React.FC<TFormLabelProps> = ({ children, className, auxClassName }) => {
+const FormLabel = ({ children, className, auxClassName }: TFormLabelProps) => {
   return <div className={getClassName(className, auxClassName, '__label')}>{children}</div>;
 };
 
-const FormGroup: React.FC<TFormProps> = ({ children, className, auxClassName }) => {
+const FormGroup = ({ children, className, auxClassName }: TFormProps) => {
   return <div className={getClassName(className, auxClassName, '__group')}>{children}</div>;
 };
 
-const FormControlSelect: React.FC<TFormControlProps> = props => {
+const FormControlSelect = (props: TFormControlProps) => {
   return (
     <select
       className={getClassName(props.className, props.auxClassName, '__select')}
@@ -65,7 +66,7 @@ const FormControlSelect: React.FC<TFormControlProps> = props => {
   );
 };
 
-const FormControl: React.FC<TFormControlProps> = props => {
+const FormControl = (props: TFormControlProps) => {
   let type = 'text';
   if (props.type) type = props.type;
   switch (type) {
@@ -128,14 +129,21 @@ const FormControl: React.FC<TFormControlProps> = props => {
   }
 };
 
-type TForm = React.FC<TFormProps> & {
-  Label: typeof FormLabel;
-  Control: typeof FormControl;
-  Select: typeof FormControlSelect;
-  Group: typeof FormGroup;
-};
+// const Form: TForm = props => {
+//   if (props.baseClassName) baseClass = props.baseClassName;
+//   return (
+//     <form
+//       action={props.action}
+//       method={props.method}
+//       className={getClassName(props.className, props.auxClassName)}
+//       onSubmit={props.onSubmit}
+//     >
+//       {props.children}
+//     </form>
+//   );
+// };
 
-const Form: TForm = props => {
+function Form(props: TFormProps) {
   if (props.baseClassName) baseClass = props.baseClassName;
   return (
     <form
@@ -147,6 +155,12 @@ const Form: TForm = props => {
       {props.children}
     </form>
   );
+}
+type TForm = typeof Form & {
+  Label: typeof FormLabel;
+  Control: typeof FormControl;
+  Select: typeof FormControlSelect;
+  Group: typeof FormGroup;
 };
 
 Form.Label = FormLabel;
@@ -154,4 +168,4 @@ Form.Control = FormControl;
 Form.Select = FormControlSelect;
 Form.Group = FormGroup;
 
-export default Form;
+export default Form as TForm;

@@ -10,7 +10,7 @@ type TModalHeaderProps = { closeButton?: boolean } & TModalPartsProps;
 
 let baseClass = 'modal-dialog';
 
-const ModalHeader: React.FC<TModalHeaderProps> = props => {
+const ModalHeader = (props: TModalHeaderProps) => {
   const ref = useRef<HTMLDivElement>(null);
   // useEffect(() => {
   //   const classList = ref.current!.classList;
@@ -24,7 +24,7 @@ const ModalHeader: React.FC<TModalHeaderProps> = props => {
   );
 };
 
-const ModalTitle: React.FC<TModalPartsProps> = props => {
+const ModalTitle = (props: TModalPartsProps) => {
   //useEffect(() => console.log('Modal.Title', baseClass));
   return (
     <div className={baseClass + '__title'} id={props.id}>
@@ -33,7 +33,7 @@ const ModalTitle: React.FC<TModalPartsProps> = props => {
   );
 };
 
-const ModalBody: React.FC<TModalPartsProps> = props => {
+const ModalBody = (props: TModalPartsProps) => {
   //useEffect(() => console.log('Modal.Body', baseClass));
   return (
     <div className={baseClass + '__body'} id={props.id}>
@@ -42,7 +42,7 @@ const ModalBody: React.FC<TModalPartsProps> = props => {
   );
 };
 
-const ModalFooter: React.FC<TModalPartsProps> = props => {
+const ModalFooter = (props: TModalPartsProps) => {
   //useEffect(() => console.log('Modal.Footer', baseClass));
   return (
     <div className={baseClass + '__footer'} id={props.id}>
