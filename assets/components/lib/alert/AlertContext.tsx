@@ -28,10 +28,18 @@ export const useAlerts = () => {
 };
 
 export const AlertProvider = ({ children }: TContextProps) => {
-  const [messages, setAlerts] = useState<TAlertsState>({
+  const [messages, setMessages] = useState<TAlertsState>({
     messages: [],
     //show: false,
   });
+  const setAlerts = (messages: any): any => {
+    //console.log('AlertProvider.setAlerts', name, contextName);
+    setMessages(messages);
+  };
   //console.log('AlertProvider.alerts', messages);
-  return <AlertContext.Provider value={{ messages, setAlerts }}>{children}</AlertContext.Provider>;
+  return (
+    <AlertContext.Provider value={{ messages, setAlerts: setAlerts }}>
+      {children}
+    </AlertContext.Provider>
+  );
 };

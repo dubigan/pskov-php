@@ -13,12 +13,12 @@ export default class App extends Component {
   render() {
     return (
       <>
-        <AlertProvider>
-          <BrowserRouter>
-            <Suspense fallback={<div>Загрузка...</div>}>
-              <Fragment>
-                <Header />
-                <div className="container-fluid">
+        <BrowserRouter>
+          <Suspense fallback={<div>Загрузка...</div>}>
+            <Fragment>
+              <Header />
+              <div className="container-fluid">
+                <AlertProvider>
                   <Switch>
                     <Route path="/owners" component={Owners} />
                     <Route path="/owner" component={OwnerDetail} />
@@ -26,11 +26,11 @@ export default class App extends Component {
                     <Route path="/car" component={CarDetail} />
                     <Route path="/dashboard" component={Dashboard} />
                   </Switch>
-                </div>
-              </Fragment>
-            </Suspense>
-          </BrowserRouter>
-        </AlertProvider>
+                </AlertProvider>
+              </div>
+            </Fragment>
+          </Suspense>
+        </BrowserRouter>
       </>
     );
   }

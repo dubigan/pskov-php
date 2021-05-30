@@ -177,7 +177,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
             </Row>
           </Card.Header>
           <Card.Body>
-            <Cars owner={this.state.item?.id} />
+            <Cars withAlerts={false} owner={this.state.item?.id} />
           </Card.Body>
         </Card>
       </div>

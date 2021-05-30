@@ -3,9 +3,10 @@ import { useAlerts, TError } from './AlertContext';
 
 type TAlertsProps = {
   timeout?: number;
+  withAlerts?: boolean;
 };
 
-const Alerts = (props: TAlertsProps) => {
+const Alerts = ({ timeout, withAlerts = true }: TAlertsProps) => {
   const [visible, setVisible] = useState(false);
   const alerts = useAlerts();
   const defTimeout = 5000;
@@ -22,6 +23,8 @@ const Alerts = (props: TAlertsProps) => {
     }
     setVisible(view);
   };
+
+  if (!withAlerts) return <></>;
 
   useEffect(showAlerts, [alerts.messages]);
 
@@ -63,7 +66,7 @@ const Alerts = (props: TAlertsProps) => {
 
   const show = () => {
     if (visible) {
-      delay(props.timeout ? props.timeout : defTimeout).then(() => setVisible(false));
+      delay(timeout ? timeout : defTimeout).then(() => setVisible(false));
       return <>{getAlerts(alerts.messages)}</>;
     }
     return <></>;

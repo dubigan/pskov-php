@@ -8,7 +8,7 @@ import Alerts from './lib/alert/Alerts';
 import { AlertContext, TError } from './lib/alert/AlertContext';
 import Loader from './Loader';
 
-export type TListOfItemsProps = RouteComponentProps & { owner?: number };
+export type TListOfItemsProps = RouteComponentProps & { owner?: number; withAlerts?: boolean };
 export type TSortedBy = {
   name: string;
   direction: 'asc' | 'desc';
@@ -276,7 +276,7 @@ export default class ListOfItems<TItem> extends Component<
   render() {
     return (
       <div>
-        <Alerts />
+        <Alerts withAlerts={this.props.withAlerts} />
         {this.deleteDialog()}
         {this.state.loading ? <Loader /> : this.getTable()}
         {this.getAddButton()}
