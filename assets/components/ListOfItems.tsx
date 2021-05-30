@@ -16,7 +16,7 @@ export type TSortedBy = {
 
 export type TListOfItemsState<TItem> = {
   loading: boolean;
-  messages: Array<TError>;
+  //messages: Array<TError>;
   showDeleteDialog: boolean;
   itemDelete: TItem | undefined;
   items: Array<TItem>;
@@ -29,7 +29,7 @@ export default class ListOfItems<TItem> extends Component<
 > {
   state = {
     loading: false,
-    messages: [],
+    //messages: [],
     showDeleteDialog: false,
     itemDelete: undefined,
     items: [],
@@ -145,9 +145,7 @@ export default class ListOfItems<TItem> extends Component<
         }
       })
       .catch(err => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
+        this.context.setAlerts(this.getErrors(err.response.data));
       });
   };
 
@@ -172,9 +170,7 @@ export default class ListOfItems<TItem> extends Component<
       .catch(err => {
         //console.log('btnEditClick.catch', err);
 
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
+        this.context.setAlerts(this.getErrors(err.response.data));
       });
   };
 
@@ -197,25 +193,19 @@ export default class ListOfItems<TItem> extends Component<
         .then(res => {
           this.setState({
             items: res.data,
-            messages: [
-              {
-                type: 'success',
-                message: `${this.nameOfItem} успешно удален`,
-              },
-            ],
           });
+          this.context.setAlerts([
+            {
+              type: 'success',
+              message: `${this.nameOfItem} успешно удален`,
+            },
+          ]);
         })
         .catch(err => {
-          this.setState({
-            messages: this.getErrors(err.response.data),
-          });
+          this.context.setAlerts(this.getErrors(err.response.data));
         })
         .finally(() => this.setState({ loading: false }));
     }
-  };
-
-  clearMessages = () => {
-    this.setState({ messages: [] });
   };
 
   getThCell = (id: string, title: string, index: number) => {
