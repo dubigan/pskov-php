@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Row } from './lib/Row';
 import { TooltipContent } from './lib/Tooltip';
 import { Button } from './lib/Button';
-import Alerts from './Alerts';
+import Alerts from './lib/alert/Alerts';
+import { AlertContext, TError } from './lib/alert/AlertContext';
 import Loader from './Loader';
 
 export type TListOfItemsProps = RouteComponentProps & { owner?: number };
@@ -15,16 +16,11 @@ export type TSortedBy = {
 
 export type TListOfItemsState<TItem> = {
   loading: boolean;
-  messages: Array<TListOfItemsError>;
+  messages: Array<TError>;
   showDeleteDialog: boolean;
   itemDelete: TItem | undefined;
   items: Array<TItem>;
   sortedBy: TSortedBy;
-};
-
-type TListOfItemsError = {
-  type: string;
-  message: string;
 };
 
 export default class ListOfItems<TItem> extends Component<
@@ -39,6 +35,8 @@ export default class ListOfItems<TItem> extends Component<
     items: [],
     sortedBy: this.getDefaultSortedBy(),
   };
+
+  static contextType = AlertContext;
 
   url = '';
   //upArrow = '&#x0225C;';
@@ -75,7 +73,7 @@ export default class ListOfItems<TItem> extends Component<
 
   getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
-  getErrors = (data: Object): TListOfItemsError[] => {
+  getErrors = (data: Object): TError[] => {
     return Object.keys(data).map((key: any) => {
       return { type: 'error', message: this.getKeyValue(data, key) };
     });
@@ -94,9 +92,7 @@ export default class ListOfItems<TItem> extends Component<
 
       this.setState(state);
     } catch (err) {
-      this.setState({
-        messages: this.getErrors(err.response.data),
-      });
+      this.context.setAlerts(this.getErrors(err.response.data));
     } finally {
       this.setState({ loading: false });
     }
@@ -290,7 +286,7 @@ export default class ListOfItems<TItem> extends Component<
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
+        <Alerts />
         {this.deleteDialog()}
         {this.state.loading ? <Loader /> : this.getTable()}
         {this.getAddButton()}

@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import Form from './lib/Form';
 import { Button } from './lib/Button';
 import Card from './lib/Card';
-import Alerts from './Alerts';
+import Alerts from './lib/alert/Alerts';
 
 type TWebsocket = {
   ws: WebSocket | null;
@@ -163,7 +163,7 @@ class Dashboard extends Component<RouteComponentProps, TDashboardState> {
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
+        <Alerts />
         <Card>
           <Card.Header>
             <Form.Label>Загрузка в DB</Form.Label>

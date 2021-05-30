@@ -1,6 +1,7 @@
 import React, { ChangeEvent, ChangeEventHandler, Component, KeyboardEvent } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
+import { AlertContext } from './lib/alert/AlertContext';
 
 export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
   getNewItem(): TItem | undefined {
@@ -11,9 +12,11 @@ export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
   }
 
   state = {
-    messages: [],
+    //messages: [],
     item: this.getNewItem(),
   };
+
+  static contextType = AlertContext;
 
   url = '/api/owner/';
   tooltipPlace = 'bottom';
@@ -58,9 +61,7 @@ export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
         this.setState({ item: this.getItemFromData(res.data) });
       })
       .catch(err => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
+        this.context.setAlerts(this.getErrors(err.response.data));
       });
   };
 
@@ -84,9 +85,9 @@ export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
 
         this.redirect(res.data.redirect, 'back');
 
+        this.context.setAlerts([{ type: 'success', message: 'Информация сохранена' }]);
         this.setState({
           item: this.getItemFromData(res.data),
-          messages: [{ type: 'success', message: 'Информация сохранена' }],
         });
       })
       .catch(err => {
@@ -100,9 +101,8 @@ export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
         } else {
           messages = this.getErrors(err.response.data);
         }
-        this.setState({
-          messages,
-        });
+        //console.log('saveItem.context', this.context);
+        this.context.setAlerts(messages);
       });
   };
 
@@ -118,9 +118,9 @@ export class DetailOfItem<TItem> extends Component<RouteComponentProps, any> {
     this.setState({ item: this.getChangedItem(e.target.name, e.target.value) });
   };
 
-  clearMessages = () => {
-    this.setState({ messages: [] });
-  };
+  // clearMessages = () => {
+  //   this.setState({ messages: [] });
+  // };
 
   render() {
     return <></>;

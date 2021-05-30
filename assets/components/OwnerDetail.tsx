@@ -3,7 +3,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router';
 import { DetailOfItem } from './DetailOfItem';
 import Cars from './Cars';
-import Alerts from './Alerts';
+import Alerts from './lib/alert/Alerts';
 import Card from './lib/Card';
 import { Row } from './lib/Row';
 import { Button } from './lib/Button';
@@ -11,6 +11,7 @@ import Form from './lib/Form';
 import GenderSelect from './parts/GenderSelect';
 import { TooltipContent } from './lib/Tooltip';
 import { TOwnerItem } from './Owners';
+import { AlertContext } from './lib/alert/AlertContext';
 
 const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
@@ -64,7 +65,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
+        <Alerts />
         <Card>
           <Card.Title>Автовладелец</Card.Title>
           <Card.Body>

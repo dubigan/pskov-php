@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import DatePicker from 'react-date-picker';
 import { DetailOfItem } from './DetailOfItem';
-import Alerts from './Alerts';
+import Alerts from './lib/alert/Alerts';
 import './css/DatePicker.css';
 import Card from './lib/Card';
 import { Row } from './lib/Row';
@@ -56,7 +56,7 @@ class CarDetail extends DetailOfItem<TCarItem> {
   render() {
     return (
       <div>
-        <Alerts messages={this.state.messages} clearMessages={this.clearMessages} />
+        <Alerts />
         <Card>
           <Card.Title>Автомобиль</Card.Title>
           <Card.Body>
