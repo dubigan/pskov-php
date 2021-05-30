@@ -4,6 +4,7 @@ import Form from './lib/Form';
 import { Button } from './lib/Button';
 import Card from './lib/Card';
 import Alerts from './lib/alert/Alerts';
+import { AlertContext } from './lib/alert/AlertContext';
 
 type TWebsocket = {
   ws: WebSocket | null;
@@ -11,7 +12,7 @@ type TWebsocket = {
 };
 
 type TDashboardState = {
-  messages: Array<any>;
+  //messages: Array<any>;
   uploadFile: File | null;
   clearDB: boolean;
   websocket: TWebsocket;
@@ -20,7 +21,7 @@ type TDashboardState = {
 
 class Dashboard extends Component<RouteComponentProps, TDashboardState> {
   state = {
-    messages: [],
+    //messages: [],
     uploadFile: null,
     clearDB: false,
     websocket: {
@@ -29,6 +30,8 @@ class Dashboard extends Component<RouteComponentProps, TDashboardState> {
     },
     downloadFormat: 'json',
   };
+
+  static contextType = AlertContext;
 
   downloadUrl = '/';
   uploadUrl = '/';
@@ -85,14 +88,12 @@ class Dashboard extends Component<RouteComponentProps, TDashboardState> {
     ws.onmessage = evt => {
       // listen to data sent from the websocket server
       const data: any = JSON.parse(evt.data);
-      const messages: Array<any> = this.state.messages;
+      const messages: Array<any> = [];
       if (data) {
         //console.log('onmessage', data);
 
         messages.push(data);
-        this.setState({
-          messages: messages,
-        });
+        this.context.setAlerts(messages);
       }
     };
 
@@ -154,10 +155,6 @@ class Dashboard extends Component<RouteComponentProps, TDashboardState> {
 
   clearDB = () => {
     this.setState({ clearDB: !this.state.clearDB });
-  };
-
-  clearMessages = () => {
-    this.setState({ messages: [] });
   };
 
   render() {

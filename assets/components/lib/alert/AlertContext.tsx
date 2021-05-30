@@ -37,9 +37,5 @@ export const AlertProvider = ({ children }: TContextProps) => {
     setMessages(messages);
   };
   //console.log('AlertProvider.alerts', messages);
-  return (
-    <AlertContext.Provider value={{ messages, setAlerts: setAlerts }}>
-      {children}
-    </AlertContext.Provider>
-  );
+  return <AlertContext.Provider value={{ messages, setAlerts }}>{children}</AlertContext.Provider>;
 };

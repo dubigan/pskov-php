@@ -85,7 +85,7 @@ export default class ListOfItems<TItem> extends Component<
     try {
       const res = await axios.post(this.url, {
         sorted_by: this.state.sortedBy,
-        owner: this.props.owner ? this.props.owner : -1,
+        owner: this.props.owner ?? -1,
       });
       const state = { items: res.data };
       //console.log("getItems state", state);
@@ -175,7 +175,7 @@ export default class ListOfItems<TItem> extends Component<
   };
 
   getItemId = (item: any): number => {
-    return item ? item.id : -1;
+    return item ?? -1;
   };
 
   itemDelete = (confirm: string) => {
@@ -188,7 +188,7 @@ export default class ListOfItems<TItem> extends Component<
           sorted_by: this.state.sortedBy,
           btn_del: '',
           item_pk: this.getItemId(this.state.itemDelete),
-          owner: this.props.owner ? this.props.owner : -1,
+          owner: this.props.owner ?? -1,
         })
         .then(res => {
           this.setState({

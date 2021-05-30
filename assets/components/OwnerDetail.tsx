@@ -11,7 +11,6 @@ import Form from './lib/Form';
 import GenderSelect from './parts/GenderSelect';
 import { TooltipContent } from './lib/Tooltip';
 import { TOwnerItem } from './Owners';
-import { AlertContext } from './lib/alert/AlertContext';
 
 const EMPTY_ITEM_ID = -10;
 //const UNDEFINED_OWNER = -1;
@@ -49,9 +48,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
         this.redirect(res.data.redirect);
       })
       .catch(err => {
-        this.setState({
-          messages: this.getErrors(err.response.data),
-        });
+        this.context.setAlerts(this.getErrors(err.response.data));
       });
   };
 
@@ -78,7 +75,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
                       className="form__control form__control_owner-input"
                       name="name"
                       type="text"
-                      value={this.state.item?.name ? this.state.item!.name : ''}
+                      value={this.state.item?.name ?? ''}
                       placeholder="Имя"
                       onChange={this.changeItem}
                     />
@@ -91,7 +88,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
                       className="form__control form__control_owner-input"
                       name="patronymic"
                       type="text"
-                      value={this.state.item?.patronymic ? this.state.item!.patronymic : ''}
+                      value={this.state.item?.patronymic ?? ''}
                       placeholder="Отчество"
                       onChange={this.changeItem}
                     />
@@ -103,7 +100,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
                       name="last_name"
                       type="text"
                       placeholder="Фамилия"
-                      value={this.state.item?.last_name ? this.state.item!.last_name : ''}
+                      value={this.state.item?.last_name ?? ''}
                       onChange={this.changeItem}
                     />
                   </Form.Group>
@@ -128,7 +125,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
                       type="text"
                       maxLength={3}
                       placeholder="Возраст"
-                      value={this.state.item?.age ? this.state.item!.age : ''}
+                      value={this.state.item?.age ?? ''}
                       onChange={this.changeItem}
                       onKeyPress={this.digitsOnly}
                     />
@@ -141,7 +138,7 @@ class OwnerDetail extends DetailOfItem<TOwnerItem> {
                   <Form.Control
                     type="textarea"
                     rows={7}
-                    value={this.state.item?.comment ? this.state.item!.comment : ''}
+                    value={this.state.item?.comment ?? ''}
                     name="comment"
                     placeholder="Комментарий"
                     onChange={this.changeItem}
