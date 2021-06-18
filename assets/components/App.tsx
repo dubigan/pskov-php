@@ -24,13 +24,7 @@ const App = () => {
       .catch((err: any) => console.log('oneSignal.catch', err));
     // console.log('App.OneSignal.userId', id);
   });
-  // useOneSignalSetup(() => {
-  //   console.log('OneSignal initialized');
-  //   // const userId = await OneSignal.getUserId();
-  //   console.log('App.OneSignal.userId', userId);
-  //   // OneSignal.setEmail(user.Email);
-  //   // OneSignal.setExternalUserId(user.id);
-  // });
+
   return (
     <>
       <BrowserRouter>
