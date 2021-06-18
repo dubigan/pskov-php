@@ -12,7 +12,7 @@ const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
   useOneSignalSetup(() => {
-    OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
+    // OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
     console.log('OneSignal initialized');
     // OneSignal.setEmail(user.Email);
     // OneSignal.setExternalUserId(user.id);
