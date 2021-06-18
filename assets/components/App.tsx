@@ -14,15 +14,10 @@ const App = () => {
   const [userId, setUserId] = useState('');
   const oneSignal = (window as any).OneSignal || [];
   console.log('App.OneSignal.oneSignal', oneSignal);
+  console.log('OneSignal try init');
   useEffect(() => {
-    // OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
-    console.log('OneSignal try init');
-    const getUserId = async () => {
-      const id = await oneSignal.getUserId();
-      setUserId(id);
-      console.log('App.OneSignal.userId', id);
-    };
-    getUserId();
+    const id = oneSignal.getUserId();
+    console.log('App.OneSignal.userId', id);
   });
   // useOneSignalSetup(() => {
   //   console.log('OneSignal initialized');
