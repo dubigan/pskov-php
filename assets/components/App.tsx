@@ -11,23 +11,29 @@ const CarDetail = lazy(() => import('./CarDetail'));
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
-  // const [userId, setUserId] = useState('');
   const oneSignal = (window as any).OneSignal || [];
   // console.log('App.OneSignal.oneSignal', oneSignal);
-  // console.log('OneSignal try init');
   useEffect(() => {
+    oneSignal.push(function () {
+      oneSignal.init({
+        appId: '4c631ec8-c487-486c-a57f-032561cf353e',
+        notifyButton: {
+          enable: true,
+        },
+      });
+    });
     oneSignal.push(() => {
       oneSignal.showNativePrompt();
-      oneSignal.getPlayerId((userId: any) => {
-        console.log('App.oneSignal.userId', userId);
+    });
+    oneSignal.push(() => {
+      oneSignal.on('subscriptionChange', (isSubscribed: any) => {
+        console.log('subscription state', isSubscribed);
+        oneSignal.push(() => {
+          oneSignal.getUserId((userId: any) => {
+            console.log('userId', userId);
+          });
+        });
       });
-      // oneSignal
-      //   .getUserId()
-      //   .then((res: any) => {
-      //     console.log('App.OneSignal.userId', res);
-      //   })
-      //   .catch((err: any) => console.log('oneSignal.catch', err));
-      // console.log('App.OneSignal.userId', id);
     });
   }, []);
 
