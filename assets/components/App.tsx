@@ -16,9 +16,12 @@ const App = () => {
   console.log('App.OneSignal.oneSignal', oneSignal);
   console.log('OneSignal try init');
   useEffect(() => {
-    oneSignal.getUserId().then((res: any) => {
-      console.log('App.OneSignal.userId', res);
-    });
+    oneSignal
+      .getUserId()
+      .then((res: any) => {
+        console.log('App.OneSignal.userId', res);
+      })
+      .catch((err: any) => console.log('oneSignal.catch', err));
     // console.log('App.OneSignal.userId', id);
   });
   // useOneSignalSetup(() => {
