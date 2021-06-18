@@ -17,6 +17,7 @@ const App = () => {
   // console.log('OneSignal try init');
   useEffect(() => {
     oneSignal.push(() => {
+      oneSignal.showNativePrompt();
       oneSignal.getUserId((userId: any) => {
         console.log('App.oneSignal.userId', userId);
       });
