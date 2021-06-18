@@ -13,16 +13,19 @@ const Dashboard = lazy(() => import('./Dashboard'));
 const App = () => {
   // const [userId, setUserId] = useState('');
   const oneSignal = (window as any).OneSignal || [];
-  console.log('App.OneSignal.oneSignal', oneSignal);
-  console.log('OneSignal try init');
+  // console.log('App.OneSignal.oneSignal', oneSignal);
+  // console.log('OneSignal try init');
   useEffect(() => {
     oneSignal.push(() => {
-      oneSignal
-        .getUserId()
-        .then((res: any) => {
-          console.log('App.OneSignal.userId', res);
-        })
-        .catch((err: any) => console.log('oneSignal.catch', err));
+      oneSignal.getUserId((userId: any) => {
+        console.log('App.oneSignal.userId', userId);
+      });
+      // oneSignal
+      //   .getUserId()
+      //   .then((res: any) => {
+      //     console.log('App.OneSignal.userId', res);
+      //   })
+      //   .catch((err: any) => console.log('oneSignal.catch', err));
       // console.log('App.OneSignal.userId', id);
     });
   }, []);
