@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Suspense, lazy } from 'react';
+import React, { Component, Fragment, Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Header } from './Header';
 import { AlertProvider } from './lib/alert/AlertContext';
@@ -11,11 +11,20 @@ const CarDetail = lazy(() => import('./CarDetail'));
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
-  OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e');
-  console.log('OneSignal try init');
+  const [userId, setUserId] = useState('');
+  useEffect(() => {
+    OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
+    console.log('OneSignal try init');
+    const getUserId = async () => {
+      const id = await OneSignal.getExternalUserId();
+      setUserId(id);
+      console.log('App.OneSignal.userId', id);
+    };
+    getUserId();
+  });
   useOneSignalSetup(() => {
     console.log('OneSignal initialized');
-    const userId = OneSignal.getUserId();
+    // const userId = await OneSignal.getUserId();
     console.log('App.OneSignal.userId', userId);
     // OneSignal.setEmail(user.Email);
     // OneSignal.setExternalUserId(user.id);
