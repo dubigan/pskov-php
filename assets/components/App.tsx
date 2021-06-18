@@ -11,13 +11,15 @@ const CarDetail = lazy(() => import('./CarDetail'));
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
-  const [userId, setUserId] = useState('');
+  // const [userId, setUserId] = useState('');
   const oneSignal = (window as any).OneSignal || [];
   console.log('App.OneSignal.oneSignal', oneSignal);
   console.log('OneSignal try init');
   useEffect(() => {
-    const id = oneSignal.getUserId();
-    console.log('App.OneSignal.userId', id);
+    oneSignal.getUserId().then((res: any) => {
+      console.log('App.OneSignal.userId', res);
+    });
+    // console.log('App.OneSignal.userId', id);
   });
   // useOneSignalSetup(() => {
   //   console.log('OneSignal initialized');
