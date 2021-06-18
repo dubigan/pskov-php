@@ -11,7 +11,7 @@ const CarDetail = lazy(() => import('./CarDetail'));
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
-  OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
+  //OneSignal.initialize('4c631ec8-c487-486c-a57f-032561cf353e', {});
   console.log('OneSignal try init');
   useOneSignalSetup(() => {
     console.log('OneSignal initialized');
