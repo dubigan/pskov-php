@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     oneSignal.push(() => {
       oneSignal.showNativePrompt();
-      oneSignal.getUserId((userId: any) => {
+      oneSignal.getPlayerId((userId: any) => {
         console.log('App.oneSignal.userId', userId);
       });
       // oneSignal
