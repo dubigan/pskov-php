@@ -4,38 +4,39 @@ import { Header } from './Header';
 import { AlertProvider } from './lib/alert/AlertContext';
 // import OneSignal, { useOneSignalSetup } from 'react-onesignal';
 
-const Owners = lazy(() => import('./Owners'));
-const Cars = lazy(() => import('./Cars'));
-const OwnerDetail = lazy(() => import('./OwnerDetail'));
-const CarDetail = lazy(() => import('./CarDetail'));
+const Owners = lazy(() => import('./List/Owners'));
+const Cars = lazy(() => import('./List/Cars'));
+const OwnerDetail = lazy(() => import('./Detail/OwnerDetail'));
+const CarDetail = lazy(() => import('./Detail/CarDetail'));
 const Dashboard = lazy(() => import('./Dashboard'));
 
 const App = () => {
-  const oneSignal = (window as any).OneSignal || [];
+  // const oneSignal = (window as any).OneSignal || [];
   // console.log('App.OneSignal.oneSignal', oneSignal);
-  useEffect(() => {
-    oneSignal.push(function () {
-      oneSignal.init({
-        appId: '4c631ec8-c487-486c-a57f-032561cf353e',
-        notifyButton: {
-          enable: true,
-        },
-      });
-    });
-    oneSignal.push(() => {
-      oneSignal.showNativePrompt();
-    });
-    oneSignal.push(() => {
-      oneSignal.on('subscriptionChange', (isSubscribed: any) => {
-        console.log('subscription state', isSubscribed);
-        oneSignal.push(() => {
-          oneSignal.getUserId((userId: any) => {
-            console.log('userId', userId);
-          });
-        });
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   oneSignal.push(function () {
+  //     oneSignal.init({
+  //       appId: '4c631ec8-c487-486c-a57f-032561cf353e',
+  //       notifyButton: {
+  //         enable: true,
+  //       },
+  //       allowLocalhostAsSecureOrigin: true,
+  //     });
+  //   });
+  //   oneSignal.push(() => {
+  //     oneSignal.showNativePrompt();
+  //   });
+  //   oneSignal.push(() => {
+  //     oneSignal.on('subscriptionChange', (isSubscribed: any) => {
+  //       console.log('subscription state', isSubscribed);
+  //       oneSignal.push(() => {
+  //         oneSignal.getUserId((userId: any) => {
+  //           console.log('userId', userId);
+  //         });
+  //       });
+  //     });
+  //   });
+  // }, []);
 
   return (
     <>

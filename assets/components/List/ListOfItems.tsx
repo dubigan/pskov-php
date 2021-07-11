@@ -1,0 +1,216 @@
+import React, { MouseEvent, useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { Row } from '../lib/Row';
+import { TooltipContent } from '../lib/Tooltip';
+import { Button } from '../lib/Button';
+import Alerts from '../lib/alert/Alerts';
+import { AlertContext } from '../lib/alert/AlertContext';
+import Loader from '../Loader';
+import api from '../api';
+import { getErrors } from '../lib/utils/utils';
+import { TSortedBy } from './ListTypes';
+import DeleteDialog from '../DeleteDialog/DeleteDialog';
+import { TListOfItemsProps, TListItems } from './ListTypes';
+import { TBaseItem } from '../Detail/DetailTypes';
+
+const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) => {
+  const context = useContext(AlertContext);
+  const [loading, setLoading] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<TItem | undefined>(undefined);
+  const [items, setItems] = useState<TListItems<TItem>>([]);
+  const [sortedBy, setSortedBy] = useState<TSortedBy>(props.functions.getDefaultSortedBy());
+  const history = useHistory();
+
+  const getItems = async () => {
+    setLoading(true);
+    //console.log('getItems owner', this.props.owner);
+    try {
+      const res: any = await api.getItems(props.functions.url, {
+        sorted_by: sortedBy,
+        owner: props.owner ?? -1,
+      });
+
+      // console.log('ListOfItems.getItems res.data', res.data);
+
+      setItems(res.data as TListItems<TItem>);
+    } catch (err) {
+      context.setAlerts(getErrors(err.response?.data));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getItems();
+    // console.log('ListOfItems.getItems items', items);
+  }, []);
+
+  useEffect(() => {
+    getItems();
+  }, [sortedBy, props.owner]);
+
+  const getItemById = (id: number) => {
+    return items.filter((item: any) => +item.id === +id)[0];
+  };
+
+  const btnSortClick = (e: MouseEvent<HTMLElement>) => {
+    const sorted_name = (e.target as HTMLElement).id;
+    //console.log('btnSortClick.sorted_name', sorted_name);
+
+    if (!sorted_name) return;
+    if (sortedBy.name !== sorted_name) {
+      setSortedBy({
+        name: sorted_name,
+        direction: 'desc',
+      });
+    } else {
+      const direction = sortedBy.direction === 'desc' ? 'asc' : 'desc';
+      setSortedBy({
+        ...sortedBy,
+        direction: direction,
+      });
+    }
+  };
+
+  const btnDelClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const item = getItemById(Number((e.target as HTMLButtonElement).value));
+    // console.log('ListOfItems.btnDelClick item', item);
+    setItemToDelete(item);
+    setShowDeleteDialog(true);
+  };
+
+  const btnAddClick = async (e: MouseEvent<HTMLElement>) => {
+    try {
+      const res = await axios.post(props.functions.url, { btn_add: '' });
+      if (res.data.redirect) {
+        //window.location.href = res.data['redirect'];
+        history.push(res.data.redirect);
+      }
+    } catch (err) {
+      context.setAlerts(getErrors(err.response.data));
+    }
+  };
+
+  const btnEditClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const item_pk = (e.target as HTMLButtonElement).value;
+    //console.log('btnEditClick', item_pk);
+
+    try {
+      const res = await axios.post(props.functions.url, {
+        btn_edit: '',
+        item_pk: item_pk,
+        url: window.location.pathname,
+      });
+      if (res.data.redirect) {
+        //console.log('btnEditClick.history', this.props);
+
+        //window.location.href = res.data['redirect'];
+        history.push(res.data.redirect);
+      }
+    } catch (err) {
+      //console.log('btnEditClick.catch', err);
+
+      context.setAlerts(getErrors(err.response.data));
+    }
+  };
+
+  const getItemId = (item: TItem | undefined): number => (item ? item.id : -1);
+
+  const deleteItem = async (confirm: string) => {
+    setShowDeleteDialog(false);
+
+    if (confirm === 'true') {
+      setLoading(true);
+      try {
+        const res = await axios.post(props.functions.url, {
+          sorted_by: sortedBy,
+          btn_del: '',
+          item_pk: getItemId(itemToDelete),
+          owner: props.owner ?? -1,
+        });
+        setItems(res.data);
+        context.setAlerts([
+          {
+            type: 'success',
+            message: `${props.functions.nameOfItem} успешно удален`,
+          },
+        ]);
+      } catch (err) {
+        context.setAlerts(getErrors(err.response.data));
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const getButtons = (id: string) => {
+    return (
+      <Row>
+        <Button value={id} variant="primary" className="btn-primary tooltip" onClick={btnEditClick}>
+          <TooltipContent className="tooltip__content tooltip__content_left">
+            Редактирование
+          </TooltipContent>
+          {'\u27f6'}
+        </Button>
+        <Button
+          value={id}
+          variant="danger"
+          className="btn-danger btn-danger_del tooltip"
+          onClick={btnDelClick}
+        >
+          <TooltipContent className="tooltip__content tooltip__content_left">
+            Удаление
+          </TooltipContent>
+          x
+        </Button>
+      </Row>
+    );
+  };
+
+  const getAddButton = () => {
+    if (props.functions.addButton)
+      return (
+        <Button
+          variant="primary"
+          className="btn-primary btn-primary_add tooltip"
+          onClick={btnAddClick}
+        >
+          <TooltipContent>Добавление&nbsp;нового&nbsp;автовладельца</TooltipContent>+
+        </Button>
+      );
+    return <></>;
+  };
+
+  const getDeleteDialog = (
+    nameOfItem: string,
+    itemToDelete: TItem,
+    deleteItem: Function,
+    itemInfo: Function
+  ) => (
+    <DeleteDialog<TItem>
+      itemToDelete={itemToDelete}
+      deleteItem={deleteItem}
+      nameOfItem={nameOfItem}
+      itemInfo={itemInfo}
+    />
+  );
+
+  return (
+    <div>
+      <Alerts withAlerts={props.withAlerts} />
+      {showDeleteDialog &&
+        getDeleteDialog(
+          props.functions.nameOfItem,
+          itemToDelete!,
+          deleteItem,
+          props.functions.itemInfo
+        )}
+      {loading ? <Loader /> : props.functions.getTable(items, getButtons, btnSortClick, sortedBy)}
+      {getAddButton()}
+    </div>
+  );
+};
+
+export default ListOfItems;

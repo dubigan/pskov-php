@@ -52,7 +52,7 @@ const ModalFooter = (props: TModalPartsProps) => {
 };
 
 type TModalProps = {
-  show: boolean;
+  show?: boolean;
   id?: string;
   baseClassName: string;
   children?: any;

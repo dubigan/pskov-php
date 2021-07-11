@@ -10,52 +10,41 @@
   top: 0;
   left: 0;
   z-index: 1050;
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   overflow: hidden;
   outline: 0;
-  &_show {
-    //transform: none;
-    display: block;
-  }
   &__children {
   }
   &__backdrop {
     position: fixed;
-    display: none;
+    display: block;
     top: 0;
     left: 0;
     z-index: 1040;
     width: 100vw;
     height: 100vh;
     background-color: #000;
-    opacity: 0;
-    &_show {
-      display: block;
-      opacity: 0.4;
-      transition: opacity 0.15s linear;
-    }
+    // opacity: 0;
+    opacity: 0.4;
+    transition: opacity 1s linear;
   }
   &__dialog {
     position: relative;
     //display: none;
-    width: 32%;
+    width: 40%;
     margin: 0.5rem auto;
     z-index: 1100;
-    top: 0;
     background-color: vars.$white;
-    // transition: transform 1s ease-out;
-    // transform: translate(0, 4rem);
+    top: 0;
+    transition: transform 3s ease-out;
+    transform: translate(0, 4rem);
+    // top: 4rem;
+    // animation: 1s ease opacity, 0.3s ease transition;
+
     border: 0.1rem solid vars.$white;
     border-radius: 0.5rem;
-    &_show {
-      //display: block;
-      top: 4rem;
-      //transition: top 1s ease-out;
-      //@at-root: translate(0, 4rem);
-      animation: 1s ease opacity, 0.3s ease transition;
-    }
   }
   &__header {
     display: flex;
