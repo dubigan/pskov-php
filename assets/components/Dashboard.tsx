@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Form from './lib/Form';
-import { Button } from './lib/Button';
+import { Button } from './lib/Button/Button';
 import Card from './lib/Card';
 import Alerts from './lib/alert/Alerts';
 import { useAlerts } from './lib/alert/AlertContext';

@@ -6,7 +6,7 @@ import Cars from '../List/Cars';
 import Alerts from '../lib/alert/Alerts';
 import Card from '../lib/Card';
 import { Row } from '../lib/Row';
-import { Button } from '../lib/Button';
+import { Button } from '../lib/Button/Button';
 import Form from '../lib/Form';
 import GenderSelect from '../parts/GenderSelect';
 import { TooltipContent } from '../lib/Tooltip';

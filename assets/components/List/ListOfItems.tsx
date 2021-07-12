@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { Row } from '../lib/Row';
 import { TooltipContent } from '../lib/Tooltip';
-import { Button } from '../lib/Button';
+import { Button } from '../lib/Button/Button';
 import Alerts from '../lib/alert/Alerts';
 import { AlertContext } from '../lib/alert/AlertContext';
 import Loader from '../Loader';

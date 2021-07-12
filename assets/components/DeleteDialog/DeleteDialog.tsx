@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Modal from '../lib/Modal';
-import { Button } from '../lib/Button';
+import Modal from '../lib/Modal/Modal';
+import { Button } from '../lib/Button/Button';
 
 type TDeleteDialogProps<TItem> = {
   deleteItem: Function;

@@ -5,7 +5,7 @@ import Alerts from '../lib/alert/Alerts';
 import '../css/DatePicker.css';
 import Card from '../lib/Card';
 import { Row } from '../lib/Row';
-import { Button } from '../lib/Button';
+import { Button } from '../lib/Button/Button';
 import Form from '../lib/Form';
 import { TooltipContent } from '../lib/Tooltip';
 import { TCarItem, TDetailItemFunctions, TDetailOfItemsProps } from './DetailTypes';

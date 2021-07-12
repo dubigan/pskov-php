@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface IButtonProps {
+type TButtonProps = {
   tooltip?: string;
   id?: string;
   className?: string;
@@ -11,9 +11,9 @@ interface IButtonProps {
   disabled?: boolean;
   children?: any;
   type?: string;
-}
+};
 
-export const Button: React.FC<IButtonProps> = ({
+export const Button = ({
   tooltip,
   id,
   className,
@@ -22,7 +22,7 @@ export const Button: React.FC<IButtonProps> = ({
   onClick,
   disabled,
   children,
-}) => {
+}: TButtonProps) => {
   return (
     <button
       title={tooltip}
