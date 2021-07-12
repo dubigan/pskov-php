@@ -13,6 +13,7 @@ import { TSortedBy } from './ListTypes';
 import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import { TListOfItemsProps, TListItems } from './ListTypes';
 import { TBaseItem } from '../Detail/DetailTypes';
+import { Modal } from '../lib/Modal/Modal.styled';
 
 const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) => {
   const context = useContext(AlertContext);
@@ -183,19 +184,25 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
     return <></>;
   };
 
+  // const getDeleteDialog = (
+  //   nameOfItem: string,
+  //   itemToDelete: TItem,
+  //   deleteItem: Function,
+  //   itemInfo: Function
+  // ) => (
+  //   <DeleteDialog<TItem>
+  //     itemToDelete={itemToDelete}
+  //     deleteItem={deleteItem}
+  //     nameOfItem={nameOfItem}
+  //     itemInfo={itemInfo}
+  //   />
+  // );
   const getDeleteDialog = (
     nameOfItem: string,
     itemToDelete: TItem,
     deleteItem: Function,
     itemInfo: Function
-  ) => (
-    <DeleteDialog<TItem>
-      itemToDelete={itemToDelete}
-      deleteItem={deleteItem}
-      nameOfItem={nameOfItem}
-      itemInfo={itemInfo}
-    />
-  );
+  ) => <Modal onClose={() => setShowDeleteDialog(false)}></Modal>;
 
   return (
     <div>
