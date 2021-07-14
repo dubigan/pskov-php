@@ -33,10 +33,10 @@ const DeleteDialog = <TItem,>(props: TDeleteDialogProps<TItem>) => {
       </ModalBody>
       <hr />
       <ModalFooter>
-        <BtnSecondary value={false} onClick={handleClose}>
+        <BtnSecondary shadow={true} value={false} onClick={handleClose}>
           Отмена
         </BtnSecondary>
-        <BtnDanger value={true} onClick={handleClose}>
+        <BtnDanger shadow={true} value={true} onClick={handleClose}>
           Удалить
         </BtnDanger>
       </ModalFooter>

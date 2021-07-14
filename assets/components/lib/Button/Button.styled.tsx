@@ -7,10 +7,11 @@ export type TButtonProps = {
   name?: string;
   value?: any;
   variant?: string;
-  onClick?: any;
+  onClick?: (e: any) => void;
   disabled?: boolean;
   children?: any;
   type?: string;
+  width?: string;
 };
 
 export const Button = styled.button<TButtonProps>`
@@ -33,7 +34,8 @@ export const Button = styled.button<TButtonProps>`
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  box-shadow: ${props => (props.shadow ? '1px 4px 4px rgba(0, 0, 0, 0.25)' : 'none')};
+  box-shadow: ${props => (props.shadow ? '1px 4px 4px rgba(0, 0, 0, 0.5)' : 'none')};
+  width: ${props => props.width};
   &:disabled {
     pointer-events: none;
     opacity: 0.65;
@@ -59,4 +61,18 @@ export const BtnDanger = styled(Button)`
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
+`;
+
+export const BtnOutlinePrimary = styled(Button)`
+  color: #0d6efd;
+  border-color: #0d6efd;
+  &.active {
+    color: white;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  &:hover {
+    color: #fff;
+    background-color: #0d6efd;
+  }
 `;
