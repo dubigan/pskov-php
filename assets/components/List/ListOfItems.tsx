@@ -14,6 +14,7 @@ import DeleteDialog from '../DeleteDialog/DeleteDialog';
 import { TListOfItemsProps, TListItems } from './ListTypes';
 import { TBaseItem } from '../Detail/DetailTypes';
 import { Modal } from '../lib/Modal/Modal.styled';
+import { ModalTitle } from '../lib/Modal/Modal.styled.elements';
 
 const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) => {
   const context = useContext(AlertContext);
@@ -164,7 +165,7 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
           <TooltipContent className="tooltip__content tooltip__content_left">
             Удаление
           </TooltipContent>
-          x
+          &times;
         </Button>
       </Row>
     );
@@ -184,36 +185,18 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
     return <></>;
   };
 
-  // const getDeleteDialog = (
-  //   nameOfItem: string,
-  //   itemToDelete: TItem,
-  //   deleteItem: Function,
-  //   itemInfo: Function
-  // ) => (
-  //   <DeleteDialog<TItem>
-  //     itemToDelete={itemToDelete}
-  //     deleteItem={deleteItem}
-  //     nameOfItem={nameOfItem}
-  //     itemInfo={itemInfo}
-  //   />
-  // );
-  const getDeleteDialog = (
-    nameOfItem: string,
-    itemToDelete: TItem,
-    deleteItem: Function,
-    itemInfo: Function
-  ) => <Modal onClose={() => setShowDeleteDialog(false)}></Modal>;
-
   return (
     <div>
       <Alerts withAlerts={props.withAlerts} />
-      {showDeleteDialog &&
-        getDeleteDialog(
-          props.functions.nameOfItem,
-          itemToDelete!,
-          deleteItem,
-          props.functions.itemInfo
-        )}
+      {showDeleteDialog && (
+        <DeleteDialog
+          nameOfItem={props.functions.nameOfItem}
+          itemToDelete={itemToDelete!}
+          deleteItem={deleteItem}
+          itemInfo={props.functions.itemInfo}
+          onClose={() => setShowDeleteDialog(false)}
+        />
+      )}
       {loading ? <Loader /> : props.functions.getTable(items, getButtons, btnSortClick, sortedBy)}
       {getAddButton()}
     </div>

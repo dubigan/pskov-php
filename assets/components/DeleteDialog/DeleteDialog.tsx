@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import Modal from '../lib/Modal/Modal';
-import { Button } from '../lib/Button/Button';
+import { Modal, ModalTitle, ModalBody, ModalFooter, ModalHeader } from '../lib/Modal/Modal.styled';
+import { Button, BtnDanger, BtnSecondary } from '../lib/Button/Button.styled';
+import styled from 'styled-components/macro';
 
 type TDeleteDialogProps<TItem> = {
   deleteItem: Function;
   itemToDelete: TItem;
   nameOfItem?: string;
   itemInfo?: Function;
+  onClose: () => void;
 };
 
 const DeleteDialog = <TItem,>(props: TDeleteDialogProps<TItem>) => {
@@ -20,21 +22,38 @@ const DeleteDialog = <TItem,>(props: TDeleteDialogProps<TItem>) => {
   };
 
   return (
-    <Modal baseClassName="delete-dialog" onHide={handleClose}>
-      <Modal.Header closeButton={false}>
-        <Modal.Title>Удалить {props.nameOfItem}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{getItemInfo()}</Modal.Body>
-      <Modal.Footer>
-        <Button className="btn-secondary" value={false} onClick={handleClose}>
+    <Modal width="50%" close={true} onClose={props.onClose}>
+      <ModalHeader>
+        <ModalTitle>Удалить</ModalTitle>
+      </ModalHeader>
+      <hr />
+      <ModalBody>
+        <ModalBodyNameOfItem>{props.nameOfItem}:</ModalBodyNameOfItem>
+        <ModalBodyName>{getItemInfo()}</ModalBodyName>
+      </ModalBody>
+      <hr />
+      <ModalFooter>
+        <BtnSecondary value={false} onClick={handleClose}>
           Отмена
-        </Button>
-        <Button className="btn-danger" value={true} onClick={handleClose}>
+        </BtnSecondary>
+        <BtnDanger value={true} onClick={handleClose}>
           Удалить
-        </Button>
-      </Modal.Footer>
+        </BtnDanger>
+      </ModalFooter>
     </Modal>
   );
 };
+
+const ModalBodyNameOfItem = styled.div`
+  text-align: left;
+  width: 40%;
+  padding-left: 1rem;
+`;
+
+const ModalBodyName = styled.div`
+  text-align: center;
+  width: 60%;
+  padding: 0 1rem;
+`;
 
 export default DeleteDialog;
