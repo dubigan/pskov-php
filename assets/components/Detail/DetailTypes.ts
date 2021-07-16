@@ -62,6 +62,6 @@ export type TDetailUtils<TItem> = {
   item: TItem;
   getItem: () => void;
   saveItem: () => void;
-  changeItem: (e: ChangeEvent<HTMLInputElement>) => void;
+  changeItem: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void;
   setItem: (item: TItem) => void;
 };

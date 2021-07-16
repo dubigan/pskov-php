@@ -16,6 +16,8 @@ import { useDetailFunctions } from './useDetailFunctions';
 import { getErrors, digitsOnly, redirect } from '../lib/utils/utils';
 import { AlertContext } from '../lib/alert/AlertContext';
 import { useListFunctions } from '../List/useListFunctions';
+import { TextField } from '../lib/input/TextField';
+import { TextArea } from '../lib/input/TextArea';
 
 const OwnerDetail = () => {
   const functions = useDetailFunctions('owner');
@@ -61,73 +63,44 @@ const OwnerDetail = () => {
           <Row>
             <div className="form">
               <Form.Group className="form__group form__group_owner-input">
-                <Form.Group className="form__group form__group_horiz">
-                  <Form.Label className="form__label form__label_owner-input">Имя</Form.Label>
-                  <Form.Control
-                    className="form__control form__control_owner-input"
-                    name="name"
-                    type="text"
-                    value={detailUtils.item?.name ?? ''}
-                    placeholder="Имя"
-                    onChange={detailUtils.changeItem}
-                  />
-                </Form.Group>
-                <Form.Group className="form__group form__group_horiz">
-                  <Form.Label className="form__label form__label_owner-input">Отчество</Form.Label>
-                  <Form.Control
-                    className="form__control form__control_owner-input"
-                    name="patronymic"
-                    type="text"
-                    value={detailUtils.item?.patronymic ?? ''}
-                    placeholder="Отчество"
-                    onChange={detailUtils.changeItem}
-                  />
-                </Form.Group>
-                <Form.Group className="form__group form__group_horiz">
-                  <Form.Label className="form__label form__label_owner-input">Фамилия</Form.Label>
-                  <Form.Control
-                    className="form__control form__control_owner-input"
-                    name="last_name"
-                    type="text"
-                    placeholder="Фамилия"
-                    value={detailUtils.item?.last_name ?? ''}
-                    onChange={detailUtils.changeItem}
-                  />
-                </Form.Group>
-                <Form.Group className="form__group form__group_horiz">
-                  <Form.Label className="form__label form__label_owner-input" name="gender">
-                    Пол
-                  </Form.Label>
-                  <GenderSelect
-                    className="toggleButtonGroup toggleButtonGroup_owner-gender"
-                    name="gender"
-                    checkValue={detailUtils.item!.gender}
-                    onChange={changeGender}
-                  />
-                </Form.Group>
-                <Form.Group className="form__group form__group_horiz">
-                  <Form.Label className="form__label form__label_owner-input" name="age">
-                    Возраст
-                  </Form.Label>
-                  <Form.Control
-                    className="form__control form__control_owner-input"
-                    name="age"
-                    type="text"
-                    maxLength={3}
-                    placeholder="Возраст"
-                    value={detailUtils.item?.age ?? ''}
-                    onChange={detailUtils.changeItem}
-                    onKeyPress={digitsOnly}
-                  />
-                </Form.Group>
+                <TextField
+                  select={false}
+                  name="name"
+                  value={detailUtils.item?.name ?? ''}
+                  placeholder="Имя"
+                  onChange={detailUtils.changeItem}
+                />
+                <TextField
+                  name="patronymic"
+                  value={detailUtils.item?.patronymic ?? ''}
+                  placeholder="Отчество"
+                  onChange={detailUtils.changeItem}
+                />
+                <TextField
+                  name="last_name"
+                  type="text"
+                  placeholder="Фамилия"
+                  value={detailUtils.item?.last_name ?? ''}
+                  onChange={detailUtils.changeItem}
+                />
+                <GenderSelect
+                  className="toggleButtonGroup toggleButtonGroup_owner-gender"
+                  name="gender"
+                  checkValue={detailUtils.item!.gender}
+                  onChange={changeGender}
+                />
+                <TextField
+                  name="age"
+                  maxLength={3}
+                  placeholder="Возраст"
+                  value={detailUtils.item?.age ?? ''}
+                  onChange={detailUtils.changeItem}
+                  onKeyPress={digitsOnly}
+                />
               </Form.Group>
               <Form.Group className="form__group form__group_owner-comment">
-                <Form.Label className="form__label form__label_owner-comment">
-                  Комментарий
-                </Form.Label>
-                <Form.Control
-                  type="textarea"
-                  rows={7}
+                <TextArea
+                  rows={14}
                   value={detailUtils.item?.comment ?? ''}
                   name="comment"
                   placeholder="Комментарий"

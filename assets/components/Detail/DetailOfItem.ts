@@ -61,7 +61,7 @@ export const useDetailOfItem = <TItem>({
       }
     },
 
-    changeItem: (e: ChangeEvent<HTMLInputElement>) => {
+    changeItem: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
       setItem(getChangedItem(item, e.target.name, e.target.value));
     },
     item,
