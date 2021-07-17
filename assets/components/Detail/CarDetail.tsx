@@ -4,7 +4,7 @@ import { useDetailOfItem } from './DetailOfItem';
 import Alerts from '../lib/alert/Alerts';
 import '../css/DatePicker.css';
 import Card from '../lib/Card';
-import { Row } from '../lib/Row';
+import { Row } from '../lib/Row/Row';
 import { Button } from '../lib/Button/Button';
 import Form from '../lib/Form';
 import { TooltipContent } from '../lib/Tooltip';

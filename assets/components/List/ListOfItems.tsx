@@ -1,7 +1,7 @@
 import React, { MouseEvent, useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { Row } from '../lib/Row';
+import { Row } from '../lib/Row/Row';
 import { TooltipContent } from '../lib/Tooltip';
 import { Button } from '../lib/Button/Button';
 import Alerts from '../lib/alert/Alerts';

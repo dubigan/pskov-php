@@ -1,6 +1,6 @@
 import React from 'react';
 import { TooltipContent } from '../lib/Tooltip';
-import { Row } from '../lib/Row';
+import { Row } from '../lib/Row/Row';
 import { TSortedBy } from '../List/ListTypes';
 
 export type ThCellProps = {
