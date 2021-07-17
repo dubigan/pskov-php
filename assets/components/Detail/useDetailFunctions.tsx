@@ -12,8 +12,8 @@ const EMPTY_CAR = {
   model: '',
   production: new Date().toLocaleDateString('ru'),
   color: '',
-  power: 0,
-  mileage: 0,
+  power: undefined,
+  mileage: undefined,
   comment: '',
 };
 
@@ -27,7 +27,7 @@ const EMPTY_OWNER: TOwnerItem = {
   patronymic: '',
   last_name: '',
   gender: 'f',
-  age: 0,
+  age: undefined,
   comment: '',
 };
 

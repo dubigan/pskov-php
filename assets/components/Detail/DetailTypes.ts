@@ -4,8 +4,8 @@ export type TMALE = 'm';
 export type TFEMALE = 'f';
 
 export const GENDER = {
-  MALE: 'f' as TFEMALE,
-  FEMALE: 'm' as TMALE,
+  FEMALE: 'f' as TFEMALE,
+  MALE: 'm' as TMALE,
 };
 
 export type TGender = TMALE | TFEMALE;
@@ -20,8 +20,8 @@ export type TCarItem = {
   model: string;
   production: string;
   color: string;
-  power: number;
-  mileage: number;
+  power: number | undefined;
+  mileage: number | undefined;
   comment: string;
 };
 
@@ -31,7 +31,7 @@ export type TOwnerItem = {
   patronymic: string;
   last_name: string;
   gender: TGender;
-  age: number;
+  age: number | undefined;
   comment: string;
   cars: TCarItem[];
 };

@@ -27,20 +27,18 @@ const OwnerDetail = () => {
 
   const detailUtils = useDetailOfItem<TOwnerItem>({ functions } as TDetailOfItemsProps<TOwnerItem>);
 
-  const btnNewCarClick = () => {
+  const btnNewCarClick = async () => {
     if (!detailUtils.item) return;
-    axios
-      .post(functions.url, {
+    try {
+      const res = await axios.post(functions.url, {
         btn_add: '',
         url: window.location.pathname,
         owner_pk: detailUtils.item!.id,
-      })
-      .then(res => {
-        redirect(history, res.data.redirect);
-      })
-      .catch(err => {
-        context.setAlerts(getErrors(err.response.data));
       });
+      redirect(history, res.data.redirect);
+    } catch (err) {
+      context.setAlerts(getErrors(err.response.data));
+    }
   };
 
   const stringToGender = (value: string): TGender => {
@@ -49,7 +47,9 @@ const OwnerDetail = () => {
   };
 
   const changeGender = (e: ChangeEvent<HTMLInputElement>) => {
-    detailUtils.setItem({ ...detailUtils.item, gender: stringToGender(e.target.value) });
+    const item = { ...detailUtils.item, gender: stringToGender(e.target.value) };
+    // console.log('OwnerDetail.changeGender.item', e.target.value, item);
+    detailUtils.setItem(item);
   };
 
   useEffect(() => detailUtils.getItem(), []);
@@ -84,7 +84,6 @@ const OwnerDetail = () => {
                   onChange={detailUtils.changeItem}
                 />
                 <GenderSelect
-                  className="toggleButtonGroup toggleButtonGroup_owner-gender"
                   name="gender"
                   checkValue={detailUtils.item!.gender}
                   onChange={changeGender}

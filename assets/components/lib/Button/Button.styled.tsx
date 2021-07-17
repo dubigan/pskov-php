@@ -71,8 +71,8 @@ export const BtnOutlinePrimary = styled(Button)`
     background-color: #0d6efd;
     border-color: #0d6efd;
   }
-  &:hover {
-    color: #fff;
-    background-color: #0d6efd;
-  }
+  // &:hover {
+  //   color: #fff;
+  //   background-color: #0d6efd;
+  // }
 `;

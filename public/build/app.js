@@ -57,13 +57,13 @@ var Cars = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(funct
   return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2), __webpack_require__.e(1), __webpack_require__.e(9)]).then(__webpack_require__.bind(null, /*! ./List/Cars */ "./assets/components/List/Cars.tsx"));
 });
 var OwnerDetail = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2), __webpack_require__.e(1), __webpack_require__.e(4), __webpack_require__.e(7)]).then(__webpack_require__.bind(null, /*! ./Detail/OwnerDetail */ "./assets/components/Detail/OwnerDetail.tsx"));
+  return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(2), __webpack_require__.e(1), __webpack_require__.e(4), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ./Detail/OwnerDetail */ "./assets/components/Detail/OwnerDetail.tsx"));
 });
 var CarDetail = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
   return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3), __webpack_require__.e(5), __webpack_require__.e(4), __webpack_require__.e(8)]).then(__webpack_require__.bind(null, /*! ./Detail/CarDetail */ "./assets/components/Detail/CarDetail.tsx"));
 });
 var Dashboard = /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["lazy"])(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ./Dashboard */ "./assets/components/Dashboard.tsx"));
+  return Promise.all(/*! import() */[__webpack_require__.e(3), __webpack_require__.e(7)]).then(__webpack_require__.bind(null, /*! ./Dashboard */ "./assets/components/Dashboard.tsx"));
 });
 
 var App = function App() {

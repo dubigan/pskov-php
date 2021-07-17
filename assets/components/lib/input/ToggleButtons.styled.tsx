@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, MouseEventHandler, useRef } from 'react';
 import * as Styled from './ToggleButtons.styled.elements';
 
 // type TToggleButton = {
@@ -20,7 +20,8 @@ export type TToggleButtonProps = {
   name?: string | undefined;
   value?: string;
   checked?: boolean;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  // onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: any;
 };
 
 export type TToggleButtonGroupProps = {
@@ -28,17 +29,21 @@ export type TToggleButtonGroupProps = {
   name?: string | undefined;
   values?: TToggleValues;
   checkValue?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  // onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: any;
 };
 
 export type TToggleButtonGroup = React.FC<TToggleButtonGroupProps> & { values: TToggleValues };
 
 export const ToggleButton = ({ children, name, value, checked, onChange }: TToggleButtonProps) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  if (checked) ref.current?.classList.add('active');
+  else ref.current?.classList.remove('active');
   return (
-    <Styled.Label>
+    <Styled.Button ref={ref} onClick={onChange} value={value}>
       <Styled.Input type="radio" name={name} value={value} onChange={onChange} checked={checked} />
       {children}
-    </Styled.Label>
+    </Styled.Button>
   );
 };
 

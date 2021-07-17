@@ -22,14 +22,8 @@ export const TextArea = ({
   value,
   rows,
   onChange,
-  // open = false,
   placeholder,
-  // error,
-  helperText,
-}: // type = 'text',
-// maxLength,
-// onKeyPress,
-TProps) => {
+}: TProps) => {
   return (
     <Styled.Container>
       <Styled.Label>

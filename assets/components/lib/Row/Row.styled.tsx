@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type TRowProps {
+type TRowProps = {
   children?: React.ReactNode;
   id?: string;
-}
+};
 
 // export const Row = ({ children, className, id } : TRowProps) => {
 //   return (
@@ -13,7 +13,6 @@ type TRowProps {
 //     </div>
 //   );
 // };
-
 
 export const Row = styled.div<TRowProps>`
   display: flex;
@@ -32,4 +31,3 @@ export const RowNoWrap = styled(Row)`
 export const RowWrap = styled(Row)`
   flex-wrap: wrap;
 `;
-
