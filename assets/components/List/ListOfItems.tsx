@@ -29,7 +29,7 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
     setLoading(true);
     //console.log('getItems owner', this.props.owner);
     try {
-      const res: any = await api.getItems(props.functions.url, {
+      const res: any = await axios.post(props.functions.url, {
         sorted_by: sortedBy,
         owner: props.owner ?? -1,
       });
