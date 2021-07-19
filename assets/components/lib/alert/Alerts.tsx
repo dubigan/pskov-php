@@ -3,14 +3,15 @@ import { useAlerts } from './AlertContext';
 import { TAlertsProps } from './AlertTypes';
 import * as Styled from './Alerts.elements';
 
-const Alerts = ({ timeout, withAlerts = true }: TAlertsProps) => {
+const Alerts = ({ timeout = 5000, withAlerts = true }: TAlertsProps) => {
   const [visible, setVisible] = useState(false);
   const alerts = useAlerts();
-  const defTimeout = 5000;
 
   useEffect(() => {
-    setVisible(true);
-    global.setTimeout(() => setVisible(false), timeout ? timeout : defTimeout);
+    if (alerts.messages && alerts.messages.length > 0) {
+      setVisible(true);
+      global.setTimeout(() => setVisible(false), timeout);
+    }
   }, [alerts.messages]);
 
   return (
@@ -18,7 +19,6 @@ const Alerts = ({ timeout, withAlerts = true }: TAlertsProps) => {
       {visible && withAlerts && (
         <Styled.Container>
           {alerts.messages.map((e, index) => {
-            // const type = getType(e.type);
             return (
               <Styled.Alert shadow={true} type={e.type} key={index}>
                 {e.message}

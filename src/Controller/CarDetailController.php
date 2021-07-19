@@ -30,7 +30,7 @@ class CarDetailController extends CommonController
         ): Response
     {
         $data = $this->getJsonData($request);
-        $logger->debug('CarDetailController.data '.json_encode($data));
+        // $logger->debug('CarDetailController.data '.json_encode($data));
 
         $owner_id = $request->getSession()->get('owner_id', -1);
         $car_id = $request->getSession()->get('car_id', -1);
