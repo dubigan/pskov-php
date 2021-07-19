@@ -43,7 +43,11 @@ const functions: TDetailFunctions = {
 
       return item;
     },
-    verifyItem: (item: TCarItem) => item,
+    verifyItem: (item: TCarItem) => {
+      item.power = item.power ?? 0;
+      item.mileage = item.mileage ?? 0;
+      return item;
+    },
   },
   owner: {
     url: '/api/owner/',

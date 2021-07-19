@@ -1,7 +1,7 @@
 {
   "build/0.js": "/build/0.js",
-  "build/1.css": "/build/1.css",
   "build/1.js": "/build/1.js",
+  "build/2.css": "/build/2.css",
   "build/2.js": "/build/2.js",
   "build/3.js": "/build/3.js",
   "build/4.js": "/build/4.js",
@@ -16,10 +16,5 @@
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors~app.js": "/build/vendors~app.js",
-  "build/4.css": "/build/4.css",
-  "build/11.js": "/build/11.js",
-  "build/12.css": "/build/12.css",
-  "build/12.js": "/build/12.js",
-  "build/3.css": "/build/3.css"
+  "build/vendors~app.js": "/build/vendors~app.js"
 }
