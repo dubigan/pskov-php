@@ -41,7 +41,7 @@ export const Button = styled.button<TButtonProps>`
     opacity: 0.65;
   }
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 `;
 
@@ -66,11 +66,6 @@ export const BtnDanger = styled(Button)`
 export const BtnOutlinePrimary = styled(Button)`
   color: #0d6efd;
   border-color: #0d6efd;
-  &.active {
-    color: white;
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-  }
   // &:hover {
   //   color: #fff;
   //   background-color: #0d6efd;

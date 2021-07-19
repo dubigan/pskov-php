@@ -32,6 +32,8 @@ class OwnerDetailController extends CommonController
     {
         $url_add = $url_edit = '/car';
         $data = $this->getJsonData($request);
+        $logger->debug("OwnerDetailController.data: ".json_encode($data));
+
         
         $response = $this->addItem($request, $data, $url_add);
         if ($response) return $response;
@@ -40,7 +42,7 @@ class OwnerDetailController extends CommonController
         if ($response) return $response;
 
         $owner_id = $request->getSession()->get('owner_id', -1);
-        $logger->debug("owner_id: ".$owner_id);
+        // $logger->debug("owner_id: ".$owner_id);
         $owner = new Owner();
         if ($owner_id > 0) {  
             // get owner

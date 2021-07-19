@@ -1,5 +1,5 @@
 import { KeyboardEvent } from 'react';
-import { TError } from '../alert/AlertContext';
+import { TError, TAlertsState } from '../alert/AlertTypes';
 
 const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 

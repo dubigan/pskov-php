@@ -41,6 +41,7 @@ export type TDetailItemFunctions<TItem> = {
   tooltipPlace: string;
   getNewItemId: () => number;
   getNewItem: () => TItem;
+  verifyItem: (item: TItem) => TItem;
 };
 
 export type TDetailFunctions = {

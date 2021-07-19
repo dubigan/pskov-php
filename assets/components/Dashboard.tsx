@@ -1,8 +1,8 @@
 import React, { ChangeEvent, MouseEvent, useState, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
-import Form from './lib/Form';
+import { useHistory } from 'react-router';
+import Form from './lib/Form/Form';
 import { Button } from './lib/Button/Button';
-import Card from './lib/Card';
+import Card from './lib/Card/Card';
 import Alerts from './lib/alert/Alerts';
 import { useAlerts } from './lib/alert/AlertContext';
 
@@ -11,7 +11,7 @@ type TWebsocket = {
   status: string;
 };
 
-const Dashboard = (props: RouteComponentProps) => {
+const Dashboard = () => {
   const [websocket, setWebsocket] = useState<TWebsocket>({
     ws: null,
     status: 'disconnected',
@@ -78,7 +78,7 @@ const Dashboard = (props: RouteComponentProps) => {
         //console.log('onmessage', data);
 
         messages.push(data);
-        context.setAlerts(messages);
+        context.setAlerts({ messages });
       }
     };
 
@@ -217,4 +217,4 @@ const Dashboard = (props: RouteComponentProps) => {
   );
 };
 
-export default withRouter(Dashboard);
+export default Dashboard;

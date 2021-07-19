@@ -43,6 +43,7 @@ const functions: TDetailFunctions = {
 
       return item;
     },
+    verifyItem: (item: TCarItem) => item,
   },
   owner: {
     url: '/api/owner/',
@@ -51,6 +52,10 @@ const functions: TDetailFunctions = {
     getNewItemId: (): number => EMPTY_OWNER_ID,
     getNewItem: () => {
       return EMPTY_OWNER;
+    },
+    verifyItem: (item: TOwnerItem) => {
+      item.age = item.age ?? 0;
+      return item;
     },
   },
 };

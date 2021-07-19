@@ -225,20 +225,17 @@ class Owner implements \JsonSerializable
         $metadata->addPropertyConstraint('last_name', new Assert\NotBlank(array(
             'message' => 'Поле Фамилия не может быть пустым',
         )));
+        $metadata->addPropertyConstraint('age', new Assert\NotNull(array(
+            'message' => 'Поле Возраст не может быть пустым',
+        )));
         $metadata->addPropertyConstraint('age', new Assert\Range(array(
             'min'        => 18,
             'max'        => 120,
             'notInRangeMessage' => "Ваш возраст должен быть между {{ min }} и {{ max }} годами",
         )));
-        $metadata->addPropertyConstraint('age', new Assert\NotNull(array(
-            'message' => 'Поле Возраст не может быть пустым',
-        )));
-        $metadata->addPropertyConstraint('age', new Assert\NotBlank(array(
-            'message' => 'Поле Возраст не может быть пустым',
-        )));
-        $metadata->addPropertyConstraint('age', new Assert\Positive(array(
-            'message' => 'Поле Возраст должно быть больше 0',
-        )));
+        // $metadata->addPropertyConstraint('age', new Assert\Positive(array(
+        //     'message' => 'Поле Возраст должно быть больше 0',
+        // )));
         $metadata->addPropertyConstraint('age', new Assert\Type(array(
             'type'    => 'integer',
             'message' => 'Поле Возраст должно быть целым числом',

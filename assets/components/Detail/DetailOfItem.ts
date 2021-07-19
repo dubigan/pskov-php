@@ -33,16 +33,16 @@ export const useDetailOfItem = <TItem>({
 
         setItem(getItemFromData(res.data));
       } catch (err) {
-        context.setAlerts(getErrors(err.response.data));
+        context.setAlerts({ messages: getErrors(err.response.data) });
       }
     },
 
     saveItem: async () => {
       try {
-        const res = await axios.post(functions.url, { item });
+        const res = await axios.post(functions.url, { item: functions.verifyItem(item) });
         //console.log("saveItem", res.data);
 
-        context.setAlerts([{ type: 'success', message: 'Информация сохранена' }]);
+        context.setAlerts({ messages: [{ type: 'success', message: 'Информация сохранена' }] });
         setItem(getItemFromData(res.data));
         redirect(history, res.data.redirect, 'back');
       } catch (err) {
@@ -57,7 +57,7 @@ export const useDetailOfItem = <TItem>({
           messages = getErrors(err.response.data);
         }
         //console.log('saveItem.context', this.context);
-        context.setAlerts(messages);
+        context.setAlerts({ messages });
       }
     },
 

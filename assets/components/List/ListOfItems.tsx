@@ -38,7 +38,7 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
 
       setItems(res.data as TListItems<TItem>);
     } catch (err) {
-      context.setAlerts(getErrors(err.response?.data));
+      context.setAlerts({ messages: getErrors(err.response?.data) });
     } finally {
       setLoading(false);
     }
@@ -91,7 +91,7 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
         history.push(res.data.redirect);
       }
     } catch (err) {
-      context.setAlerts(getErrors(err.response.data));
+      context.setAlerts({ messages: getErrors(err.response.data) });
     }
   };
 
@@ -114,7 +114,7 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
     } catch (err) {
       //console.log('btnEditClick.catch', err);
 
-      context.setAlerts(getErrors(err.response.data));
+      context.setAlerts({ messages: getErrors(err.response.data) });
     }
   };
 
@@ -133,14 +133,16 @@ const ListOfItems = <TItem extends TBaseItem>(props: TListOfItemsProps<TItem>) =
           owner: props.owner ?? -1,
         });
         setItems(res.data);
-        context.setAlerts([
-          {
-            type: 'success',
-            message: `${props.functions.nameOfItem} успешно удален`,
-          },
-        ]);
+        context.setAlerts({
+          messages: [
+            {
+              type: 'success',
+              message: `${props.functions.nameOfItem} успешно удален`,
+            },
+          ],
+        });
       } catch (err) {
-        context.setAlerts(getErrors(err.response.data));
+        context.setAlerts({ messages: getErrors(err.response.data) });
       } finally {
         setLoading(false);
       }

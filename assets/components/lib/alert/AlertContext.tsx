@@ -1,27 +1,10 @@
 import React, { useState, useContext } from 'react';
-
-export type TError = {
-  type: string;
-  message: string;
-};
-export type TAlertsState = {
-  messages: any; //Array<TError>;
-};
-
-type TAlertsContext = TAlertsState & {
-  setAlerts: any; //React.SetStateAction<TAlertsState>;
-};
+import { TAlertsContext, TAlertsState, TContextProps } from './AlertTypes';
 
 export const AlertContext = React.createContext<TAlertsContext>({
   messages: [],
-  setAlerts: null,
-  //show: false,
-  //timeout: 5000,
+  setAlerts: e => e,
 });
-
-export type TContextProps = {
-  children?: React.ReactNode;
-};
 
 export const useAlerts = () => {
   return useContext(AlertContext);
@@ -33,9 +16,13 @@ export const AlertProvider = ({ children }: TContextProps) => {
     //show: false,
   });
   const setAlerts = (messages: any): any => {
-    //console.log('AlertProvider.setAlerts', name, contextName);
+    // console.log('AlertProvider.setAlerts', messages);
     setMessages(messages);
   };
   //console.log('AlertProvider.alerts', messages);
-  return <AlertContext.Provider value={{ messages, setAlerts }}>{children}</AlertContext.Provider>;
+  return (
+    <AlertContext.Provider value={{ messages: messages.messages, setAlerts: setAlerts }}>
+      {children}
+    </AlertContext.Provider>
+  );
 };

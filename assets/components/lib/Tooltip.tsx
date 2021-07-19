@@ -1,20 +1,20 @@
 import React from 'react';
 
-interface ITooltipContentProps {
+type TTooltipContentProps = {
   children?: React.ReactNode;
   className?: string;
-}
+};
 
-export const TooltipContent: React.FC<ITooltipContentProps> = ({ children, className }) => {
+export const TooltipContent = ({ children, className }: TTooltipContentProps) => {
   return <div className={className ? className : 'tooltip__content'}>{children}</div>;
 };
 
-interface ITooltipProps {
+type TTooltipProps = {
   children?: React.ReactNode;
   tooltip: any;
-}
+};
 
-export const Tooltip: React.FC<ITooltipProps> = ({ tooltip, children }) => {
+export const Tooltip = ({ tooltip, children }: TTooltipProps) => {
   return (
     <div className="tooltip">
       <TooltipContent>{tooltip}</TooltipContent>

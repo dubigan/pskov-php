@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useDetailOfItem } from './DetailOfItem';
 import Cars from '../List/Cars';
 import Alerts from '../lib/alert/Alerts';
-import Card from '../lib/Card';
+import Card from '../lib/Card/Card';
 import { Row } from '../lib/Row/Row';
 import { Button } from '../lib/Button/Button';
-import Form from '../lib/Form';
+import Form from '../lib/Form/Form';
 import GenderSelect from '../parts/GenderSelect';
 import { TooltipContent } from '../lib/Tooltip';
 import { TOwnerItem, TDetailOfItemsProps, TGender, GENDER, TCarItem } from './DetailTypes';
@@ -37,7 +37,7 @@ const OwnerDetail = () => {
       });
       redirect(history, res.data.redirect);
     } catch (err) {
-      context.setAlerts(getErrors(err.response.data));
+      context.setAlerts({ messages: getErrors(err.response.data) });
     }
   };
 

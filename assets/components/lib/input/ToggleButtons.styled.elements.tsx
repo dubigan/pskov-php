@@ -17,13 +17,16 @@ export const Button = styled(BtnOutlinePrimary)`
     text-align: center;
     width: 49.5%;
     margin: 0px;
-    & active {
-      // @include buttons.btn-primary;
-      //@include width.size(4);
-      //text-align: center;
-      //width: 100%;
-      //margin: 0px;
+    &:focus,
+    &:active {
+      border-color: #0d6efd
     }
+    &.active {
+      color: white;
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+
   }
 `;
 

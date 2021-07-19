@@ -1,12 +1,15 @@
 @use 'vars';
 
 @mixin alert {
-  position: absolute;
-  z-index: 1000;
-  margin: 0 auto;
+  &__container {
+    position: absolute;
+    z-index: 1000;
+    margin: 0 auto;
+    left: 35%;
+  }
   //width: 50%;
-  left: 35%;
   padding: 1rem;
+  margin-bottom: 0.5rem;
   font-size: 1.8rem;
   border-radius: 0.5rem;
   color: vars.$white;
